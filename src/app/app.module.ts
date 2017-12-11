@@ -12,6 +12,7 @@ import { AuthService }      from './auth.service';
 import { FilterPipePipe, FullTextSearchPipe } from './filter-pipe.pipe';
 import { SelectModule } from 'ng2-select';
 import {NgxMaskModule} from 'ngx-mask';
+import {ColasModule} from './colas/colas.module';
 
 
 import { AppComponent } from './app.component';
@@ -48,7 +49,8 @@ import { FormAdmisionComponent } from './form-admision/form-admision.component';
     FormsModule,
     ReactiveFormsModule,
     SelectModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    ColasModule
   ],
   providers: [
   httpService,

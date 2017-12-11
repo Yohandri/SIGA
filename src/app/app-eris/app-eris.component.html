@@ -293,13 +293,28 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">Menú principal</li>
-        <li class="active treeview">
+        <li class="active">
           <a routerLinkActive="active" routerLink="dashboard">
             <span>ERIS</span>
+            <span class="pull-right-container">
+              <!-- <i class="fa fa-angle-left pull-right"></i> -->
+            </span>
+          </a>
+        </li>
+        <li class="active treeview" *ngIf="true">
+          <a routerLinkActive="active" routerLink="COLAS">
+            <span>COLAS</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
+          <ul class="treeview-menu" style="">
+            <li>
+              <a routerLinkActive="active" routerLink="COLAS/single">
+                <i class="fa fa-circle-o"></i> Single table
+              </a>
+            </li>
+          </ul>
         </li>
         <li class="active treeview" *ngIf="false">
           <a routerLinkActive="active" routerLink="Pacientes">
