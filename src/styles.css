@@ -1,0 +1,32 @@
+/* You can add global styles to this file, and also import other style files */
+.cortina {
+  display: none;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 2000;
+  background-color: rgba(0,0,0,.2);
+  top: 0;
+}
+.alertCustom {
+	position: fixed;
+	width: 350px;
+	top: 130px;
+	right: 20px;
+	z-index: -1;
+	opacity: 0;
+	-webkit-transition: all 300ms ease-in-out;
+-moz-transition: all 300ms ease-in-out;
+-ms-transition: all 300ms ease-in-out;
+-o-transition: all 300ms ease-in-out;
+transition: all 300ms ease-in-out;
+}
+.alertCustom.Show {
+	top:90px;
+	z-index: 2000;
+	opacity: 1;
+}
+select {
+  color: #777!important;
+}
+.ui-datepicker, #ui-datepicker-div { z-index: 9999 !important;}

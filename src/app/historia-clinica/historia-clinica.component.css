@@ -1,0 +1,21 @@
+.hoja {
+	background-color: #fff;
+	border:1px solid #3c8dbc;
+	padding-bottom: 5px;
+	padding-top: 50px;
+	line-height: 30px;
+	color: #3c8dbc!important;
+	font-family: "DejaVu Sans", "Arial", sans-serif;
+}
+.sec-1 p {
+	border-bottom: 1px solid #3c8dbc;
+}
+table, table tr, table tr td {
+	border-color: #3c8dbc!important;
+}
+.firma {
+	display: inline-block;
+	border-top: 1px solid #3c8dbc;
+	padding-top: 10px;
+	width: 400px;
+}

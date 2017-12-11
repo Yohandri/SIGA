@@ -1,0 +1,12 @@
+img {
+	-webkit-filter: brightness(0) invert(1);
+  filter: brightness(0) invert(1); 
+  margin-top: 3px;
+  position: relative;
+  left: 35%;
+  zoom: 0.8;
+  padding-top: 7px;
+}
+img.imgLogin {
+	left: 42%;
+}

@@ -1,0 +1,36 @@
+.trSelect {
+	background-color: #3c8dbc!important;
+	color: #fff!important;
+	-webkit-transition: all 300ms ease-in-out;
+-moz-transition: all 300ms ease-in-out;
+-ms-transition: all 300ms ease-in-out;
+-o-transition: all 300ms ease-in-out;
+transition: all 300ms ease-in-out;
+}
+tr {
+	cursor: pointer;
+}
+.pagination li a {
+	cursor: pointer;
+}
+.tras {
+	-webkit-transition: all 300ms ease-in-out;
+-moz-transition: all 300ms ease-in-out;
+-ms-transition: all 300ms ease-in-out;
+-o-transition: all 300ms ease-in-out;
+transition: all 300ms ease-in-out;
+}
+.bg-Amarillo {
+	background-color: yellow;
+	color: #777;
+}
+.bg-blanco {
+	background-color: #fff;
+	color:#777;
+}
+.badge {
+	border:1px solid #777;
+}
+.trList {
+	font-size: 12px;
+}

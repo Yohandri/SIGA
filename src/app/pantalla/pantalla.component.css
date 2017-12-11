@@ -1,0 +1,19 @@
+.Pantalla {
+	display: block;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background-color: #eef8fa ;
+	z-index: 10000;
+	top: 0;
+	left: 0;
+	font-size: 22px;
+}
+.Pantalla .row .box, .box-footer.clearfix {
+	background-color: #00AFAA;
+	box-shadow: 1px 1px 4px #777;
+	color: #fff;
+}
+.colorTabla {
+	background-color: #0e3552;
+}

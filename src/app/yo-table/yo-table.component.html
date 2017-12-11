@@ -1,0 +1,423 @@
+
+<div class="row tras" *ngIf="!showGestionar">
+	<div class="col-md-6">
+		<div class="box box-default">
+			<div class="box-header with-border">
+				<h3 class="box-title">
+				<div class="input-group" *ngIf="false">
+			      <select [(ngModel)]="taquillero" name="cambiartaquilla" id="" class="form-control">
+							<option value="" selected="">Seleccione usuario</option>
+							<option value="{{i.Id}}" *ngFor="let i of listTaquilleros">{{i.Username}}</option>
+						</select>
+			      <span class="input-group-btn">
+			        <button class="btn btn-warning" type="button" (click)="CambiarPacientes()">
+			        	<i class="fa fa-check" aria-hidden="true"></i>
+			        </button>
+			      </span>
+			    </div>
+				</h3>
+			</div>
+			<div class="box-body">
+				<table class="table table-bordered table-condensed table-hover">
+					<tbody><tr class="active">
+						<th style="width: 40px"></th>
+						<th>Ticket</th>
+						<th>Nombre</th>
+						<th>Cédula</th>
+						<th style="width: 80px">Prioridad</th>
+					</tr>
+					<tr>
+						<th>
+							<input type="checkbox" [(ngModel)]="pauseFilter" (change)="fnClickPauses()">
+						</th>
+						<th>
+							<input (keyup)="getPacientes()" [(ngModel)]="ticketFilter" type="text" class="form-control" style="padding: 0;height: 22px;width: 50px;">
+						</th>
+						<th>
+							<input (keyup)="getPacientes()" [(ngModel)]="NameFilter" type="text" class="form-control" style="padding: 0;height: 22px;">
+						</th>
+						<th>
+							<input (keyup)="getPacientes()" [(ngModel)]="IdentityCardFilter" type="text" class="form-control" style="padding: 0;height: 22px;width: 80px;">
+						</th>
+						<th>
+							<input (keyup)="getPacientes()" [(ngModel)]="PriorityFilter" type="text" class="form-control" style="padding: 0;height: 22px;">
+						</th>
+					</tr>
+					<tr *ngFor="let i of listPacientes;let index = index" name="" (click)="fnSelectPaciente(i.obj,$event)" id="{{i.Ticket}}_{{type}}" class="">
+						<td>
+							<!-- <span *ngIf="i.Pause" class="badge bg-red">P</span> -->
+							<input *ngIf="i.Pause" disabled type="checkbox" [checked]="i.Pause">
+						</td>
+						<td>{{i.Ticket}}</td>
+						<td>
+							{{i.Nombre}}
+						</td>
+						<td>
+							{{i.IdentityCard}}
+						</td>
+						<td class="text-center"><span class="badge" [ngClass]="{'bg-blanco':i.StatusManage == 1,'bg-red':i.StatusManage == 3,'bg-Amarillo':i.StatusManage == 2}">{{i.Estado}}</span></td>
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+		<div class="box-footer">
+			<ul class="pagination pagination-sm no-margin pull-right">
+				<li><a (click)="moverPage('prev')">«</a></li>
+				<li class="" [ngClass]="{'active': i == page}" *ngFor="let i of arrayPage">
+					<a (click)="getPage(i)">{{i}}</a>
+				</li>
+				<li><a (click)="moverPage('next')">»</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="col-md-6">
+	<div class="box box-default" *ngIf="fichaOn">
+		<div class="box-header with-border">
+			<h3 class="box-title">Ficha del Paciente </h3>
+			<button type="button" class="close" (click)="cerrarFicha()"><span aria-hidden="true">&times;</span></button>
+			<span class="pull-right">Ticket <b style="padding-right:30px;">{{fichaPaciente.Ticket}} </b> <b style="margin-right:10px;font-size: 18px;" [ngClass]="{'bg-blanco':fichaPaciente.StatusManage == 1,'bg-red':fichaPaciente.StatusManage == 3,'bg-Amarillo':fichaPaciente.StatusManage == 2}" class="badge bg-blanco">{{fichaPaciente.Priority}}</b></span>
+		</div>
+		<div *ngIf="cargarFicha" style="z-index: 2;position: absolute;background-color: rgba(255,255,255,.9);width: 100%;height: 100%;">
+			<i style="position: relative;top: 30%;left: 43%;" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+		</div>
+		<form role="form" >
+			<div class="box-body">
+				<div class="row">
+					<div class="col-md-12">
+						<div>Nombres y apellidos:</div>
+						<b>{{fichaPaciente.nombre}} {{fichaPaciente.apellido}}</b>
+					</div>
+					<div class="col-sm-4 col-md-4">
+						<div>C.I.:</div>
+						<b>{{fichaPaciente.cedula}}</b>
+					</div>
+					<div class="col-sm-4 col-md-4">
+						<div>Teléfono Celular:</div>
+						<b>{{fichaPaciente.celular}}</b>
+					</div>
+					<div class="col-sm-4 col-md-4">
+						<div>Teléfono habitación: </div>
+						<b>{{fichaPaciente.telefono}}</b>
+					</div>
+					<div class="col-md-12">
+						<div>Dirección: </div>
+						<b>{{fichaPaciente.direccion}}</b>
+					</div>
+					<div class="col-md-12">
+						<div>Forma de pago: </div>
+						<b *ngIf="fichaPaciente.CashPayment">Contado</b>
+						<b *ngIf="!fichaPaciente.CashPayment">Seguro</b>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<div>Hora llegada: </div>
+						<b>{{fichaPaciente.Hllegada | date:'h:mm a'}}</b>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<div>Hora caja: </div>
+						<b>{{fichaPaciente.Hadmision | date:'h:mm a'}}</b>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<div>Hora sala emerg: </div>
+						<b>{{fichaPaciente.Hingreso | date:'h:mm a'}}</b> <span *ngIf="fichaPaciente.HegresoSala != ''"> - </span>
+						<b>{{fichaPaciente.HegresoSala | date:'h:mm a'}}</b>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<div>Hora egreso: </div>
+						<b>{{fichaPaciente.Hegreso | date:'hh:mm a'}}</b>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<div>Ubicación: </div>
+						<b>{{fichaPaciente.ubicacion}}</b>
+					</div>
+					<div class="col-md-3">
+						<div>Estado</div>
+						<div>
+							<div *ngIf="fichaPaciente.StatusManage == 1" class="badge bg-green">
+								a tiempo
+							</div>
+							<div *ngIf="fichaPaciente.StatusManage == 2" class="badge bg-Amarillo">
+								alerta
+							</div>
+							<div *ngIf="fichaPaciente.StatusManage == 3" class="badge bg-red">
+								fuera de tiempo
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<br>
+						<b>{{fichaPaciente.MessageStatusManage}}</b>
+					</div>
+					<div class="col-md-3">
+						<br>
+						<b>{{fichaPaciente.MessageServiceRequestAdmissionEgress}}</b>
+					</div>
+				</div>
+			</div>
+			<div class="box-footer">
+				<button *ngIf="!fichaPaciente.StatusScreen" type="button" class="btn btn-primary" (click)="fnLlamar('llamar')">Llamar</button>
+				<button *ngIf="fichaPaciente.StatusScreen" type="button" class="btn btn-primary" (click)="fnLlamar('llego')">¿Llegó?</button>
+				<button type="button" class="btn btn-primary" (click)="fnHM()">Ver HM</button>
+				<button type="button" class="btn btn-primary" *ngIf="showE && !showI && global.getUserProfileId() != 3 && global.getUserProfileId() != 2" (click)="fnIE('E')">Egresar</button>
+				<button type="button" class="btn btn-primary" *ngIf="false && showI && global.getUserProfileId() != 3 && global.getUserProfileId() != 2" (click)="fnIE('I')">Ingresar</button>
+				<button type="button" class="btn btn-primary" (click)="fnGestionar('show')">Gestionar</button>
+				<button type="button" class="btn btn-primary" *ngIf="fichaPaciente.IsPresent && (global.getUserProfileId() == 1 || global.getUserProfileId() == 3)" (click)="fnPresente('P')">Sacar de cola</button>
+				<button type="button" class="btn btn-primary" *ngIf="!fichaPaciente.IsPresent && (global.getUserProfileId() == 1 || global.getUserProfileId() == 3)" (click)="fnPresente('A')">Meter en cola</button>
+
+			</div>
+		</form>
+	</div>
+</div>
+</div>
+<div class="row tras" *ngIf="showGestionar">
+	<div class="col-md-6">
+		<div class="box box-default">
+			<div class="box-header with-border">
+				<h3 class="box-title">Ficha del Paciente</h3>
+				<button type="button" class="close" (click)="fnGestionar('hide')"><span aria-hidden="true">&times;</span></button>
+				<span class="pull-right">Ticket <b style="padding-right:30px;">{{fichaPaciente.Ticket}} </b> <b style="margin-right:10px;font-size: 18px;" [ngClass]="{'bg-blanco':fichaPaciente.StatusManage == 1,'bg-red':fichaPaciente.StatusManage == 3,'bg-Amarillo':fichaPaciente.StatusManage == 2}" class="badge bg-blanco">{{fichaPaciente.Priority}}</b></span>
+			</div>
+			<form role="form" >
+				<div class="box-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div>Nombres y apellidos:</div>
+							<b>{{fichaPaciente.nombre}} {{fichaPaciente.apellido}}</b>
+						</div>
+						<div class="col-sm-4 col-md-4">
+							<div>C.I.:</div>
+							<b>{{fichaPaciente.cedula}}</b>
+						</div>
+						<div class="col-sm-4 col-md-4">
+							<div>Teléfono Celular:</div>
+							<b>{{fichaPaciente.celular}}</b>
+						</div>
+						<div class="col-sm-4 col-md-4">
+							<div>Teléfono habitación: </div>
+							<b>{{fichaPaciente.telefono}}</b>
+						</div>
+						<div class="col-md-12">
+							<div>Dirección: </div>
+							<b>{{fichaPaciente.direccion}}</b>
+						</div>
+						<div class="col-md-12">
+							<div>Forma de pago: </div>
+							<b *ngIf="fichaPaciente.CashPayment">Contado</b>
+							<b *ngIf="!fichaPaciente.CashPayment">Seguro</b>
+						</div>
+						<div class="col-sm-6 col-md-3">
+							<div>Hora llegada: </div>
+							<b>{{fichaPaciente.Hllegada | date:'h:mm a'}}</b>
+						</div>
+						<div class="col-sm-6 col-md-3">
+							<div>Hora caja: </div>
+							<b>{{fichaPaciente.Hadmision | date:'h:mm a'}}</b>
+						</div>
+						<div class="col-sm-6 col-md-3">
+							<div>Hora sala emerg: </div>
+							<b>{{fichaPaciente.Hingreso | date:'h:mm a'}}</b>
+						</div>
+						<div class="col-sm-6 col-md-3">
+							<div>Hora egreso: </div>
+							<b>{{fichaPaciente.Hegreso | date:'hh:mm a'}}</b>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div>Ubicación del paciente: </div>
+							<b>{{fichaPaciente.ubicacion}}</b>
+						</div>
+						<div class="col-md-6">
+							<div>Estado</div>
+							<div>
+							<div *ngIf="fichaPaciente.StatusManage == 1" class="badge bg-green">
+								a tiempo
+							</div>
+							<div *ngIf="fichaPaciente.StatusManage == 2" class="badge bg-Amarillo">
+								alerta
+							</div>
+							<div *ngIf="fichaPaciente.StatusManage == 3" class="badge bg-red">
+								fuera de tiempo
+							</div>
+						</div>
+						</div>
+					</div>
+				</div>
+				<div class="box-footer">
+					<div class="row">
+						<div class="col-md-6">
+							<button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Editar" (click)="fnEdit(fichaPaciente);">
+								<i class="fa fa-pencil" aria-hidden="true"></i>
+							</button>
+							<!-- <button *ngIf="!fichaPaciente.pause" type="button" (click)="fnPause()" class="btn btn-warning" data-toggle="tooltip" data-placement="left" title="En espera">
+								<i class="fa fa-pause" aria-hidden="true"></i>
+							</button>
+							<button *ngIf="fichaPaciente.pause" type="button" (click)="fnPlay()" class="btn btn-success" data-toggle="tooltip" data-placement="left" title="Continuar">
+								<i class="fa fa-play" aria-hidden="true"></i>
+							</button> -->
+							<!-- <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="Cambiar de taquilla">
+								<i class="fa fa-external-link-square" aria-hidden="true"></i>
+							</button> -->
+							<button class="btn btn-default" (click)="fnBtnCheckbox()" data-toggle="tooltip" data-placement="left" title="En espera">
+								<input type="checkbox" (change)="fnCheckbox($event)" [(ngModel)]="checkBoxPause" name="checkBoxPause" id="checboxPause">
+								
+							</button>
+							
+						</div>
+						<div class="col-md-6">
+							<div class="input-group" *ngIf="false">
+						      <select [(ngModel)]="taquillero" name="cambiartaquilla" id="" class="form-control">
+										<option value="" selected="">Seleccione usuario</option>
+										<option value="{{i.Id}}" *ngFor="let i of listTaquilleros">{{i.Username}}</option>
+									</select>
+						      <span class="input-group-btn">
+						        <button class="btn btn-warning" type="button" (click)="CambiarPaciente()">
+						        	<i class="fa fa-check" aria-hidden="true"></i>
+						        </button>
+						      </span>
+						    </div>
+						</div>
+						
+					</div>
+					<br>
+					<!-- <button type="button" class="btn btn-primary" *ngIf="showL && global.getUserProfileId() == 2" (click)="fnLiquidar()">Liquidar</button> -->
+					<button *ngIf="!fichaPaciente.StatusScreen" type="button" class="btn btn-primary" (click)="fnLlamar('llamar')">Llamar</button>
+					<button *ngIf="fichaPaciente.StatusScreen" type="button" class="btn btn-primary" (click)="fnLlamar('llego')">¿Llegó?</button>
+					<button type="button" class="btn btn-primary" (click)="fnGestionar('hide')">Cerrar</button>
+					<button type="button" class="btn btn-primary" *ngIf="false">Pendiente</button>
+					<button type="button" class="btn btn-primary" *ngIf="false">Cerrados</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="box box-default">
+			<div class="box-header with-border">
+				<h3 class="box-title">Solicitudes</h3>
+			</div>
+			<form role="form">
+				<div class="box-body">
+
+					<table class="table table-bordered table-condensed table-hover text-center">
+						<tbody>
+							<tr class="active">
+								<th  class="text-center">Solicitud</th>
+								<th  class="text-center">Aprobada</th>
+								<th  class="text-center">Rechazada</th>
+								<th  class="text-center">En proceso</th>
+							</tr>
+							<tr *ngFor="let i of solicitudes;let index = index" class="">
+								<td>{{i.Name}}</td>
+								<td>
+									<label>
+										<input type="radio" [disabled]="i.Status == 2 || i.Status == 4" (click)="changeChecked(2,i)" [checked]="i.Status == 2" name="status_{{index}}" id="status2_{{index}}" value="2">
+
+									</label>
+								</td>
+								<td>
+									<label>
+										<input type="radio" [disabled]="i.Status == 2 || i.Status == 4" (click)="changeChecked(4,i)" [checked]="i.Status == 4" name="status_{{index}}" id="status4_{{index}}" value="4">
+
+									</label>
+								</td>
+								<td>
+									<label>
+										<input type="radio" [disabled]="i.Status == 2 || i.Status == 4" (click)="changeChecked(3,i)" [checked]="i.Status == 3" name="status_{{index}}" id="status3_{{index}}" value="3">
+									</label>
+								</td>
+							</tr>
+
+						</tbody>
+					</table>
+				</div>
+				<div class="box-footer">
+					<ul class="pagination pagination-sm no-margin pull-right">
+						<li><a (click)="moverPageSolicitudes('prev')">«</a></li>
+						<li class="" [ngClass]="{'active': i == pageSolicitudes}" *ngFor="let i of arrayPageSolicitudes">
+							<a (click)="getPageSolicitudes(i)">{{i}}</a>
+						</li>
+						<li><a (click)="moverPageSolicitudes('next')">»</a></li>
+					</ul>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="modal-HM_{{type}}" >
+	<div class="modal-dialog" style="width: 92%;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+				<h4 class="modal-title">Imprimir HM</h4>
+			</div>
+			<div class="modal-body">
+				<app-historia-clinica [name]='type' [print]="print" [obj2]="objHM"></app-historia-clinica>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade modal-warning" id="modal-confirmar_{{type}}" style="z-index: 2000;">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+				<h4 class="modal-title">Confirmación</h4>
+			</div>
+			<div class="modal-body">
+				¿ Seguro que desea guardar ?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline pull-right" (click)="confirmarOk()">Confirmar</button>
+
+				<button style="margin-right: 20px;"  type="button" class="btn btn-outline pull-right" (click)="confirmarCancelar()">Cancelar</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade modal-warning" id="modal-confirmar-close_{{type}}" style="z-index: 2000;">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+				<h4 class="modal-title">Confirmación</h4>
+			</div>
+			<div class="modal-body">
+				¿ Seguro que desea cerrar sin guardar ?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline pull-right" (click)="confirmarOkClose()">Confirmar</button>
+
+				<button style="margin-right: 20px;"  type="button" class="btn btn-outline pull-right" (click)="confirmarCancelarClose()">Cancelar</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="modal-Editar_{{type}}" style="z-index: 2000;">
+	<div class="modal-dialog" style="width: 92%;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" (click)="fnCloseModalEditar(FormPacienteAdmision)">
+					<span aria-hidden="true">×</span></button>
+					<h4 class="modal-title">Editar datos</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+							<app-form-triaje *ngIf="isTriaje" [init]='type'></app-form-triaje>
+							<app-form-admision *ngIf="!isTriaje" [init]='type'></app-form-admision>
+							
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>

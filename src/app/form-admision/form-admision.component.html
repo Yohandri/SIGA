@@ -1,0 +1,267 @@
+<div class="container-fluid">
+	<div class="col-md-12">
+		<div class="box box-default" >
+								<div class="box-header with-border">
+									<h3 class="box-title">Datos Demográficos</h3>
+								</div>
+								<form role="form" [formGroup]="FormPacienteAdmision" novalidate (ngSubmit)="confirmarGuardar(FormPacienteAdmision.value,'admision',true)">
+									<div class="box-body">
+										<div formGroupName="PatientClient">
+											<div class="row">
+												<div class="col-sm-12 col-md-6 col-lg-3">
+													<div class="form-group">
+														<input type="text" class="form-control" id="name1" formControlName="Name1" placeholder="Primer nombre" name="name1">
+													</div>
+												</div>
+												<div class="col-sm-12 col-md-6 col-lg-3">
+													<div class="form-group">
+														<input type="text" class="form-control" id="name2" formControlName="Name2" placeholder="Segundo nombre" name="name2">
+													</div>
+												</div>
+												<div class="col-sm-12 col-md-6 col-lg-3">
+													<div class="form-group">
+														<input type="text" class="form-control" id="LastName1" formControlName="LastName1" placeholder="Primer apellido" name="LastName1">
+													</div>
+												</div>
+												<div class="col-sm-12 col-md-6 col-lg-3">
+													<div class="form-group">
+														<input type="text" class="form-control" id="LastName2" formControlName="LastName2" placeholder="Segundo apellido" name="LastName2">
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-6 col-md-2 col-lg-3">
+													<div class="form-group">
+														<div class="input-group">
+															<div class="input-group-addon">
+																<i class="fa fa-calendar"></i>
+															</div>
+															<input type="text" class="form-control pull-right" mask="99/99/9999"  id="BirthDateA3" formControlName="BirthDate" placeholder="F/N" name="BirthDate" (blur)="actFecha($event)">
+														</div>
+													</div>
+												</div>
+												<div class="col-sm-6 col-md-2 col-lg-3">
+													<div class="form-group">
+														<label for="baz[1]">F</label>
+														<input type="radio" value="F" name="Gender" id="baz[1]" formControlName="Gender">
+
+														<label for="baz[2]">M</label>
+														<input type="radio" value="M" name="Gender" id="baz[2]" formControlName="Gender">
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-sm-6 col-md-4 col-lg-3">
+													<div class="form-group">
+														<div class="input-group">
+															<span class="input-group-addon">
+																<select id="TypeIdentityCard" formControlName="TypeIdentityCard" name="TypeIdentityCard" (change)="changeTypeIdentity('admision')">
+																	<option value="V">V</option>
+																	<option value="E">E</option>
+																	<option value="M">M</option>
+																</select>
+															</span>
+															<input maxlength="10" type="text" class="form-control" placeholder="Cédula" formControlName="IdentityCard" name="IdentityCard" required="false" id="Cedula">
+
+														</div>
+													</div>
+												</div>
+												<div class="col-sm-6 col-md-4 col-lg-3">
+													<div class="form-group">
+														<div class="input-group">
+															<span class="input-group-addon" id="">
+																<span class="glyphicon glyphicon-earphone"></span>
+															</span>
+															<input maxlength="50" type="text" class="form-control" placeholder="Teléfono celular" formControlName="CellPhone" name="CellPhone">
+														</div>
+													</div>
+												</div>
+												<div class="col-sm-6 col-md-4 col-lg-3">
+													<div class="form-group">
+														<div class="input-group">
+															<span class="input-group-addon" id="">
+																<span class="glyphicon glyphicon-earphone"></span>
+															</span> 
+															<input maxlength="50" type="text" class="form-control" placeholder="Teléfono habitación" formControlName="HomePhone" name="HomePhone">
+														</div>
+													</div>
+												</div>
+												<div class="col-sm-12 col-md-4 col-lg-3">
+													<div class="form-group">
+														<div class="input-group">
+															<span class="input-group-addon" id="">@</span>
+															<input type="email" class="form-control" placeholder="E-mail" formControlName="Email" name="Email" [disabled]="FormPacienteAdmision.get('PatientClient.TypeIdentityCard').value == 'M'">
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-12"> 
+													<textarea class="form-control" rows="3"  style="resize: none;" placeholder="Dirección" formControlName="Address" name="Address"></textarea>
+												</div>
+											</div>
+										</div>
+										<div *ngIf="isMenor">
+											<div class="row">
+
+												<div class="col-md-12">
+													<div class="box box-default">
+														<div class="box-header with-border">
+															<h3 class="box-title">Datos del familiar</h3>
+														</div>
+														<form role="form" formGroupName="FamiliarClient">
+															<div class="box-body">
+																<div class="row">
+																	<div class="col-sm-12 col-md-6 col-lg-3">
+																		<div class="form-group">
+																			<input type="text" class="form-control" id=""  formControlName="Name1" placeholder="Primer nombre" name="Name1">
+																		</div>
+																	</div>
+																	<div class="col-sm-12 col-md-6 col-lg-3">
+																		<div class="form-group">
+																			<input type="text" class="form-control" id="" formControlName="Name2" placeholder="Segundo nombre" name="Name2">
+																		</div>
+																	</div>
+																	<div class="col-sm-12 col-md-6 col-lg-3">
+																		<div class="form-group">
+																			<input type="text" class="form-control" id="" formControlName="LastName1" placeholder="Primer apellido" name="LastName1">
+																		</div>
+																	</div>
+																	<div class="col-sm-12 col-md-6 col-lg-3">
+																		<div class="form-group">
+																			<input type="text" class="form-control" id="" formControlName="LastName2" placeholder="Segundo apellido" name="LastName2">
+																		</div>
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="col-sm-6 col-md-2 col-lg-3">
+																		<div class="form-group">
+																			<div class="input-group">
+																				<div class="input-group-addon">
+																					<i class="fa fa-calendar"></i>
+																				</div>
+																				<input type="text" class="form-control pull-right" mask="99/99/9999"  id="BirthDateA4" formControlName="BirthDate" placeholder="F/N" name="BirthDate" (blur)="actFecha($event,'familiar')">
+																			</div>
+																		</div>
+																	</div>
+
+																	<div class="col-sm-6 col-md-2 col-lg-3">
+																		<div class="form-group">
+																			<label for="Gender1">F</label>
+																			<input type="radio" name="Gender" value="F" id="Gender1" formControlName="Gender">
+
+																			<label for="Gender2">M</label>
+																			<input type="radio" name="Gender" value="M" id="Gender2" formControlName="Gender">
+																		</div>
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="col-sm-6 col-md-4 col-lg-3">
+																		<div class="form-group">
+																			<div class="input-group">
+																				<span class="input-group-addon">
+																					<select id="TypeIdentityCard2" formControlName="TypeIdentityCard" name="TypeIdentityCard" (change)="changeTypeIdentity()">
+																						<option value="V">V</option>
+																						<option value="E">E</option>
+																					</select>
+																				</span>
+																				<input maxlength="10" type="text" class="form-control" placeholder="Cédula" formControlName="IdentityCard" name="IdentityCard">
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-sm-6 col-md-4 col-lg-3">
+																		<div class="form-group">
+																			<div class="input-group">
+																				<span class="input-group-addon" id="">
+																					<span class="glyphicon glyphicon-earphone"></span>
+																				</span>
+																				<input maxlength="50" type="number" class="form-control" placeholder="Teléfono celular" formControlName="HomePhone" name="HomePhone">
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-sm-6 col-md-4 col-lg-3">
+																		<div class="form-group">
+																			<div class="input-group">
+																				<span class="input-group-addon" id="">
+																					<span class="glyphicon glyphicon-earphone"></span>
+																				</span> 
+																				<input maxlength="50" type="number" class="form-control" placeholder="Teléfono habitación" formControlName="CellPhone" name="CellPhone">
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-sm-12 col-md-4 col-lg-3">
+																		<div class="form-group">
+																			<div class="input-group">
+																				<span class="input-group-addon" id="">
+																					@
+																				</span>
+																				<input type="email" class="form-control" placeholder="E-mail" formControlName="Email" name="Email">
+																			</div>
+																		</div>
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="col-md-12"> 
+																		<textarea class="form-control" rows="3"  style="resize: none;" placeholder="Dirección" formControlName="Address" name="Address"></textarea>
+																	</div>
+																</div>
+
+															</div>
+
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div>
+											<div class="box box-default">
+												<div class="box-header with-border">
+													<h3 class="box-title">Datos de admisión</h3>
+												</div>
+												<div class="box-body" formGroupName="AdmissionClient">
+													<div class="row">
+														<div class="col-md-6">
+															<div class="form-group">
+																<label for="CashPayment[4]">Contado</label>
+																<input type="radio" [value]="true" name="CashPayment" id="CashPayment[4]" formControlName="CashPayment">
+
+																<label for="CashPayment[3]">Seguro</label>
+																<input type="radio" [value]="false" name="CashPayment" id="CashPayment[3]" formControlName="CashPayment">
+															</div>
+														</div>
+														<div class="col-md-3" *ngIf="FormPacienteAdmision.get('AdmissionClient.CashPayment').value == false">
+															<div class="form-group">
+																<label for="">Seguro</label>
+																<ng-select [allowClear]="true"
+																[items]="listSeguro"
+																[active]="seguroActivo"
+																(selected)="selectedSeguro($event)"
+																placeholder="Seleccione seguro">
+															</ng-select>
+														</div>
+													</div>
+													<div class="col-md-3" *ngIf="FormPacienteAdmision.get('AdmissionClient.CashPayment').value == false">
+														<label for="">Colectivo</label>
+														<ng-select [allowClear]="true"
+														[items]="listColectivo"
+														[active]="colectivoActivo"
+														(selected)="selectedColectivo($event)"
+														placeholder="Seleccione colectivo">
+													</ng-select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+							<div class="box-footer">
+								<button type="submit" class="btn btn-primary" [disabled]="!FormPacienteAdmision.valid">Guardar</button>
+							</div>
+						</form>
+					</div>
+	</div>
+</div>

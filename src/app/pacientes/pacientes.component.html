@@ -1,0 +1,99 @@
+<br>
+<section class="content-header">
+	<h1 class="tituloTriaje">
+		Pacientes
+		<small></small>
+	</h1>
+	<ol class="breadcrumb">
+		<li class="active"><a ><i class="fa fa-dashboard"></i> {{entorno}}</a></li>
+	</ol>
+</section>
+<br>
+<section class="content">
+	<div class="row">
+		<div class="col-md-12">	
+
+			
+			
+						<app-yo-table [type]="1"></app-yo-table>
+
+
+				
+		</div>
+		<!-- <div class="col-md-6">
+			<div class="box box-primary" >
+				<div class="box-header with-border">
+					<h3 class="box-title">#Ficha del Paciente</h3>
+					<button type="button" class="close" (click)="cerrarFicha()"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<form role="form" >
+					<div class="box-body">
+						<div class="row">
+							<div class="col-md-12">
+								<div>Nombres y apellidos:</div>
+								<b>{{fichaPaciente.nombre}} {{fichaPaciente.apellido}}</b>
+							</div>
+							<div class="col-sm-4 col-md-4">
+								<div>C.I.:</div>
+								<b>{{fichaPaciente.cedula}}</b>
+							</div>
+							<div class="col-sm-4 col-md-4">
+								<div>Celular:</div>
+								<b>{{fichaPaciente.celular}}</b>
+							</div>
+							<div class="col-sm-4 col-md-4">
+								<div>Teléfono habitación: </div>
+								<b>{{fichaPaciente.telefono}}</b>
+							</div>
+							<div class="col-md-12">
+								<div>Dirección: </div>
+								<b>{{fichaPaciente.direccion}}</b>
+							</div>
+							<div class="col-md-12">
+								<div>Forma de pago: </div>
+								<b *ngIf="fichaPaciente.CashPayment">Contado</b>
+								<b *ngIf="!fichaPaciente.CashPayment">Seguro</b>
+							</div>
+							<div class="col-sm-6 col-md-3">
+								<div>Hora llegada: </div>
+								<b>{{fichaPaciente.Hllegada | date:'h:mm a'}}</b>
+							</div>
+							<div class="col-sm-6 col-md-3">
+								<div>Hora admisión: </div>
+								<b>{{fichaPaciente.Hadmision | date:'h:mm a'}}</b>
+							</div>
+							<div class="col-sm-6 col-md-3">
+								<div>Hora en sala: </div>
+								<b>{{fichaPaciente.Hingreso | date:'h:mm a'}}</b>
+							</div>
+							<div class="col-sm-6 col-md-3">
+								<div>Hora egreso: </div>
+								<b>{{fichaPaciente.Hegreso | date:'hh:mm a'}}</b>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div>Ubicación del paciente: </div>
+								<b>{{fichaPaciente.ubicacion}}</b>
+							</div>
+							<div class="col-md-6">
+								<div>Estado</div>
+								<div>
+									<div *ngIf="fichaPaciente.StatusManage == 1" class="badge" [ngClass]="{'bg-green':fichaPaciente.StatusManage == 1,'bg-red':fichaPaciente.StatusManage == 2}">
+										a tiempo
+									</div>
+									<div *ngIf="fichaPaciente.StatusManage == 2" class="badge" [ngClass]="{'bg-green':fichaPaciente.StatusManage == 1,'bg-red':fichaPaciente.StatusManage == 2}">
+										fuera de tiempo
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="box-footer">
+						<button type="button" class="btn btn-primary" (click)="fnGestionar('show')">Gestionar</button>
+					</div>
+				</form>
+			</div>
+		</div> -->
+	</div>
+</section>

@@ -1,0 +1,172 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<button (click)="fnPDF()" class="btn btn-primary pull-right">Descargar PDF</button><br><br>
+		</div>
+	</div>
+</div>
+<div class="hoja" id="hojaHM_{{name}}">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="pull-right">
+					<img src="assets/img/logoHM.jpg" alt="">
+				</div>
+				<h3 class="text-center">HÍSTORIA CLÍNICA</h3>
+				<h4 class="text-center">EMERGENCIA</h4>
+				<br><br>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-8">
+				Nombres y Apellidos: <b>{{obj.Patient.Name1}}  {{obj.Patient.LastName1}} </b>
+			</div>
+			<div class="col-md-4">
+				Edad: <b>{{obj.Patient.Years}}</b>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-8">
+				Dirección: <b>{{obj.Patient.Address}}</b>
+			</div>
+			<div class="col-md-4">
+				C.I: <b>{{obj.Patient.IdentityCard }}</b>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				Motivo de consulta:<br> <b>{{obj.RasonToConsultation}}</b>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				Alergias y antecedentes:<br> <b>{{obj.AllergiesAndHistory}}</b>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 sec-1">
+				Enfermedad actual <br>
+				<p>.</p>
+				<p>.</p>
+				<p>.</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+					Exámen físico: T.A:
+			</div>
+			<div class="col-md-4">
+					F.C: <b>{{obj.VitalSigns.FC}}</b>
+			</div>
+			<div class="col-md-4">
+					F.R: <b>{{obj.VitalSigns.FR}}</b>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				Peso:  <b>{{obj.Kg}} Kg</b>
+			</div>
+			<div class="col-md-4">
+				Talla: <b>{{obj.Stature}} Cms</b>
+			</div>
+			<div class="col-md-4">
+				Temp: <b>{{obj.VitalSigns.TEMP}} ºC</b>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 sec-1">
+				<p>.</p>
+				<p>.</p>
+				<p>.</p>
+				<p>.</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 sec-1">
+				<p>IDx:</p>
+				<p>.</p>
+				<p>.</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<h4>Órdenes médicas</h4>
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<td style="width: 100px;">Fecha/Hora</td>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>.</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>.</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>.</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>.</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>.</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>.</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>.</td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 sec-1">
+				<p>Dx. de egreso:</p>
+				<p>.</p>
+				<p>.</p>
+				<br><br><br><br><br>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="text-center">
+					<p>
+						<span class="firma">Firma del médico </span>
+						<span class="pull-right">
+							Fecha: {{fecha | date:"d/M/yyyy"}}
+						</span>
+					</p>
+					
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="text-center">
+					<p style="padding-right: 100px;margin-top: 60px;">
+						<span class="text-center">Clínica IDB Cabudare, C.A. RIF: J-31045674-7</span>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<br><br><button (click)="fnPDF()" class="btn btn-primary pull-right">Descargar PDF</button>
+		</div>
+	</div>
+</div>

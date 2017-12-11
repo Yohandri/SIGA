@@ -1,0 +1,358 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="box box-default">
+				<div class="box-header with-border">
+					<h3 class="box-title" style="width: 100%;">Datos Demográficos 
+
+						<span class="pull-right" *ngIf="FormPaciente.value.EmergencyClient.Ticket != ''" >Ticket <b style="padding-right:30px;">{{FormPaciente.value.EmergencyClient.Ticket}} </b> <b style="margin-right:10px;font-size: 18px;" class="badge bg-blanco">
+							{{FormPaciente.value.EmergencyClient.Priority}}
+						</b></span>
+
+						
+					</h3>
+				</div>
+				<form role="form" [formGroup]="FormPaciente" novalidate (ngSubmit)="submit(FormPaciente.value,'triaje')">
+					<div class="box-body">
+						<div formGroupName="PatientClient">
+							<div class="row">
+								<div class="col-sm-12 col-md-6 col-lg-3">
+									<div class="form-group">
+										<input autocomplete="off" type="text" class="form-control" id="name1T" formControlName="Name1" placeholder="Primer nombre" name="name1">
+									</div>
+								</div>
+								<div class="col-sm-12 col-md-6 col-lg-3">
+									<div class="form-group">
+										<input type="text" class="form-control" id="name2" formControlName="Name2" placeholder="Segundo nombre" name="name2">
+									</div>
+								</div>
+								<div class="col-sm-12 col-md-6 col-lg-3">
+									<div class="form-group">
+										<input type="text" class="form-control" id="LastName1" formControlName="LastName1" placeholder="Primer apellido" name="LastName1">
+									</div>
+								</div>
+								<div class="col-sm-12 col-md-6 col-lg-3">
+									<div class="form-group">
+										<input type="text" class="form-control" id="LastName2" formControlName="LastName2" placeholder="Segundo apellido" name="LastName2">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6 col-md-2 col-lg-3">
+									<div class="form-group validateDate">
+										<div class="input-group date">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<input type="text" class="form-control pull-right" mask="99/99/9999"  id="BirthDate" formControlName="BirthDate" placeholder="F/N: dd/mm/yyyy" name="BirthDate" (blur)="actFecha($event)">
+											<!-- <input type="text" class="form-control pull-right datepicker"  id="BirthDate" formControlName="BirthDate" placeholder="F/N" name="BirthDate" (blur)="actFecha(FormPaciente.value.PatientClient.BirthDate)"> -->
+										</div>
+										<!-- <app-datepicker formControlName="BirthDate" [viewFormat]="'DD/MM/YYYY'" [modelFormat]="'DD/MM/YYYY'"  [id]="'BirthDate'" [label]="'To'"></app-datepicker> -->
+										<!-- <date-picker formControlName="BirthDate" showClearButton="false" mode="date" format='D/MM/YYYY'></date-picker> -->
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-2 col-lg-3">
+									<div class="form-group">
+										<label for="baz[1]">F</label>
+										<input type="radio" value="F" name="Gender" id="baz[1]" formControlName="Gender">
+
+										<label for="baz[2]">M</label>
+										<input type="radio" value="M" name="Gender" id="baz[2]" formControlName="Gender">
+									</div>
+								</div>
+								
+
+							</div>
+
+							<div class="row">
+								<div class="col-sm-6 col-md-4 col-lg-3">
+									<div class="form-group">
+										<div class="input-group">
+											<span class="input-group-addon">
+												<select id="TypeIdentityCard" formControlName="TypeIdentityCard" name="TypeIdentityCard" (change)="changeTypeIdentity('triaje')">
+													<option value="V">V</option>
+													<option value="E">E</option>
+													<option value="M">M</option>
+												</select>
+											</span>
+											<input maxlength="10" type="text" class="form-control" placeholder="Cédula" formControlName="IdentityCard" name="IdentityCard" required="false" id="Cedula">
+
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-4 col-lg-3">
+									<div class="form-group">
+										<div class="input-group">
+										  	<span class="input-group-addon" id="">
+										  		<span class="glyphicon glyphicon-phone"></span>
+										  	</span>
+											<input maxlength="50" type="text" class="form-control" required="false" placeholder="Celular: 04xx-xxx-xx-xx" formControlName="CellPhone" name="CellPhone" id="Telefono" >
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-4 col-lg-3">
+									<div class="form-group">
+										<div class="input-group">
+										  	<span class="input-group-addon" id="">
+										  		<span class="glyphicon glyphicon-earphone"></span>
+										  	</span>
+											<input maxlength="50" type="text" class="form-control" required="false" placeholder="Teléfono: 02xx-xxx-xx-xx" formControlName="HomePhone" name="HomePhone" id="Telefono" >
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-12 col-md-4 col-lg-3">
+									<div class="form-group">
+										<div class="input-group">
+										  	<span class="input-group-addon" id="">@</span>
+											<input type="email" class="form-control" placeholder="E-mail" formControlName="Email" name="Email" >
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12"> 
+									<textarea class="form-control" rows="1"  style="resize: none;" placeholder="Dirección" formControlName="Address" name="Address"></textarea><br>
+								</div>
+							</div>
+						</div>
+						<div *ngIf="isMenor">
+							<div class="row">
+
+								<div class="col-md-12">
+									<div class="box box-default">
+										<div class="box-header with-border">
+											<h3 class="box-title">Datos del familiar</h3>
+										</div>
+										<form role="form" formGroupName="FamiliarClient">
+											<div class="box-body">
+												<div class="row">
+													<div class="col-sm-12 col-md-6 col-lg-3">
+														<div class="form-group">
+															<input type="text" class="form-control" id=""  formControlName="Name1" placeholder="Primer nombre" name="Name1">
+														</div>
+													</div>
+													<div class="col-sm-12 col-md-6 col-lg-3">
+														<div class="form-group">
+															<input type="text" class="form-control" id="" formControlName="Name2" placeholder="Segundo nombre" name="Name2">
+														</div>
+													</div>
+													<div class="col-sm-12 col-md-6 col-lg-3">
+														<div class="form-group">
+															<input type="text" class="form-control" id="" formControlName="LastName1" placeholder="Primer apellido" name="LastName1">
+														</div>
+													</div>
+													<div class="col-sm-12 col-md-6 col-lg-3">
+														<div class="form-group">
+															<input type="text" class="form-control" id="" formControlName="LastName2" placeholder="Segundo apellido" name="LastName2">
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-6 col-md-2 col-lg-3">
+														<div class="form-group">
+															<div class="input-group date">
+																<div class="input-group-addon">
+																	<i class="fa fa-calendar"></i>
+																</div>
+																<input type="text" class="form-control pull-right" mask="99/99/9999"  id="BirthDate2" formControlName="BirthDate" placeholder="F/N: dd/mm/yyyy" name="BirthDate" (blur)="actFecha($event,'familiar')">
+															</div>
+														</div>
+													</div>
+													
+													<div class="col-sm-6 col-md-2 col-lg-3">
+														<div class="form-group">
+															<label for="Gender1">F</label>
+															<input type="radio" name="Gender" value="F" id="Gender1" formControlName="Gender">
+
+															<label for="Gender2">M</label>
+															<input type="radio" name="Gender" value="M" id="Gender2" formControlName="Gender">
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-6 col-md-4 col-lg-3">
+														<div class="form-group">
+															<div class="input-group">
+																<span class="input-group-addon">
+																	<select id="TypeIdentityCard2" formControlName="TypeIdentityCard" name="TypeIdentityCard" (change)="changeTypeIdentity()">
+																		<option value="V">V</option>
+																		<option value="E">E</option>
+																	</select>
+																</span>
+																<input maxlength="8" type="text" class="form-control" placeholder="Cédula" formControlName="IdentityCard" name="IdentityCard">
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-6 col-md-4 col-lg-3">
+														<div class="form-group">
+															<div class="input-group">
+															  	<span class="input-group-addon" id="">
+															  		<span class="glyphicon glyphicon-phone"></span>
+															  	</span>
+																<input maxlength="50" type="text" class="form-control" required="false" placeholder="Celular: 04xx-xxx-xx-xx" formControlName="CellPhone" name="CellPhone" id="Telefono">
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-6 col-md-4 col-lg-3">
+														<div class="form-group">
+															<div class="input-group">
+															  	<span class="input-group-addon" id="">
+															  		<span class="glyphicon glyphicon-earphone"></span>
+															  	</span>
+																<input maxlength="50" type="text" class="form-control" required="false" placeholder="Teléfono: 02xx-xxx-xx-xx" formControlName="HomePhone" name="HomePhone" id="Telefono">
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-12 col-md-4 col-lg-3">
+														<div class="form-group">
+															<div class="input-group">
+															  	<span class="input-group-addon" id="">
+															  		@
+															  	</span>
+																<input type="email" class="form-control" placeholder="E-mail" formControlName="Email" name="Email">
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-12"> 
+														<textarea class="form-control" rows="1"  style="resize: none;" placeholder="Dirección" formControlName="Address" name="Address"></textarea>
+													</div>
+												</div>
+
+											</div>
+
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="box box-default">
+							<div class="box-header with-border">
+								<h3 class="box-title">Datos de triaje</h3>
+							</div>
+						<div formGroupName="EmergencyClient">
+							<div class="row">
+
+								<!-- <div class="col-sm-6 col-md-2 col-lg-3">
+									<div class="form-group">
+										<div class="input-group">
+										  	<span class="input-group-addon" id="">
+										  		Ticket
+										  	</span>
+											<input type="text" class="form-control" id="" formControlName="Ticket" name="Ticket" placeholder="Ticket">
+										</div>
+									</div>
+								</div> -->
+								<div class="col-sm-6 col-md-2 col-lg-3">
+									<div class="form-group">
+										<div class="input-group">
+										  	<span class="input-group-addon" id="">
+										  		Kg
+										  	</span>
+											<input type="number" min="0" class="form-control" id="" formControlName="Kg" name="Kg" placeholder="Peso en Kg">
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-2 col-lg-3">
+									<div class="form-group">
+										<div class="input-group">
+										  	<span class="input-group-addon" id="">
+										  		Cm
+										  	</span>
+											<input type="number" min="0" class="form-control" id="" formControlName="Stature" name="Stature" placeholder="Talla en cm">
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-2 col-lg-3">
+		                          <table style="width: 100%;">
+		                            <tr>
+		                              <td style="padding:5px;">
+		                                <i class="fa fa-info-circle" aria-hidden="true"></i>
+		                              </td>
+		                              <td><b> Prioridad: </b></td>
+		                              <td>
+		                                <input type="number" min="2" max="5" class="form-control" formControlName="Priority" name="Priority" placeholder="Prioridad 2 - 5">
+		                              </td>
+		                            </tr>
+		                          </table>
+		                        </div>
+		                        <div class="col-md-3">
+		                        	<div class="form-group">
+		                        		<b for="">Emergencia: </b>
+										<label for="adulto">A</label>
+										<input type="radio" name="DestinationTypeRoom" value="ADULTO" id="adulto" formControlName="DestinationTypeRoom">
+
+										<label for="pediatria">P</label>
+										<input type="radio" name="DestinationTypeRoom" value="PEDIATRICA" id="pediatria" formControlName="DestinationTypeRoom">
+									</div>
+		                        </div>				                        
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Motivo de consulta</label>
+										<textarea class="form-control" rows="4" formControlName="RasonToConsultation" name="RasonToConsultation" placeholder="Escribir ..." style="resize: none;"></textarea>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Alergias y antecedentes</label>
+										<textarea class="form-control" rows="4" formControlName="AllergiesAndHistory" name="AllergiesAndHistory" placeholder="Escribir ..." style="resize: none;"></textarea>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="checkbox">
+									    <label>
+									      <input type="checkbox" id="IsVitalSigns" formControlName="IsVitalSigns" name="IsVitalSigns"> Signos Vitales
+									    </label>
+									  </div>
+								</div>
+							</div>
+						</div>
+						</div>
+						<div class="box box-default" *ngIf="FormPaciente.get('EmergencyClient.IsVitalSigns').value == true">
+							<div class="box-header with-border">
+								<h3 class="box-title">Datos de Signos Vitales</h3>
+							</div>
+						<div class="row" formGroupName="VitalSignsClient" >
+							
+							<div class="col-sm-4 col-md-2">
+								<label>P.A.S </label>
+								<input type="text" formControlName="PAS" name="PAS" class="form-control">
+							</div>
+							<div class="col-sm-4 col-md-2">
+								<label>P.A.M </label>
+								<input type="text" formControlName="PAM" name="PAM" class="form-control">
+							</div>
+							<div class="col-sm-4 col-md-2">
+								<label>P.A.D </label>
+								<input type="text" formControlName="PAD" name="PAD" class="form-control">
+							</div>								
+							<div class="col-sm-4 col-md-2">
+								<label>F.C. <small>L/m</small></label>
+								<input type="text" formControlName="FC" name="FC" class="form-control">
+							</div>
+							<div class="col-sm-4 col-md-2">
+								<label>F.R. <small>R/M</small></label>
+								<input type="text" formControlName="FR" name="FR" class="form-control">
+							</div>
+							<div class="col-sm-4 col-md-2">
+								<label>Temp <small>°C</small></label>
+								<input type="text" formControlName="TEMP" name="TEMP" class="form-control">
+							</div>
+						</div>
+						</div>
+					</div>
+					<div class="box-footer">
+						<button *ngIf="init.cerrar" type="submit" class="btn btn-primary" [disabled]="!FormPaciente.valid">Guardar y cerrar</button>
+						<button *ngIf="!init.cerrar" type="submit" class="btn btn-primary" [disabled]="!FormPaciente.valid">Guardar</button>
+						<button *ngIf="false" type="button" class="btn btn-default" (click)="fnClickNpaciente('triaje',FormPaciente)">Nuevo paciente</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,11 @@
+.bg-Amarillo {
+	background-color: yellow;
+	color: #777;
+}
+.bg-blanco {
+	background-color: #fff;
+	color:#777;
+}
+.badge {
+	border:1px solid #777;
+}
