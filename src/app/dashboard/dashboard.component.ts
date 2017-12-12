@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Global } from '../global';
 import { httpService } from '../http.service';
 import { Router } from '@angular/router';
+import { fadeInAnimation } from '../_animations';
 
 declare var $:any;
 declare var moment:any;
@@ -11,7 +12,9 @@ declare var kendo:any;
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
+  animations: [fadeInAnimation],
+  host: { '[@fadeInAnimation]': '' }
 })
 export class DashboardComponent implements OnInit {
 
@@ -244,7 +247,7 @@ getPaginationSolicitudes = () => {
     this.getPacientesSolicitudes();
   }
   getPacientesSolicitudes = ()=>{
-    let path = 'api/WebServices/GetServiceRequest?sParamsInSelectServiceRequest={EmergencyId: '+ this.fichaPaciente.Id +',"page": '+ this.pageSolicitudes +', "pageSize":10}';
+    let path = 'api/WebServicesERIS/GetServiceRequest?sParamsInSelectServiceRequest={EmergencyId: '+ this.fichaPaciente.Id +',"page": '+ this.pageSolicitudes +', "pageSize":10}';
       //console.log(path);
       this.httpService.get(path).then((res)=>{
         //console.log(res);
@@ -281,7 +284,7 @@ getPaginationSolicitudes = () => {
   }
   fnOpemAdmission = () => {
     let json = {"Id": this.fichaAdmisionId}
-    let path = 'api/WebServices/OpenManageAdmission';
+    let path = 'api/WebServicesERIS/OpenManageAdmission';
     this.httpService.post(path,json).then((res)=>{
       //console.log(res);
       if (res.Status) {
@@ -291,7 +294,7 @@ getPaginationSolicitudes = () => {
   }
   fnPause = () =>{
     let json = {"Id": this.fichaAdmisionId}
-    let path = 'api/WebServices/SetAdmissionPause';
+    let path = 'api/WebServicesERIS/SetAdmissionPause';
     this.httpService.post(path,json).then((res)=>{
       //console.log(res);
       if (res.Status) {
@@ -302,7 +305,7 @@ getPaginationSolicitudes = () => {
   }
   fnPlay = () => {
     let json = {"Id": this.fichaAdmisionId}
-    let path = 'api/WebServices/SetAdmissionPlay';
+    let path = 'api/WebServicesERIS/SetAdmissionPlay';
     this.httpService.post(path,json).then((res)=>{
       //console.log(res);
       if (res.Status) {
@@ -331,7 +334,7 @@ getPaginationSolicitudes = () => {
                 "Value":  this.fichaPaciente.Ticket
               }
               console.log(json);
-      let path = 'api/WebServices/SetArrivedPatientToCall';
+      let path = 'api/WebServicesERIS/SetArrivedPatientToCall';
       this.httpService.post(path,json).then((res)=>{
         console.log(res);
         if (res.Status) {
@@ -608,9 +611,9 @@ PriorityFilter:string = '';
         }
    
       if (filter != '') {
-        path = 'api/WebServices/GetListDashboar?sParamsInSelectDashboard={"strFilters": '+ JSON.stringify(filter) +',"type": 1,"page": '+ this.page +', "pageSize":10}';
+        path = 'api/WebServicesERIS/GetListDashboar?sParamsInSelectDashboard={"strFilters": '+ JSON.stringify(filter) +',"type": 1,"page": '+ this.page +', "pageSize":10}';
       } else {
-        path = 'api/WebServices/GetListDashboar?sParamsInSelectDashboard={"type": 1,"page": '+ this.page +', "pageSize":10}';
+        path = 'api/WebServicesERIS/GetListDashboar?sParamsInSelectDashboard={"type": 1,"page": '+ this.page +', "pageSize":10}';
       }
   	
   	console.log(path);
@@ -687,7 +690,7 @@ PriorityFilter:string = '';
   }
   getPacientesEspera = () => {
   	this.global.loading('in');
-  	let path = 'api/WebServices/GetListDashboar?sParamsInSelectDashboard={"type": 2,"page": '+ this.pageEspera +', "pageSize":10}';
+  	let path = 'api/WebServicesERIS/GetListDashboar?sParamsInSelectDashboard={"type": 2,"page": '+ this.pageEspera +', "pageSize":10}';
   	this.httpService.get(path).then((res)=>{
   		//console.log(res);
   		this.global.loading('out');
@@ -773,7 +776,7 @@ PriorityFilter:string = '';
   }
   getPacientesSala = () => {
   	this.global.loading('in');
-  	let path = 'api/WebServices/GetListDashboar?sParamsInSelectDashboard={"type": 3,"page": '+ this.pageSala +', "pageSize":10}';
+  	let path = 'api/WebServicesERIS/GetListDashboar?sParamsInSelectDashboard={"type": 3,"page": '+ this.pageSala +', "pageSize":10}';
   	this.httpService.get(path).then((res)=>{
   		//console.log(res);
   		this.global.loading('out');

@@ -12,6 +12,10 @@ export class Global {
 	public itemShow:string = '12';
 	public textTitleModal:string = 'Aggiungi';
 	public titleRequiered:string = 'This field is required';
+	public colasListTable:any[] = [
+		{table:'taquillaPC', label:'Taquilla PC', Path: 'api/'},
+		{table:'seguro', label:'Seguros', Path: 'api/'}
+	];
 	public loading = (accion) => {
 		if (accion == 'in') {
 			//$('a,button,input').prop("disabled", true);

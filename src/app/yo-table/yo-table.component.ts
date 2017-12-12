@@ -80,7 +80,7 @@ export class YoTableComponent implements OnInit {
     // } else if (accion == 'A') {
     //   this.hidePresente = false;
     // }
-    let path = 'api/WebServices/SetPatientIsPresent';
+    let path = 'api/WebServicesERIS/SetPatientIsPresent';
     let json = {Id: this.IdEmergency};
     this.httpService.post(path, json).then(res=>{
       console.log(res);
@@ -136,7 +136,7 @@ export class YoTableComponent implements OnInit {
   print:boolean = false;
   fnHM = () => {
   	this.global.openModal('modal-HM_'+this.type);
-    let path:string = "api/WebServices/ViewHM?sParamsIn={'Id': "+this.IdEmergency+"}";
+    let path:string = "api/WebServicesERIS/ViewHM?sParamsIn={'Id': "+this.IdEmergency+"}";
     this.httpService.get(path).then((res)=>{
       console.log(res);
       let estatus = res.Status;
@@ -315,9 +315,9 @@ fnClickPauses = () => {
    
       if (filter != '') {
         this.fichaOn = false;
-        path = 'api/WebServices/GetListDashboar?sParamsInSelectDashboard={"strFilters": '+ JSON.stringify(filter) +',"type": '+ this.type +',"page": '+ this.page +', "pageSize":10}';
+        path = 'api/WebServicesERIS/GetListDashboar?sParamsInSelectDashboard={"strFilters": '+ JSON.stringify(filter) +',"type": '+ this.type +',"page": '+ this.page +', "pageSize":10}';
       } else {
-        path = 'api/WebServices/GetListDashboar?sParamsInSelectDashboard={"type": '+ this.type +',"page": '+ this.page +', "pageSize":10}';
+        path = 'api/WebServicesERIS/GetListDashboar?sParamsInSelectDashboard={"type": '+ this.type +',"page": '+ this.page +', "pageSize":10}';
       }
   	let fichaOn = this.fichaOn;
     //console.log(fichaOn);
@@ -382,7 +382,7 @@ fnClickPauses = () => {
   }
   fnOpemAdmission = () => {
     let json = {"Id": this.fichaAdmisionId}
-    let path = 'api/WebServices/OpenManageAdmission';
+    let path = 'api/WebServicesERIS/OpenManageAdmission';
     this.httpService.post(path,json).then((res)=>{
       //console.log(res);
       if (res.Status) {
@@ -393,7 +393,7 @@ fnClickPauses = () => {
   }
   fnPause = () =>{
     let json = {"Id": this.fichaAdmisionId}
-    let path = 'api/WebServices/SetAdmissionPause';
+    let path = 'api/WebServicesERIS/SetAdmissionPause';
     this.httpService.post(path,json).then((res)=>{
       //console.log(res);
       if (res.Status) {
@@ -405,7 +405,7 @@ fnClickPauses = () => {
   }
   fnPlay = () => {
     let json = {"Id": this.fichaAdmisionId}
-    let path = 'api/WebServices/SetAdmissionPlay';
+    let path = 'api/WebServicesERIS/SetAdmissionPlay';
     this.httpService.post(path,json).then((res)=>{
       //console.log(res);
       if (res.Status) {
@@ -435,7 +435,7 @@ fnClickPauses = () => {
                 "Value":  this.fichaPaciente.Ticket
               }
               console.log(json);
-      let path = 'api/WebServices/SetArrivedPatientToCall';
+      let path = 'api/WebServicesERIS/SetArrivedPatientToCall';
       this.httpService.post(path,json).then((res)=>{
         console.log(res);
         if (res.Status) {
@@ -517,7 +517,7 @@ fnClickPauses = () => {
     this.getPacientesSolicitudes();
   }
   getPacientesSolicitudes = ()=>{
-    let path = 'api/WebServices/GetServiceRequest?sParamsInSelectServiceRequest={EmergencyId: '+ this.IdEmergency +',"page": '+ this.pageSolicitudes +', "pageSize":10}';
+    let path = 'api/WebServicesERIS/GetServiceRequest?sParamsInSelectServiceRequest={EmergencyId: '+ this.IdEmergency +',"page": '+ this.pageSolicitudes +', "pageSize":10}';
       console.log(path);
       this.httpService.get(path).then((res)=>{
         console.log(res);
@@ -533,10 +533,10 @@ fnClickPauses = () => {
     let path = "";
     let json = {"Id": this.IdEmergency };
     if (accion == 'I') {
-      path = 'api/WebServices/SetCheckInEmergency';
+      path = 'api/WebServicesERIS/SetCheckInEmergency';
       this.showI = false;
     } else if (accion == 'E') {
-      path = 'api/WebServices/SetCheckOutEmergency';
+      path = 'api/WebServicesERIS/SetCheckOutEmergency';
       this.showE = false;
     }
     console.log(path, json);
@@ -547,7 +547,7 @@ fnClickPauses = () => {
     });
   }
   fnLiquidar = () => {
-    let path = 'api/WebServices/SetCheckOutAdmission';
+    let path = 'api/WebServicesERIS/SetCheckOutAdmission';
     let json = {"Id": this.IdEmergency };
     this.httpService.post(path,json).then(res=>{
       console.log(res);
@@ -563,7 +563,7 @@ fnClickPauses = () => {
   taquillero:any = '';
   listTaquilleros:any = [];
   getTaquilleros = () => {
-    let path = 'api/WebServices/SelectUsersToTransfer';
+    let path = 'api/WebServicesERIS/SelectUsersToTransfer';
     this.httpService.get(path).then(res=>{
       let status = res.Status;
       if (status) {
@@ -574,7 +574,7 @@ fnClickPauses = () => {
     });
   }
   CambiarPaciente = () => {
-    let path = 'api/WebServices/TransferAdmissionToUser';
+    let path = 'api/WebServicesERIS/TransferAdmissionToUser';
     let json = {"UserIdTransfer":this.taquillero,"AdmissionId":this.fichaAdmisionId};
     console.log(json);
     this.httpService.post(path,json).then(res=>{
@@ -589,7 +589,7 @@ fnClickPauses = () => {
     });
   }
   CambiarPacientes = () => {
-    let path = 'api/WebServices/TransferAllAdmissionToUser';
+    let path = 'api/WebServicesERIS/TransferAllAdmissionToUser';
     let json = {"Id":this.taquillero};
     console.log(json);
     this.httpService.post(path,json).then(res=>{
@@ -609,7 +609,7 @@ fnClickPauses = () => {
   cargarFicha:boolean = false;
   getFicha = (id?:number) => {
     this.cargarFicha = true;
-    let path = 'api/WebServices/GetFileEmergency?sParamsSigleIdClient={"Id":' +id+ '}';
+    let path = 'api/WebServicesERIS/GetFileEmergency?sParamsSigleIdClient={"Id":' +id+ '}';
     setTimeout(()=>{
       this.httpService.get(path).then(res=>{
         console.log(res.Object);

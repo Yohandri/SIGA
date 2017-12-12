@@ -17,11 +17,11 @@ const routes: Routes = [
   { path: '',  component: LoginComponent },
   { path: 'dashboard',  component: DashboardComponent },
   { path: 'Pantalla',  component: PantallaComponent },
-  { path: 'Pacientes',  component: PacientesComponent },
-  { path: 'COLAS',  component: ContentColasComponent,
-  	children: [
-      { path: 'single',  component: SingleTableComponent }
-    ]  },
+  // { path: 'Pacientes',  component: PacientesComponent },
+  // { path: 'COLAS',  component: ContentColasComponent,
+  // 	children: [
+  //     { path: ':table',  component: SingleTableComponent }
+  //   ]  },
 
   { path: '**' ,redirectTo: ''}
 ];

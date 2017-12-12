@@ -289,7 +289,7 @@ export class FormAdmisionComponent implements OnInit {
 
 
   get = (id:number) => {
-		let path = 'api/WebServices/GetFileEmergency?sParamsSigleIdClient={"Id":' +id+ '}';
+		let path = 'api/WebServicesERIS/GetFileEmergency?sParamsSigleIdClient={"Id":' +id+ '}';
 		console.log(path);
 		this.httpService.get(path).then(res=>{
 			console.log(res);

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Global} from '../../global';
+
 
 @Component({
   selector: 'app-content-colas',
@@ -7,7 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContentColasComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+  	public global:Global
+  	) { }
 
   ngOnInit() {
   }

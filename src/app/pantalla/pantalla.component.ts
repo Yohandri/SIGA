@@ -43,7 +43,7 @@ export class PantallaComponent implements OnInit {
   listPantalla:any = [];
   llamada:any = {};
   get = () => {
-    let path = 'api/WebServices/ShowScreenTicket';
+    let path = 'api/WebServicesERIS/ShowScreenTicket';
   	this.httpService.get(path).then((res)=>{
   		console.log(res);
       let status = res.Status;

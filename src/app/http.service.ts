@@ -29,11 +29,11 @@ export class httpService {
 	private pathUrlStatus = this.global.dominio + 'api/WebServices/SetVechicleUserIsDefault';
 	private pathUrlUpImgCar = this.global.dominio + 'api/WebServices/UploadFileImageVehicle';
 
-	private pathUrlTriaje = this.global.dominio + 'api/WebServices/Triage';
-	private pathUrlTraumaShock = this.global.dominio + 'api/WebServices/AdmissionTraumaShock';
-	private pathUrlAdmision = this.global.dominio + 'api/WebServices/Admission';
-	private pathUrlsetStatusService = this.global.dominio + 'api/WebServices/SetStatusServiceRequest';
-	private pathUrlCloseManager = this.global.dominio + 'api/WebServices/CloseManageAdmission';
+	private pathUrlTriaje = this.global.dominio + 'api/WebServicesERIS/Triage';
+	private pathUrlTraumaShock = this.global.dominio + 'api/WebServicesERIS/AdmissionTraumaShock';
+	private pathUrlAdmision = this.global.dominio + 'api/WebServicesERIS/Admission';
+	private pathUrlsetStatusService = this.global.dominio + 'api/WebServicesERIS/SetStatusServiceRequest';
+	private pathUrlCloseManager = this.global.dominio + 'api/WebServicesERIS/CloseManageAdmission';
 
 	
 	private pathUrlParamtri = this.global.dominio + 'api/WebServices/SelectRecord?sParamsIn={"Id": 0,"EntityName": "ParametersClient","page": 1, "pageSize":5}'

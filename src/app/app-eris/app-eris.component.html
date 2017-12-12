@@ -301,17 +301,17 @@
             </span>
           </a>
         </li>
-        <li class="active treeview" *ngIf="true">
-          <a routerLinkActive="active" routerLink="COLAS">
+        <li class="active treeview" *ngIf="false">
+          <a>
             <span>COLAS</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu" style="">
-            <li>
-              <a routerLinkActive="active" routerLink="COLAS/single">
-                <i class="fa fa-circle-o"></i> Single table
+            <li *ngFor="let i of global.colasListTable">
+              <a routerLinkActive="active" routerLink="COLAS/{{i.table}}">
+                <i class="fa fa-circle-o"></i> {{i.label}}
               </a>
             </li>
           </ul>

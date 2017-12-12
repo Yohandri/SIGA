@@ -3,13 +3,15 @@ import {AuthService} from '../auth.service';
 import {Global} from '../global';
 import {httpService} from '../http.service';
 import { Router } from '@angular/router';
-
+import { fadeInAnimation } from '../_animations';
 
 
 @Component({
   selector: 'app-app-eris',
   templateUrl: './app-eris.component.html',
-  styleUrls: ['./app-eris.component.css']
+  styleUrls: ['./app-eris.component.css'],
+  animations: [fadeInAnimation],
+  host: { '[@fadeInAnimation]': '' }
 })
 export class AppErisComponent implements OnInit {
 

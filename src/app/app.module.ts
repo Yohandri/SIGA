@@ -13,6 +13,7 @@ import { FilterPipePipe, FullTextSearchPipe } from './filter-pipe.pipe';
 import { SelectModule } from 'ng2-select';
 import {NgxMaskModule} from 'ngx-mask';
 import {ColasModule} from './colas/colas.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 import { AppComponent } from './app.component';
@@ -50,7 +51,8 @@ import { FormAdmisionComponent } from './form-admision/form-admision.component';
     ReactiveFormsModule,
     SelectModule,
     NgxMaskModule.forRoot(),
-    ColasModule
+    ColasModule,
+    BrowserAnimationsModule
   ],
   providers: [
   httpService,
