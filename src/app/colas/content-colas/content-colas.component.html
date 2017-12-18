@@ -10,8 +10,8 @@
 </section>
 <section class="content">
 	<li *ngFor="let i of global.colasListTable">
-      <a routerLinkActive="active" routerLink="{{i.table}}">
-        <i class="fa fa-circle-o"></i> {{i.label}}
+      <a routerLinkActive="active" routerLink="{{i.table}}" routerPa>
+        <i class="fa fa-circle-o"></i> {{i.table}}
       </a>
     </li>
 	<router-outlet></router-outlet>

@@ -10,6 +10,8 @@ import { PantallaComponent } from './pantalla/pantalla.component';
 import { PacientesComponent } from './pacientes/pacientes.component';
 import { ContentColasComponent } from './colas/content-colas/content-colas.component';
 import {SingleTableComponent} from './colas/single-table/single-table.component';
+import {UserProfileComponent} from './colas/user-profile/user-profile.component';
+import {UserComponent} from './colas/user/user.component';
 
  
 const routes: Routes = [
@@ -17,11 +19,13 @@ const routes: Routes = [
   { path: '',  component: LoginComponent },
   { path: 'dashboard',  component: DashboardComponent },
   { path: 'Pantalla',  component: PantallaComponent },
-  // { path: 'Pacientes',  component: PacientesComponent },
-  // { path: 'COLAS',  component: ContentColasComponent,
-  // 	children: [
-  //     { path: ':table',  component: SingleTableComponent }
-  //   ]  },
+ //{ path: 'Pacientes',  component: PacientesComponent },
+{ path: 'COLAS',  component: ContentColasComponent,
+ 	children: [
+     { path: ':entityname',  component: SingleTableComponent }
+     //{path:'userProfile', component: UserProfileComponent},
+     //{path:'user', component: UserComponent}     
+  ]  }, 
 
   { path: '**' ,redirectTo: ''}
 ];

@@ -23,7 +23,21 @@ export class AppErisComponent implements OnInit {
   	this.httpService.validarToken();
   	if (!this.authService.isLoggedIn) {
         this.router.navigate(['/']);
-    }
+	}
+	let tipoUser = this.global.getUserProfileId();
+  	setTimeout(()=>{
+      if (tipoUser == 1 ) {
+        this.global.entorno = 'Administrador';
+      } else if(tipoUser == 2){
+        this.global.entorno = 'Admisión';
+      } else if(tipoUser == 3){
+        this.global.entorno = 'Triaje';
+      } else if(tipoUser == 4){
+        this.global.entorno = 'Pantalla';
+      } else if(tipoUser == 5){
+        this.global.entorno = 'Enfermería emergencia';
+      }
+    },2000)
    
   }
   typeEntorno:string = 'Adminsion';

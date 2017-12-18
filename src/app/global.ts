@@ -13,8 +13,8 @@ export class Global {
 	public textTitleModal:string = 'Aggiungi';
 	public titleRequiered:string = 'This field is required';
 	public colasListTable:any[] = [
-		{table:'taquillaPC', label:'Taquilla PC', Path: 'api/'},
-		{table:'seguro', label:'Seguros', Path: 'api/'}
+		{table:'UserProfile', label:'User profile', Path: 'api/'},
+		{table:'User', label:'User', Path: 'api/'}
 	];
 	public loading = (accion) => {
 		if (accion == 'in') {
