@@ -10,8 +10,7 @@ import { PantallaComponent } from './pantalla/pantalla.component';
 import { PacientesComponent } from './pacientes/pacientes.component';
 import { ContentColasComponent } from './colas/content-colas/content-colas.component';
 import {SingleTableComponent} from './colas/single-table/single-table.component';
-import {UserProfileComponent} from './colas/user-profile/user-profile.component';
-import {UserComponent} from './colas/user/user.component';
+import { SingleFormComponent } from "./colas/single-form/single-form.component";
 
  
 const routes: Routes = [
@@ -20,12 +19,11 @@ const routes: Routes = [
   { path: 'dashboard',  component: DashboardComponent },
   { path: 'Pantalla',  component: PantallaComponent },
  //{ path: 'Pacientes',  component: PacientesComponent },
-{ path: 'COLAS',  component: ContentColasComponent,
+  { path: 'COLAS',  component: ContentColasComponent, canActivate:[AuthGuard],
  	children: [
-     { path: ':entityname',  component: SingleTableComponent }
-     //{path:'userProfile', component: UserProfileComponent},
-     //{path:'user', component: UserComponent}     
-  ]  }, 
+     { path: ':entityname',  component: SingleTableComponent },
+     { path: ':entityname/:id',  component: SingleFormComponent }   
+  ]  },
 
   { path: '**' ,redirectTo: ''}
 ];

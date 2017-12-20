@@ -12,7 +12,7 @@ export class UserComponent implements OnInit {
 
   ngOnInit() {
   }
-  tableConfig:tableSingle = {
+  tableConfig:any = {
     "title":["Campo 1","Campo 2"],
     "data":["data 1","data 2"],
     "filter":true,

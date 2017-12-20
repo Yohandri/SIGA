@@ -38,7 +38,7 @@ export class FormAdmisionComponent implements OnInit {
 			let self = this;
 			let type = this.FormPacienteAdmision.controls['PatientClient'].value.TypeIdentityCard;
 			let isMenor = this.isMenor;
-			//console.log(isMenor);
+			////console.log(isMenor);
 			if (isMenor) {
 				this.FormPacienteAdmision.controls['PatientClient'].value.IdentityCard = 'temporal';
 				this.FormPacienteAdmision.controls['PatientClient'].value.CellPhone = 'temporal';
@@ -118,14 +118,14 @@ export class FormAdmisionComponent implements OnInit {
 	  	
 	  }
 	  public selectedSeguro = (val) =>{
-  	//console.log(val);
+  	////console.log(val);
     this.FormPacienteAdmision.controls['AdmissionClient'].value.AssuredId = val.id;
     let array = this.FormPacienteAdmision.controls['AdmissionClient'].value;
     this.FormPacienteAdmision.controls['AdmissionClient'].setValue(array);
 
   }
   public selectedColectivo = (val) =>{
-  	//console.log(val);
+  	////console.log(val);
     this.FormPacienteAdmision.controls['AdmissionClient'].value.CollectiveId = val.id;
     let array = this.FormPacienteAdmision.controls['AdmissionClient'].value;
     this.FormPacienteAdmision.controls['AdmissionClient'].setValue(array);
@@ -137,7 +137,7 @@ export class FormAdmisionComponent implements OnInit {
   	let edit = this.edit;
   	if (type == 'admision') {
       if (edit) {
-        console.log(form);
+        //console.log(form);
         let cedula = form.PatientClient.IdentityCard;
         let typeCedula = form.PatientClient.typeIdentityCard;
         let familiar = form.FamiliarClient;
@@ -153,7 +153,7 @@ export class FormAdmisionComponent implements OnInit {
                 if (cedula != '') {
                   if (telefono != '') {
                     this.httpService.admision(form).then((res)=>{
-                      console.log(res);
+                      //console.log(res);
                       let data = res.Object;
                       if (res.Status) {
                       	//this.global.closeModal('modal-confirmar_'+this.type);
@@ -184,7 +184,7 @@ export class FormAdmisionComponent implements OnInit {
               if (cedula != '') {
                 if (telefono != '') {
                   this.httpService.admision(form).then((res)=>{
-                    console.log(res);
+                    //console.log(res);
                     let data = res.Object;
                     if (res.Status) {
                     	//this.global.closeModal('modal-confirmar_'+this.type);
@@ -209,27 +209,27 @@ export class FormAdmisionComponent implements OnInit {
         }
         
       } else {
-        console.log(form);
+        //console.log(form);
         let cedula = form.PatientClient.IdentityCard;
         let typeCedula = form.PatientClient.TypeIdentityCard;
         let familiar = form.FamiliarClient;
         let telefono = form.PatientClient.CellPhone;
         //let IsvitalSigns = form.EmergencyClient.IsVitalSigns;
         //let virtalsigns = form.VitalSignsClient;
-        //console.log(typeCedula);
+        ////console.log(typeCedula);
         if (typeCedula === "M") {
           form.PatientClient.CellPhone = form.FamiliarClient.CellPhone;
           form.PatientClient.IdentityCard = form.FamiliarClient.IdentityCard;
           cedula = form.PatientClient.IdentityCard;
           telefono = form.PatientClient.CellPhone;
-          console.log(cedula);
+          //console.log(cedula);
           if (familiar.Address !== '',familiar.Name1 !== '' && familiar.LastName1 !== '' && familiar.BirthDate !== '' && familiar.Gender !== '' && familiar.IdentityCard !== '' && familiar.Phone !== '') {
             if (true) {
               if (true) {
                 if (cedula != '') {
                   if (telefono != '') {
                     this.httpService.traumaShock().then((res)=>{
-                      console.log(res);
+                      //console.log(res);
                       let data = res.Object;
                       if (res.Status) {
                         this.resFormAdmision(data);
@@ -257,7 +257,7 @@ export class FormAdmisionComponent implements OnInit {
               if (cedula != '') {
                 if (telefono != '') {
                   this.httpService.traumaShock().then((res)=>{
-                    console.log(res);
+                    //console.log(res);
                     let data = res.Object;
                     if (res.Status) {
                       this.resFormAdmision(data);
@@ -290,9 +290,9 @@ export class FormAdmisionComponent implements OnInit {
 
   get = (id:number) => {
 		let path = 'api/WebServicesERIS/GetFileEmergency?sParamsSigleIdClient={"Id":' +id+ '}';
-		console.log(path);
+		//console.log(path);
 		this.httpService.get(path).then(res=>{
-			console.log(res);
+			//console.log(res);
 			let statu:boolean = res.Status;
 			if (statu) {
 				let obj = res.Object;
@@ -331,7 +331,7 @@ export class FormAdmisionComponent implements OnInit {
     let pacient = form.PatientClient;
     let familiar = form.FamiliarClient;
     let admision = form.AdmissionClient;
-    //console.log(pacient);
+    ////console.log(pacient);
     if (familiar !== null) {
       this.FormPacienteAdmision = this.fb.group({
         PatientClient: this.fb.group({
@@ -461,7 +461,7 @@ export class FormAdmisionComponent implements OnInit {
    getSeguro = () => {
     let path = "api/WebServices/SelectRecord?sParamsIn={'Id': 0,'EntityName': 'AssuredClient','page':0, 'pageSize':20}";
     this.httpService.get(path).then((res)=>{
-      //console.log(res);
+      ////console.log(res);
       let datos = res.Object.ListItems;
       datos.forEach((val)=>{
         this.listSeguro.push({id:val.Id,text:val.Name});
@@ -471,7 +471,7 @@ export class FormAdmisionComponent implements OnInit {
   getColectivo = () => {
     let path = "api/WebServices/SelectRecord?sParamsIn={'Id': 0,'EntityName': 'CollectiveClient','page':0, 'pageSize':20}";
     this.httpService.get(path).then((res)=>{
-      //console.log(res);
+      ////console.log(res);
       let datos = res.Object.ListItems;
       datos.forEach((val)=>{
         this.listColectivo.push({id:val.Id,text:val.Name});

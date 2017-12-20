@@ -27,7 +27,7 @@ export class FormTriajeComponent implements OnInit {
 
 	ngOnInit() {
 		this.restForm();
-		//console.log(this.init);
+		////console.log(this.init);
 	}
 	FormPaciente: FormGroup;
 	isMenor:boolean = false;
@@ -36,9 +36,9 @@ export class FormTriajeComponent implements OnInit {
 
 	get = (id:number) => {
 		let path = 'api/WebServicesERIS/GetFileEmergency?sParamsSigleIdClient={"Id":' +id+ '}';
-		console.log(path);
+		//console.log(path);
 		this.httpService.get(path).then(res=>{
-			console.log(res);
+			//console.log(res);
 			let statu:boolean = res.Status;
 			if (statu) {
 				let obj = res.Object;
@@ -54,7 +54,7 @@ export class FormTriajeComponent implements OnInit {
 				          EmergencyClient: obj,
 				          VitalSignsClient: vitalSigns
 				      };
-				      console.log(forForm);
+				      //console.log(forForm);
 				      this.resForm(forForm);
 			}
 		});
@@ -88,7 +88,7 @@ export class FormTriajeComponent implements OnInit {
 			let self = this;
 			let type = this.FormPaciente.controls['PatientClient'].value.TypeIdentityCard;
 			let isMenor = this.isMenor;
-			console.log(isMenor);
+			//console.log(isMenor);
 			if (isMenor) {
 				this.FormPaciente.controls['PatientClient'].value.IdentityCard = 'temporal';
 				this.FormPaciente.controls['PatientClient'].value.CellPhone = 'temporal';
@@ -156,7 +156,7 @@ export class FormTriajeComponent implements OnInit {
 
 	submit = (form:any, type:string, edit?:boolean) => {
 		if (type == 'triaje') {
-
+			//console.log(form);
 			let formulario = {
 				PatientClient:this.FormPaciente.controls['PatientClient'].value,
 				FamiliarClient:this.FormPaciente.controls['FamiliarClient'].value,
@@ -171,7 +171,7 @@ export class FormTriajeComponent implements OnInit {
 			let virtalsigns = form.VitalSignsClient;
 			let isMenor = this.isMenor;
 			let cerrar:boolean = this.init.cerrar;
-			console.log(cerrar);
+			//console.log(cerrar);
 			let vital:boolean = form.EmergencyClient.IsVitalSigns;
 			let PAS = virtalsigns.PAS;
 			let PAM = virtalsigns.PAM;
@@ -195,9 +195,9 @@ export class FormTriajeComponent implements OnInit {
 						if (virtalsigns.PAS !== '' && virtalsigns.PAM !== '' && virtalsigns.PAD !== '' && virtalsigns.FC !== '' && virtalsigns.FR !== '' && virtalsigns.TEMP !== '') {
 							if (cedula != '') {
 								if (telefono != '') {
-									console.log(form);
+									//console.log(form);
 									this.httpService.triaje(form).then((res)=>{
-										console.log(res);
+										//console.log(res);
 										let data = res.Object;
 										if (res.Status) {
 
@@ -224,9 +224,9 @@ export class FormTriajeComponent implements OnInit {
 					} else {
 						if (cedula != '') {
 							if (telefono != '') {
-								console.log(form);
+								//console.log(form);
 								this.httpService.triaje(form).then((res)=>{
-									console.log(res);
+									//console.log(res);
 									let data = res.Object;
 									if (res.Status) {
 
@@ -256,7 +256,7 @@ export class FormTriajeComponent implements OnInit {
 						if (cedula != '') {
 							if (telefono != '') {
 								this.httpService.triaje(form).then((res)=>{
-									console.log(res);
+									//console.log(res);
 									let data = res.Object;
 									if (res.Status) {
 
@@ -283,7 +283,7 @@ export class FormTriajeComponent implements OnInit {
 					if (cedula != '') {
 						if (telefono != '') {
 							this.httpService.triaje(form).then((res)=>{
-								console.log(res);
+								//console.log(res);
 								let data = res.Object;
 								if (res.Status) {
 

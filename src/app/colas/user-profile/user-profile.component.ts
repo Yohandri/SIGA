@@ -20,5 +20,5 @@ export class UserProfileComponent implements OnInit {
       }
     }, 1000);
   }
-  tableConfig:tableSingle;
+  tableConfig:any;
 }

@@ -1,0 +1,72 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+        <form [formGroup]="form" novalidate (ngSubmit)="submit(form.value)">
+            <div class="box box-primary" [@fadeInAnimation]>
+              <div [@fadeInAnimation] *ngIf="onLoad" style="z-index: 2;position: absolute;background-color: rgba(255,255,255,.9);width: 100%;height: 100%;">
+                  <i style="position: relative;top: 30%;left: 43%;" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                </div>
+              <div class="box-header with-border">
+                <h3 class="box-title">
+                  {{title}}
+                </h3>
+                <a *ngIf="onEdit" class="btn btn-danger pull-right">Eliminar</a>
+                <a routerLink="../" class="btn btn-default m pull-right">Cancelar</a>
+              </div>
+              <div class="box-body">
+                <div class="row">
+                  <div *ngFor="let i of inputs;let index = index" [ngClass]="{'hidden': index == 0}" class="col-sm-12 col-md-6 col-lg-4">
+                    <div class="form-group" [ngClass]="{'has-error':!form.controls[i.campo].valid && form.controls[i.campo].touched,'has-success':form.controls[i.campo].valid && form.controls[i.campo].touched}">
+                      <label for="{{i.campo}}">{{i.label}}</label>
+                      <label *ngIf="!form.controls[i.campo].valid && form.controls[i.campo].touched">{{global.titleRequiered}}</label>
+                      <label *ngIf="form.controls[i.campo].errors?.minlength && form.controls[i.campo].touched">requiere {{form.controls[i.campo].errors?.minlength?.requiredLength}} digitos</label>
+                      <input *ngIf="i.type == 'text'" 
+                      autocomplete="off" 
+                      type="text" 
+                      class="form-control" 
+                      id="{{i.campo}}" 
+                      formControlName="{{i.campo}}" 
+                      placeholder="{{i.label}}" 
+                      name="{{i.campo}}"
+                      >
+                      <input *ngIf="i.type == 'number'" 
+                      autocomplete="off" 
+                      type="number" 
+                      class="form-control" 
+                      id="{{i.campo}}" 
+                      formControlName="{{i.campo}}" 
+                      placeholder="{{i.label}}" 
+                      name="{{i.campo}}"
+                      >
+                      <textarea *ngIf="i.type == 'textarea'" class="form-control" style="resize: none;" placeholder="{{i.label}}"  formControlName="{{i.campo}}"  name="{{i.campo}}" id="{{i.campo}}" cols="30" rows="1"></textarea>
+                      <select *ngIf="i.type == 'select' && i.campoName == 'Name'" 
+                      name="{{i.campo}}" 
+                      id="{{i.campo}}"
+                      formControlName="{{i.campo}}" 
+                      class="form-control"
+                      >
+                        <option value="">Seleccione</option>
+                        <option *ngFor="let j of i.data" value="{{j.Name}}">{{j.Name}}</option>
+                      </select>
+                      <select *ngIf="i.type == 'select' && i.campoName == 'Description'" 
+                      name="{{i.campo}}" 
+                      id="{{i.campo}}"
+                      formControlName="{{i.campo}}" 
+                      class="form-control"
+                      >
+                        <option value="">Seleccione</option>
+                        <option *ngFor="let j of i.data" value="{{j.Description}}">{{j.Description}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="box-footer">
+                <input [disabled]="!form.valid" type="submit" value="Guardar" class="btn btn-primary">
+                <a routerLink="../" class="btn btn-default" id="btnBack" #btnBack>Cancelar</a>
+              </div> 
+            </div>
+        </form>
+    </div>
+  </div>
+</div>

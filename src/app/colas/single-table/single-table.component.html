@@ -2,35 +2,42 @@
   <div class="row">
     <div class="col-md-12">
         <div class="box box-primary">
+            <div [@fadeInAnimation] *ngIf="onLoad" style="z-index: 2;position: absolute;background-color: rgba(255,255,255,.9);width: 100%;height: 100%;">
+              <i style="position: relative;top: 30%;left: 43%;" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+            </div>
             <div class="box-header with-border">
               <h3 class="box-title">{{data.titleTable}}</h3>
+              <ul class="pagination pagination-sm no-margin pull-right">
+                <li><a (click)="moverPage('prev')">«</a></li>
+                <li [ngClass]="{'active': i == page}" *ngFor="let i of arrayPage"><a (click)="getPage(i)">{{i}}</a></li>
+                <li><a (click)="moverPage('next')">»</a></li>
+              </ul>
+              <a class="btn btn-primary btn-sm m pull-right" routerLink="Nuevo">Nuevo</a>
             </div>
             <div class="box-body">
-              <table class="table table-bordered">
+              <table class="table table-bordered table-hover">
                 <thead>
                   <tr *ngIf="data.filter">
-                    <th *ngFor="let i of data.title" style="padding:0;">
+                    <th *ngFor="let i of data.campos;let index2 = index" style="padding:0;" [ngClass]="{'hidden':index2 == 0}">
                       <input type="text" class="form-control">
                     </th>
                   </tr>
                   <tr>
-                    <th *ngFor="let i of data.title">{{i}}</th>
+                    <th *ngFor="let i of data.title;let index2 = index">{{i}}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let i of data.data;let index = index">
-                    <td *ngFor="let j of data.title;let index2 = index">{{show(index,index2)}}</td>
+                  <tr (click)="fnSelect(i)" *ngFor="let i of data.data;let index = index" [@fadeInAnimation]>
+                    <td *ngFor="let j of data.campos;let index2 = index" [ngClass]="{'hidden':index2 == 0}">{{show(index,index2)}}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
             <div class="box-footer clearfix">
               <ul class="pagination pagination-sm no-margin pull-right">
-                <li><a href="#">«</a></li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">»</a></li>
+                <li><a (click)="moverPage('prev')">«</a></li>
+                <li [ngClass]="{'active': i == page}" *ngFor="let i of arrayPage"><a (click)="getPage(i)">{{i}}</a></li>
+                <li><a (click)="moverPage('next')">»</a></li>
               </ul>
             </div>
           </div>

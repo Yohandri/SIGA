@@ -49,7 +49,7 @@ export class AppErisComponent implements OnInit {
 	  		let data:any = response.Object;
 	  		let errorAuth:boolean = response.ResultIsObject;
 			this.global.loading('out');
-     //console.log(response);
+     ////console.log(response);
 			if (status) {
 				if (statusCode == 200) {
 
@@ -59,7 +59,7 @@ export class AppErisComponent implements OnInit {
 					//this.global.act();
 					this.authService.logout();
 					this.global.msj('Hasta pronto', null);
-          //this.facebook.logout().then(() => console.log('Logged out!'));
+          //this.facebook.logout().then(() => //console.log('Logged out!'));
 				}
 			} else {
 				//Materialize.toast(data, 5000, 'red');

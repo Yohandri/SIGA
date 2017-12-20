@@ -1,7 +1,6 @@
 export interface tableSingle {
     title?:string[],
+    campos?:string[],
     data?:any[],
-    filter?:boolean,
-    titleTable?:string,
-    entityName?:string
+    filter?:boolean  
 }

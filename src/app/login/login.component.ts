@@ -39,14 +39,14 @@ export class LoginComponent implements OnInit {
     });
   }
     submit(form) {
-  	//console.log(this.rememberCheck);
+  	////console.log(this.rememberCheck);
   	this.global.loading('in');
   	this.httpService.login(form).then((response) => {
   		let status:boolean = response.Status;
   		let statusCode:number = response.HttpStatusCode;
   		let data:any = response.Object;
   		let errorAuth:boolean = response.ResultIsObject;
-  		console.log(response);
+  		//console.log(response);
   		if (status) {
   			if (statusCode == 200) {
   				if (errorAuth != true) {
@@ -83,7 +83,7 @@ export class LoginComponent implements OnInit {
   		}
   		this.global.loading('out');
   	}).catch((response) => {
-  		console.log(response);
+  		//console.log(response);
   		this.global.loading('out');
   	});
   }

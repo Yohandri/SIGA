@@ -15,7 +15,7 @@ export class AuthService {
 	} else {
 		this.isLoggedIn = true;
 	}
-	//console.log(this.isLoggedIn);
+	////console.log(this.isLoggedIn);
   }
 
   // store the URL so we can redirect after logging in

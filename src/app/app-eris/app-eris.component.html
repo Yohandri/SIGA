@@ -293,7 +293,7 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">Menú principal</li>
-        <li class="active">
+        <li class="">
           <a routerLinkActive="active" routerLink="dashboard">
             <span>ERIS</span>
             <span class="pull-right-container">
@@ -301,7 +301,7 @@
             </span>
           </a>
         </li>
-        <li class="active treeview" *ngIf="true">
+        <li class="treeview" *ngIf="global.getUserProfileId() == 1">
           <a>
             <span>COLAS</span>
             <span class="pull-right-container">

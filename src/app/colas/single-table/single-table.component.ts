@@ -21,55 +21,111 @@ export class SingleTableComponent implements OnInit {
     public api: httpService
   	) { 
       this.aRouter.params.subscribe( params => {
-        console.log(params);
+        //console.log(params);
         this.entityName = params.entityname;
-        //console.log(this.entityName);
+        ////console.log(this.entityName);
         this.getData(this.entityName);
       } );
     }
   ngOnInit() {    
   }
   entityName:string;
-  data:tableSingle = {
+  data:any = {
     title:[],
     data:[],
+    campos:[],
     filter:false,
-    titleTable:""
+    titleTable:this.entityName
   };
+  page:number = 1;
+  LastPage:number;
+  arrayPage:any[] = [];
+  search:string = '';
+  onLoad:boolean = false;
   getData = (entityName:string) => {
-    this.data.title = [];
-    this.data.data = [];
-    let path:string = 'api/WebServices/SelectRecord?sParamsIn={"Id": 0,"EntityName": "'+ entityName +'Client","page":0, "pageSize":1}';
-    //console.log(path);
+    this.onLoad = true;
+    let path:string = 'api/WebServices/SelectRecord?sParamsIn={"Id": 0,"EntityName": "'+ entityName +'Client","page":'+ this.page +', "pageSize": '+ this.global.itemShow +'}';
+    ////console.log(path);
     this.api.get(path).then((res:any) => {
-      console.log(res);
+      //console.log(res);
+      this.onLoad = false;
       let status:boolean = res.Status;
       let self = this;
       if(status){
+        this.data.title = [];
+        this.data.data = [];
+        this.data.campos = [];
+        this.LastPage = res.Object.LastPage;
+        this.arrayPage = [];
         let object:any = res.Object;
         let listItems:any = object.ListItems;
-        self.data.title = this.setEntityName(entityName);
+        self.data.campos = this.global.setEntityName(entityName).campos;
+        self.data.title = this.global.setEntityName(entityName).title;
+        self.data.titleTable = this.global.setEntityName(entityName).titleTable;
         self.data.data = listItems;
-        console.log(self.data.data);
+        this.getPagination();      
+        //console.log(self.data.data);
       }
     });
-  }
-  setEntityName = (entityname):any[string] => {
-    if(entityname == 'UserProfile'){
-      return ['Id','Name','Description'];
-    }else if(entityname == 'User'){
-      return ['Id','Code','Username','IdentityCard','Name','LastName','UserProfileName'];
-    }
   }
   show = (p,i) => {
     let dato:any = p + ' ' + i;
     this.data.data.forEach((val,index)=>{
-      this.data.title.forEach((value,inde)=>{
+      this.data.campos.forEach((value,inde)=>{
           if(p == index && i == inde){
             dato = eval('val.' + value);
           }
       });
     });
     return dato;
+  }
+  fnSelect = (obj) => {
+    let state: string = this.router.routerState.snapshot.url;
+    //console.log(state);
+    this.router.navigate([state, obj.Id]);
+  }
+  getPage = (page) => {
+  	this.page = page;
+  	this.getData(this.entityName);
+  }
+  getPagination = () => {
+  	let cont:number = 2;
+  	let pActual:number = this.page;
+  	for (var i = 1; i <= this.LastPage; i++) {
+  		let v = (i - pActual);
+  		if (v < 0) { v = v * (-1);}
+  		if (v <= cont) {
+  			this.arrayPage.push(i);
+  		}
+  	}
+  }
+  moverPage = (accion) => {
+  	if (accion == 'next') {
+  		this.page = this.calPage(accion);
+  	}
+  	if (accion == 'prev') {
+  		this.page = this.calPage(accion);
+  	}
+  	this.getData(this.entityName);
+  }
+  calPage = (accion) => {
+  	let pageTop = this.LastPage;
+  	if (accion == 'next') {
+	  	let pageResul = this.page + 1;
+	  	if (pageResul > pageTop) {
+	  		return pageTop;
+	  	} else {
+	  		return pageResul;
+	  	}
+  	}
+  	if (accion == 'prev') {
+	  	let pageResul = this.page - 1;
+	  	if (pageResul < 1) {
+	  		return 1;
+	  	} else {
+	  		return pageResul;
+	  	}
+  	}
+  	
   }
 }
