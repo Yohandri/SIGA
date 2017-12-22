@@ -36,7 +36,7 @@ export class FormTriajeComponent implements OnInit {
 
 	get = (id:number) => {
 		let path = 'api/WebServicesERIS/GetFileEmergency?sParamsSigleIdClient={"Id":' +id+ '}';
-		//console.log(path);
+		console.log(path);
 		this.httpService.get(path).then(res=>{
 			//console.log(res);
 			let statu:boolean = res.Status;
@@ -54,7 +54,7 @@ export class FormTriajeComponent implements OnInit {
 				          EmergencyClient: obj,
 				          VitalSignsClient: vitalSigns
 				      };
-				      //console.log(forForm);
+				      console.log(forForm);
 				      this.resForm(forForm);
 			}
 		});
@@ -365,14 +365,13 @@ export class FormTriajeComponent implements OnInit {
 	}
 	resForm = (form) =>{
 		let cerrar = this.init.cerrar;
-		if (cerrar) {
-			$('#clickAqui').click();
-		}
+		
 		let pacient = form.PatientClient;
 		let familiar = form.FamiliarClient;
 		let emergencia = form.EmergencyClient;
 		let vitalsigns = form.VitalSignsClient;
 		this.isMenor = pacient.IsMinor;
+		console.log(form);
 		if (familiar !== null) {
 			if (vitalsigns !== null) {
 				this.FormPaciente = this.fb.group({
@@ -539,6 +538,7 @@ export class FormTriajeComponent implements OnInit {
 					})
 				});
 			} else {
+				console.log(pacient);
 				this.FormPaciente = this.fb.group({
 					PatientClient: this.fb.group({
 						"Id": pacient.Id,
@@ -595,7 +595,10 @@ export class FormTriajeComponent implements OnInit {
 			}
 
 		}
-		this.restForm();
+		if (cerrar) {
+			$('#clickAqui').click();
+			this.restForm();
+		}
 	}
 
 }

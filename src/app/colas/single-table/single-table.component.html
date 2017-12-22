@@ -23,12 +23,12 @@
                     </th>
                   </tr>
                   <tr>
-                    <th *ngFor="let i of data.title;let index2 = index">{{i}}</th>
+                    <th [ngClass]="{'hidden':!i.showGrip}" *ngFor="let i of inputs;let index2 = index">{{i.label}}</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr (click)="fnSelect(i)" *ngFor="let i of data.data;let index = index" [@fadeInAnimation]>
-                    <td *ngFor="let j of data.campos;let index2 = index" [ngClass]="{'hidden':index2 == 0}">{{show(index,index2)}}</td>
+                    <td *ngFor="let j of inputs;let index2 = index" [ngClass]="{'hidden':index2 == 0,'hidden':!j.showGrip}">{{show(index,index2)}}</td>
                   </tr>
                 </tbody>
               </table>

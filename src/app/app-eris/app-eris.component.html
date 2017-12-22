@@ -266,9 +266,9 @@
       </div>
     </nav>
   </header>
-  <aside class="main-sidebar" *ngIf="authService.isLoggedIn">
+  <aside class="main-sidebar" >
     <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
+    <section class="sidebar" >
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
@@ -292,8 +292,8 @@
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">Menú principal</li>
-        <li class="">
+        <li class="header" *ngIf="authService.isLoggedIn">Menú principal</li>
+        <li class="" *ngIf="authService.isLoggedIn">
           <a routerLinkActive="active" routerLink="dashboard">
             <span>ERIS</span>
             <span class="pull-right-container">
@@ -301,7 +301,7 @@
             </span>
           </a>
         </li>
-        <li class="treeview" *ngIf="global.getUserProfileId() == 1">
+        <li class="treeview" *ngIf="global.getUserProfileId() == 1 && authService.isLoggedIn">
           <a>
             <span>COLAS</span>
             <span class="pull-right-container">

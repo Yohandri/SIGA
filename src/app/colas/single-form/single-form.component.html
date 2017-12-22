@@ -10,7 +10,7 @@
                 <h3 class="box-title">
                   {{title}}
                 </h3>
-                <a *ngIf="onEdit" class="btn btn-danger pull-right">Eliminar</a>
+                <a *ngIf="onEdit" (click)="fnDelete()" class="btn btn-danger pull-right">Eliminar</a>
                 <a routerLink="../" class="btn btn-default m pull-right">Cancelar</a>
               </div>
               <div class="box-body">
@@ -19,7 +19,9 @@
                     <div class="form-group" [ngClass]="{'has-error':!form.controls[i.campo].valid && form.controls[i.campo].touched,'has-success':form.controls[i.campo].valid && form.controls[i.campo].touched}">
                       <label for="{{i.campo}}">{{i.label}}</label>
                       <label *ngIf="!form.controls[i.campo].valid && form.controls[i.campo].touched">{{global.titleRequiered}}</label>
-                      <label *ngIf="form.controls[i.campo].errors?.minlength && form.controls[i.campo].touched">requiere {{form.controls[i.campo].errors?.minlength?.requiredLength}} digitos</label>
+                      <label *ngIf="form.controls[i.campo].errors?.minlength && form.controls[i.campo].touched">como mínimo {{form.controls[i.campo].errors?.minlength?.requiredLength}} dígitos</label>
+                      <label *ngIf="form.controls[i.campo].errors?.number && form.controls[i.campo].touched">solo número</label>
+                      <label *ngIf="form.controls[i.campo].errors?.email && form.controls[i.campo].touched">correo inválido</label>
                       <input *ngIf="i.type == 'text'" 
                       autocomplete="off" 
                       type="text" 
@@ -28,17 +30,42 @@
                       formControlName="{{i.campo}}" 
                       placeholder="{{i.label}}" 
                       name="{{i.campo}}"
+                      [readonly]="i.readonly"
                       >
                       <input *ngIf="i.type == 'number'" 
                       autocomplete="off" 
-                      type="number" 
+                      type="text" 
                       class="form-control" 
                       id="{{i.campo}}" 
                       formControlName="{{i.campo}}" 
                       placeholder="{{i.label}}" 
                       name="{{i.campo}}"
+                      [readonly]="i.readonly"
+                      number
                       >
-                      <textarea *ngIf="i.type == 'textarea'" class="form-control" style="resize: none;" placeholder="{{i.label}}"  formControlName="{{i.campo}}"  name="{{i.campo}}" id="{{i.campo}}" cols="30" rows="1"></textarea>
+                      <input *ngIf="i.type == 'email'" 
+                      autocomplete="off" 
+                      type="email" 
+                      class="form-control" 
+                      id="{{i.campo}}" 
+                      formControlName="{{i.campo}}" 
+                      placeholder="{{i.label}}" 
+                      name="{{i.campo}}"
+                      [readonly]="i.readonly"
+                      [email]
+                      >
+                      <input *ngIf="i.type == 'date'" 
+                      autocomplete="off" 
+                      type="text" 
+                      class="form-control" 
+                      id="{{i.campo}}" 
+                      formControlName="{{i.campo}}" 
+                      placeholder="{{i.label}}" 
+                      name="{{i.campo}}"
+                      [readonly]="i.readonly"
+                      mask="99/99/9999"
+                      >
+                      <textarea [readonly]="i.readonly" *ngIf="i.type == 'textarea'" class="form-control" style="resize: none;" placeholder="{{i.label}}"  formControlName="{{i.campo}}"  name="{{i.campo}}" id="{{i.campo}}" cols="30" rows="1"></textarea>
                       <select *ngIf="i.type == 'select' && i.campoName == 'Name'" 
                       name="{{i.campo}}" 
                       id="{{i.campo}}"
@@ -70,3 +97,22 @@
     </div>
   </div>
 </div>
+
+<div #ModalDelete class="modal modal-danger fade" id="modal-delete">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span></button>
+          <h4 class="modal-title">Eliminar</h4>
+        </div>
+        <div class="modal-body">
+          <p>¿Esta seguro que desea eliminar?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" data-dismiss="modal">Cancelar</button>
+          <button (click)="confirmarDelete()" type="button" class="btn btn-outline">ELIMINAR</button>
+        </div>
+      </div>
+    </div>
+  </div>

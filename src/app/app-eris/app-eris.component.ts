@@ -4,7 +4,7 @@ import {Global} from '../global';
 import {httpService} from '../http.service';
 import { Router } from '@angular/router';
 import { fadeInAnimation } from '../_animations';
-
+declare var $:any;
 
 @Component({
   selector: 'app-app-eris',
@@ -40,7 +40,7 @@ export class AppErisComponent implements OnInit {
     },2000)
    
   }
-  typeEntorno:string = 'Adminsion';
+	typeEntorno:string = 'Adminsion';
   closeSession() {
   	this.global.loading('in');
 		this.httpService.logout(this.global.User.Nickname).then((response) => {

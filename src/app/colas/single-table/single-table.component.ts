@@ -42,8 +42,19 @@ export class SingleTableComponent implements OnInit {
   arrayPage:any[] = [];
   search:string = '';
   onLoad:boolean = false;
-  getData = (entityName:string) => {
+  inputs:any = [];
+  getData = (entityName:string, changePage?:boolean) => {
     this.onLoad = true;
+    let rePage = this.global.getLocal('Page');
+    //console.log(rePage);
+    if(!changePage){
+      if(rePage[0] == entityName){
+        this.page = rePage[1];
+        //console.log(rePage[0], entityName);
+      } else {
+        this.page = 1;
+      }
+    }
     let path:string = 'api/WebServices/SelectRecord?sParamsIn={"Id": 0,"EntityName": "'+ entityName +'Client","page":'+ this.page +', "pageSize": '+ this.global.itemShow +'}';
     ////console.log(path);
     this.api.get(path).then((res:any) => {
@@ -52,6 +63,7 @@ export class SingleTableComponent implements OnInit {
       let status:boolean = res.Status;
       let self = this;
       if(status){
+        this.global.saveLocal('Page', [entityName,this.page]);
         this.data.title = [];
         this.data.data = [];
         this.data.campos = [];
@@ -59,9 +71,10 @@ export class SingleTableComponent implements OnInit {
         this.arrayPage = [];
         let object:any = res.Object;
         let listItems:any = object.ListItems;
-        self.data.campos = this.global.setEntityName(entityName).campos;
-        self.data.title = this.global.setEntityName(entityName).title;
+
+        self.inputs = this.global.setEntityName(this.entityName).inputs;
         self.data.titleTable = this.global.setEntityName(entityName).titleTable;
+        
         self.data.data = listItems;
         this.getPagination();      
         //console.log(self.data.data);
@@ -71,9 +84,9 @@ export class SingleTableComponent implements OnInit {
   show = (p,i) => {
     let dato:any = p + ' ' + i;
     this.data.data.forEach((val,index)=>{
-      this.data.campos.forEach((value,inde)=>{
+      this.inputs.forEach((value,inde)=>{
           if(p == index && i == inde){
-            dato = eval('val.' + value);
+            dato = eval('val.' + value.campo);
           }
       });
     });
@@ -86,7 +99,7 @@ export class SingleTableComponent implements OnInit {
   }
   getPage = (page) => {
   	this.page = page;
-  	this.getData(this.entityName);
+  	this.getData(this.entityName, true);
   }
   getPagination = () => {
   	let cont:number = 2;
@@ -106,7 +119,7 @@ export class SingleTableComponent implements OnInit {
   	if (accion == 'prev') {
   		this.page = this.calPage(accion);
   	}
-  	this.getData(this.entityName);
+  	this.getData(this.entityName, true);
   }
   calPage = (accion) => {
   	let pageTop = this.LastPage;

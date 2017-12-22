@@ -5,10 +5,11 @@ import { httpService } from './http.service';
 declare var $:any;
 declare var Materialize:any;
 declare var kendo:any;
+declare var appConfig:any;
 @Injectable()
 export class Global {
 	public title: string = 'ERIS';
-	public dominio:string = 'http://dev-marco-01-pc/apiERIS/';
+	public dominio:string = appConfig.Dominio;
 	public itemShow:string = '3';
 	public textTitleModal:string = 'Aggiungi';
 	public titleRequiered:string = 'es requerido';
@@ -34,20 +35,23 @@ export class Global {
 		if(entityname == 'UserProfile'){
             titleTable = 'Tipo de usuario';
             inputs = [
-                {required:false,campo:'Id', label:'Id', type:'text'},
-                {required:true,campo:'Name', label:'Nombre', type:'text'},
-                {required:true,campo:'Description', label:'Descripción', type:'text'}
+                {required:false,showGrip:false,showForm:false,campo:'Id', label:'Id', type:'text'},
+                {required:true,showGrip:true,showForm:true,campo:'Name', label:'Nombre', type:'text'},
+                {required:true,showGrip:true,showForm:true,campo:'Description', label:'Descripción', type:'text'}
 		    ];
 		} else if(entityname == 'User'){
             titleTable = 'Usuario';
             inputs = [
-                {required:false,campo:'Id', label:'Id', type: 'text'},
-                {required:false,campo:'Code', label:'Codigo', type: 'text'},
-                {required:true,campo:'Username', label:'Usuario', type: 'text'},
-                {required:true, minLength:8,campo:'IdentityCard', label:'Cedula', type: 'text'},
-                {required:true,campo:'Name', label:'Nombre', type: 'text'},
-                {required:false,campo:'LastName', label:'Apellido', type: 'text'},
-                {required:true,campo:'UserProfileName', label:'Tipo de usuario', type: 'select', option: 'UserProfile', campoName:'Name'} 
+                {required:false,showGrip:false,showForm:false,campo:'Id', label:'Id', type: 'text'},
+                {required:false,showGrip:true,showForm:false,readonly:true,campo:'Code', label:'Código', type: 'text'},
+                {required:false,showGrip:true,showForm:false,readonly:true,campo:'Username', label:'Usuario', type: 'text'},
+                {required:true, showGrip:true,showForm:true,minLength:7,campo:'IdentityCard', label:'Cédula', type: 'number'},
+                {required:true,showGrip:true,showForm:true,readonly:false, campo:'Name', label:'Nombre', type: 'text'},
+				{required:false,showGrip:true,showForm:true,campo:'LastName', label:'Apellido', type: 'text'},
+				{required:false, showGrip:false,showForm:true,campo:'Email', label:'Correo', type:'email'},
+				{required:false,showGrip:false, showForm:true,campo:'Phone', label:'Telefono', type:'text'},
+				{required:false,showGrip:false,showForm:true,campo:'BirthDate', label:'Fecha de nacimiento',type:'date'},
+                {required:true,showGrip:false,showForm:true,campo:'UserProfileName', label:'Tipo de usuario', type: 'select', option: 'UserProfile', campoName:'Name'} 
             ];
         }
         inputs.forEach(element => {
@@ -97,13 +101,16 @@ export class Global {
 		// 	return JSON.parse(data);
 		// }
 	}
-	public msj(text, estado) {
+	public msj(text:string, estado:string, time?:number) {
 		//Materialize.toast(text,5000, estado);
 		if (estado == 'success' || estado == null) {
 			$('.alertCustom').addClass('callout-success');
 		}
 		if (estado == 'danger') {
 			$('.alertCustom').addClass('callout-danger');
+		}
+		if(time == undefined){
+			time = 5000;
 		}
 		$('.alertCustom h4').text(text);
 	  	$('.alertCustom').addClass('Show');
@@ -112,7 +119,7 @@ export class Global {
 	  		$('.alertCustom').removeClass('callout-danger');
 	  		$('.alertCustom').removeClass('callout-success');
 	  		$('.alertCustom h4').text('');
-	  	}, 5000);
+	  	}, time);
 	}
 	public openModal = (modal) => {
 	  	$('#' + modal).modal({
@@ -122,6 +129,12 @@ export class Global {
 	  }
 	public closeModal = (modal) => {
 	  	$('#' + modal).modal('hide');
+	  }
+	  public addClass = (element:string, clase:string) => {
+		$(element).addClass(clase);
+	  }
+	  public removeClass = (element:string, clase:string) => {
+		$(element).removeClass(clase);
 	  }
 	public   generatePDF = (name,section) => {
      kendo.drawing.drawDOM($("#"+ section)).then(function(group) {
