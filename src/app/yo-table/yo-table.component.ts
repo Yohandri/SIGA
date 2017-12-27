@@ -276,6 +276,13 @@ fnClickPauses = () => {
   this.getPacientes();
   this.getTaquilleros();
 }
+setFicha = () => {
+  if(this.fichaOn){
+    this.fichaOn = false;
+  } else {
+    this.fichaOn = true;
+  }
+}
   getPacientes = () => {
   	//this.global.loading('in');
      let path:string;

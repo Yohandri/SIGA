@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Global } from '../../global';
+import { AdminTable } from '../../admin-table';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { fadeInAnimation } from '../../_animations';
 import { tableSingle } from '../interfaces';
@@ -15,7 +16,8 @@ import { httpService } from "../../http.service";
 export class SingleTableComponent implements OnInit {
   @Input() tableConfig:any;
   constructor(
-  	public global: Global,
+    public global: Global,
+    public aTable: AdminTable,
   	public aRouter: ActivatedRoute,
     public router: Router,
     public api: httpService
@@ -40,6 +42,8 @@ export class SingleTableComponent implements OnInit {
   page:number = 1;
   LastPage:number;
   arrayPage:any[] = [];
+  CountItems:number = 0;
+  btnNew:boolean = true;
   search:string = '';
   onLoad:boolean = false;
   inputs:any = [];
@@ -63,6 +67,7 @@ export class SingleTableComponent implements OnInit {
       let status:boolean = res.Status;
       let self = this;
       if(status){
+        this.btnNew = true;
         this.global.saveLocal('Page', [entityName,this.page]);
         this.data.title = [];
         this.data.data = [];
@@ -71,13 +76,23 @@ export class SingleTableComponent implements OnInit {
         this.arrayPage = [];
         let object:any = res.Object;
         let listItems:any = object.ListItems;
+        this.CountItems = object.CountItems;
 
-        self.inputs = this.global.setEntityName(this.entityName).inputs;
-        self.data.titleTable = this.global.setEntityName(entityName).titleTable;
+        self.inputs = this.aTable.setEntityName(this.entityName).inputs;
+        self.data.titleTable = this.aTable.setEntityName(entityName).titleTable;
         
         self.data.data = listItems;
         this.getPagination();      
         //console.log(self.data.data);
+      } else {
+        this.btnNew = false;
+        this.data.title = [];
+        this.data.data = [];
+        this.data.campos = [];
+        this.arrayPage = [];
+        self.inputs = [];
+        self.data.titleTable = '';
+        console.log('Tabla no encontrada => ', self.inputs);
       }
     });
   }

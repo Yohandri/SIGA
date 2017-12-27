@@ -76,7 +76,7 @@
 	<div class="box box-default" *ngIf="fichaOn">
 		<div class="box-header with-border">
 			<h3 class="box-title">Ficha del Paciente </h3>
-			<button type="button" class="close" (click)="cerrarFicha()"><span aria-hidden="true">&times;</span></button>
+			<button type="button" class="close" id="btnCerrarFicha" (click)="cerrarFicha()"><span aria-hidden="true">&times;</span></button>
 			<span class="pull-right">Ticket <b style="padding-right:30px;">{{fichaPaciente.Ticket}} </b> <b style="margin-right:10px;font-size: 18px;" [ngClass]="{'bg-blanco':fichaPaciente.StatusManage == 1,'bg-red':fichaPaciente.StatusManage == 3,'bg-Amarillo':fichaPaciente.StatusManage == 2}" class="badge bg-blanco">{{fichaPaciente.Priority}}</b></span>
 		</div>
 		<div *ngIf="cargarFicha" style="z-index: 2;position: absolute;background-color: rgba(255,255,255,.9);width: 100%;height: 100%;">

@@ -10,12 +10,14 @@ declare var appConfig:any;
 export class Global {
 	public title: string = 'ERIS';
 	public dominio:string = appConfig.Dominio;
-	public itemShow:string = '3';
+	public itemShow:string = '10';
 	public textTitleModal:string = 'Aggiungi';
 	public titleRequiered:string = 'es requerido';
 	public colasListTable:any[] = [
 		{table:'UserProfile', label:'Tipos de usuario'},
-		{table:'User', label:'Usuarios'}
+		{table:'User', label:'Usuarios'},
+		{table:'Assured', label:"Seguros"},
+		{table:'VitalSigns', label:'Signos vitales'}
 	];
 	public loading = (accion) => {
 		if (accion == 'in') {
@@ -27,44 +29,6 @@ export class Global {
 			$('.cortina').css('display', 'none');
 		}
 	};
-	public setEntityName = (entityname):any[string] => {
-        let campos = [];
-        let title = [];
-        let inputs = [];
-        let titleTable = '';
-		if(entityname == 'UserProfile'){
-            titleTable = 'Tipo de usuario';
-            inputs = [
-                {required:false,showGrip:false,showForm:false,campo:'Id', label:'Id', type:'text'},
-                {required:true,showGrip:true,showForm:true,campo:'Name', label:'Nombre', type:'text'},
-                {required:true,showGrip:true,showForm:true,campo:'Description', label:'Descripción', type:'text'}
-		    ];
-		} else if(entityname == 'User'){
-            titleTable = 'Usuario';
-            inputs = [
-                {required:false,showGrip:false,showForm:false,campo:'Id', label:'Id', type: 'text'},
-                {required:false,showGrip:true,showForm:false,readonly:true,campo:'Code', label:'Código', type: 'text'},
-                {required:false,showGrip:true,showForm:false,readonly:true,campo:'Username', label:'Usuario', type: 'text'},
-                {required:true, showGrip:true,showForm:true,minLength:7,campo:'IdentityCard', label:'Cédula', type: 'number'},
-                {required:true,showGrip:true,showForm:true,readonly:false, campo:'Name', label:'Nombre', type: 'text'},
-				{required:false,showGrip:true,showForm:true,campo:'LastName', label:'Apellido', type: 'text'},
-				{required:false, showGrip:false,showForm:true,campo:'Email', label:'Correo', type:'email'},
-				{required:false,showGrip:false, showForm:true,campo:'Phone', label:'Telefono', type:'text'},
-				{required:false,showGrip:false,showForm:true,campo:'BirthDate', label:'Fecha de nacimiento',type:'date'},
-                {required:true,showGrip:false,showForm:true,campo:'UserProfileName', label:'Tipo de usuario', type: 'select', option: 'UserProfile', campoName:'Name'} 
-            ];
-        }
-        inputs.forEach(element => {
-			campos.push(element.campo);
-		});
-		inputs.forEach(element => {
-			if(element.label != 'Id'){
-			    title.push(element.label);
-			}
-		});
-		let ret = {campos:campos,title:title,titleTable:titleTable,inputs:inputs};
-		return ret;
-	  }
 	public entorno:string = '';
 	public User:any = this.getLocal('User');
 	public Login:any= this.getLocal('Login');

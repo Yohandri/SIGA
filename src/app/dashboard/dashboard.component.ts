@@ -73,7 +73,9 @@ export class DashboardComponent implements OnInit {
 	// 	}
 	// };
   }
-
+  fnclickTag = () => {
+    $('#btnCerrarFicha').click();
+  }
   isMenor:boolean = false;
   actFecha = (val, accion?) => {
     

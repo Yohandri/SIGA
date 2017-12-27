@@ -10,18 +10,19 @@
                 <h3 class="box-title">
                   {{title}}
                 </h3>
-                <a *ngIf="onEdit" (click)="fnDelete()" class="btn btn-danger pull-right">Eliminar</a>
-                <a routerLink="../" class="btn btn-default m pull-right">Cancelar</a>
+                <a *ngIf="onEdit || id != 'Nuevo'" (click)="fnDelete()" class="btn btn-danger pull-right">Eliminar</a>
+                <a (click)="fnBack(form.dirty)" class="btn btn-default m pull-right">Cancelar</a>
+                <a *ngIf="id != 'Nuevo'" (click)="nuevo()" class="btn btn-default m pull-right">Nuevo</a>
               </div>
               <div class="box-body">
                 <div class="row">
-                  <div *ngFor="let i of inputs;let index = index" [ngClass]="{'hidden': index == 0}" class="col-sm-12 col-md-6 col-lg-4">
-                    <div class="form-group" [ngClass]="{'has-error':!form.controls[i.campo].valid && form.controls[i.campo].touched,'has-success':form.controls[i.campo].valid && form.controls[i.campo].touched}">
+                  <div *ngFor="let i of inputs;let index = index" [ngClass]="{'hidden': index == 0 || !i.showForm}" class="col-sm-12 col-md-6 col-lg-4">
+                    <div class="form-group" [ngClass]="{'has-error':!form.controls[i.campo].valid && (form.controls[i.campo].touched && form.controls[i.campo].dirty),'has-success':form.controls[i.campo].valid && (form.controls[i.campo].touched && form.controls[i.campo].dirty),'validateDate':i.type == 'date'}">
                       <label for="{{i.campo}}">{{i.label}}</label>
-                      <label *ngIf="!form.controls[i.campo].valid && form.controls[i.campo].touched">{{global.titleRequiered}}</label>
-                      <label *ngIf="form.controls[i.campo].errors?.minlength && form.controls[i.campo].touched">como mínimo {{form.controls[i.campo].errors?.minlength?.requiredLength}} dígitos</label>
-                      <label *ngIf="form.controls[i.campo].errors?.number && form.controls[i.campo].touched">solo número</label>
-                      <label *ngIf="form.controls[i.campo].errors?.email && form.controls[i.campo].touched">correo inválido</label>
+                      <label *ngIf="!form.controls[i.campo].valid && (form.controls[i.campo].touched && form.controls[i.campo].dirty)">{{global.titleRequiered}}</label>
+                      <label *ngIf="form.controls[i.campo].errors?.minlength && (form.controls[i.campo].touched && form.controls[i.campo].dirty)">como mínimo {{form.controls[i.campo].errors?.minlength?.requiredLength}} dígitos</label>
+                      <label *ngIf="form.controls[i.campo].errors?.number && (form.controls[i.campo].touched && form.controls[i.campo].dirty)">solo número</label>
+                      <label *ngIf="form.controls[i.campo].errors?.email && (form.controls[i.campo].touched && form.controls[i.campo].dirty)">correo inválido</label>
                       <input *ngIf="i.type == 'text'" 
                       autocomplete="off" 
                       type="text" 
@@ -64,7 +65,18 @@
                       name="{{i.campo}}"
                       [readonly]="i.readonly"
                       mask="99/99/9999"
+                      (blur)="validarFecha($event)"
                       >
+                      <div class="checkbox" *ngIf="i.type == 'checkbox'">
+                        <label>
+                          <input 
+                          type="checkbox"
+                          formControlName="{{i.campo}}"
+                          id="{{i.campo}}" 
+                          name="{{i.campo}}"
+                          >
+                        </label>
+                      </div>
                       <textarea [readonly]="i.readonly" *ngIf="i.type == 'textarea'" class="form-control" style="resize: none;" placeholder="{{i.label}}"  formControlName="{{i.campo}}"  name="{{i.campo}}" id="{{i.campo}}" cols="30" rows="1"></textarea>
                       <select *ngIf="i.type == 'select' && i.campoName == 'Name'" 
                       name="{{i.campo}}" 
@@ -84,13 +96,24 @@
                         <option value="">Seleccione</option>
                         <option *ngFor="let j of i.data" value="{{j.Description}}">{{j.Description}}</option>
                       </select>
+
+                      <select *ngIf="i.type == 'selectLocal'" 
+                      name="{{i.campo}}" 
+                      id="{{i.campo}}"
+                      formControlName="{{i.campo}}" 
+                      class="form-control"
+                      >
+                        <option value="">Seleccione</option>
+                        <option *ngFor="let j of i.data" value="{{j}}">{{j}}</option>
+                      </select>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="box-footer">
-                <input [disabled]="!form.valid" type="submit" value="Guardar" class="btn btn-primary">
-                <a routerLink="../" class="btn btn-default" id="btnBack" #btnBack>Cancelar</a>
+                <input [disabled]="!form.valid || fechaInvalida" type="submit" value="Guardar" class="btn btn-primary">
+                <a routerLink="../" class="btn btn-default hidden" id="btnBack" #btnBack>Cancelar</a>
+                <a (click)="fnBack(form.dirty)" class="btn btn-default">Cancelar</a>
               </div> 
             </div>
         </form>
@@ -116,3 +139,22 @@
       </div>
     </div>
   </div>
+
+  <div #ModalWarning class="modal modal-warning fade" id="modal-warning">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span></button>
+            <h4 class="modal-title">Alerta</h4>
+          </div>
+          <div class="modal-body">
+            <p>¿Esta seguro que desea cancelar sin guardar?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline" data-dismiss="modal">No</button>
+            <button (click)="confirmarWarning()" type="button" class="btn btn-outline">SI</button>
+          </div>
+        </div>
+      </div>
+    </div>

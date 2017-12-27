@@ -1,5 +1,6 @@
 import { Component, OnInit ,ElementRef, ViewChild,ViewContainerRef } from '@angular/core';
 import { Global } from '../../global';
+import { AdminTable } from '../../admin-table';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { fadeInAnimation } from '../../_animations';
 import { tableSingle } from '../interfaces';
@@ -16,8 +17,10 @@ declare var moment:any;
 export class SingleFormComponent implements OnInit {
   @ViewChild('btnBack') btnBack:ElementRef;
   @ViewChild('ModalDelete') ModalDelete:ElementRef;
+  @ViewChild('ModalWarning') ModalWarning:ElementRef;
   constructor(
     public global: Global,
+    public aTable: AdminTable,
     public aRouter: ActivatedRoute,
     public router: Router,
     public api: httpService,
@@ -25,21 +28,19 @@ export class SingleFormComponent implements OnInit {
   ) {
     this.aRouter.params.subscribe( params => {
       //console.log(params);
+      //console.log(this.aRouter.snapshot.params.id);
       this.entityName = params.entityname;
       this.id = params.id;
       this.getData(this.entityName,this.id);
       this.restForm();
-      this.inputs = this.global.setEntityName(this.entityName).inputs;
-      this.title = this.global.setEntityName(this.entityName).titleTable;
-      this.titles = this.global.setEntityName(this.entityName).title;
+      this.inputs = this.aTable.setEntityName(this.entityName).inputs;
+      this.title = this.aTable.setEntityName(this.entityName).titleTable;
+      this.titles = this.aTable.setEntityName(this.entityName).title;
       this.inputs.forEach((element,index) => {
         if(element.option){
           this.getOption(element.option, index);
         }
       });
-      setTimeout(()=>{
-        //console.log(this.inputs);
-      },1000);
     } );
    }
   ngOnInit() {
@@ -53,6 +54,7 @@ export class SingleFormComponent implements OnInit {
   onEdit:boolean = false;
   onLoad:boolean = false;
   data:any = {};
+  fechaInvalida:boolean = false;
   fnDelete = () => {
     let idModal = this.ModalDelete.nativeElement.id;
     this.global.removeClass('#'+idModal, 'modal-success');
@@ -106,7 +108,7 @@ export class SingleFormComponent implements OnInit {
           let obj = res.Object;
           this.data = obj;
           if(obj != null){
-            this.global.setEntityName(this.entityName).inputs.forEach(element => {
+            this.aTable.setEntityName(this.entityName).inputs.forEach(element => {
               Object.keys(obj).forEach(function(key,index) {
                 if(key == element.campo){
                   if(element.type == 'date'){
@@ -127,7 +129,7 @@ export class SingleFormComponent implements OnInit {
     }
   }
   submit = (form) => {
-    console.log(form);
+    //console.log(form);
     this.onLoad = true;
     let path:string = '';
     let body:any = {};
@@ -138,27 +140,54 @@ export class SingleFormComponent implements OnInit {
     body = {"EntityName": entityName +'Client',entityJson:form};
     this.api.post(path,body).then((res)=>{
       this.onLoad = false;
-      console.log(res);
+      //console.log(res);
       let status = res.Status;
       if(status){
         this.global.msj('Guardado con éxito', 'success');
+        if(this.id != 'Nuevo'){
+          this.form.reset();
+          this.getData(this.entityName,this.id);
+          this.restForm();
+        } else {
+          let id = res.Object.Id;
+          let p = this.router.url.split('/');
+          let url:string = p[1] + '/' + p[2] + '/' + id;
+          this.router.navigate([url]);
+          /* this.form.reset();
+          this.getData(this.entityName,id);
+          this.restForm(); */
+        }
       } else {
         this.global.msj(res.Object, 'danger');
       }
     });
   }
+  nuevo = () => {
+    let p = this.router.url.split('/');
+    let url:string = p[1] + '/' + p[2] + '/Nuevo';
+    this.router.navigate([url]);
+    this.onEdit = false;
+  }
   restForm = () => {
     let form:any = {};
-    this.global.setEntityName(this.entityName).inputs.forEach(element => {
+    this.aTable.setEntityName(this.entityName).inputs.forEach(element => {
       if(element.required){
         //console.log(element.minLength);
         if(element.minLength != undefined){
           form[element.campo] = ['',Validators.compose([Validators.required,Validators.minLength(element.minLength)])];
         } else {
-          form[element.campo] = ['',Validators.required];
+          if(element.type == 'checkbox'){
+            form[element.campo] = [false,Validators.required];
+          } else {
+            form[element.campo] = ['',Validators.required];
+          }         
         }
       } else {
-        form[element.campo] = '';
+        if(element.type == 'checkbox'){
+          form[element.campo] = false;
+        } else {
+          form[element.campo] = '';
+        }
       }
       if(element.campo == 'Id'){
         form[element.campo] = 0;
@@ -167,5 +196,44 @@ export class SingleFormComponent implements OnInit {
     //console.log(form);
     this.form = this.fb.group(form);
   }
-
+  fnBack = (accion) => {
+    //console.log(accion);
+    if(accion){
+      let idModal = this.ModalWarning.nativeElement.id;
+      this.global.openModal(idModal);    
+    } else {
+      this.btnBack.nativeElement.click();
+    }
+  }
+  confirmarWarning = () => {
+    let idModal = this.ModalWarning.nativeElement.id;
+    this.global.closeModal(idModal);  
+    setTimeout(()=>{
+      this.btnBack.nativeElement.click();
+    },400)
+  }
+  validarFecha = (event) => {
+    let target = event.target;
+    let fecha = target.value;
+    let isValid = moment(this.parseDMY(fecha)).isValid();
+    if (!isValid) {
+      this.global.msj('Fecha invalida','danger');
+      this.fechaInvalida = true;
+      setTimeout(()=>{
+        this.global.removeClass('.validateDate', 'has-success');
+        this.global.addClass('.validateDate', 'has-error');
+      },500);
+		} else {
+      this.global.removeClass('.validateDate', 'has-error');
+      this.fechaInvalida = false;
+      this.global.addClass('.validateDate', 'has-success');      
+		}
+  }
+  parseDMY = (value) => {
+		let date = value.split("/");
+		let d = parseInt(date[0], 10),
+		m = parseInt(date[1], 10),
+		y = parseInt(date[2], 10);
+		return (y + '-' + (m) + '-' + d);
+	}
 }

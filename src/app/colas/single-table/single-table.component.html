@@ -7,12 +7,12 @@
             </div>
             <div class="box-header with-border">
               <h3 class="box-title">{{data.titleTable}}</h3>
-              <ul class="pagination pagination-sm no-margin pull-right">
+              <ul *ngIf="inputs.length > 0" class="pagination pagination-sm no-margin pull-right">
                 <li><a (click)="moverPage('prev')">«</a></li>
                 <li [ngClass]="{'active': i == page}" *ngFor="let i of arrayPage"><a (click)="getPage(i)">{{i}}</a></li>
                 <li><a (click)="moverPage('next')">»</a></li>
               </ul>
-              <a class="btn btn-primary btn-sm m pull-right" routerLink="Nuevo">Nuevo</a>
+              <a *ngIf="btnNew" class="btn btn-primary btn-sm m pull-right" routerLink="Nuevo">Nuevo</a>
             </div>
             <div class="box-body">
               <table class="table table-bordered table-hover">
@@ -34,7 +34,10 @@
               </table>
             </div>
             <div class="box-footer clearfix">
-              <ul class="pagination pagination-sm no-margin pull-right">
+              <p *ngIf="inputs.length == 0">No se encontraron datos</p>
+              <span *ngIf="inputs.length > 0 && data.data.length > 1"><span class="label label-default">{{data.data.length}}</span>  registros de <span class="label label-default">{{CountItems}}</span> en total</span>
+              <span *ngIf="inputs.length > 0 && data.data.length <= 1"><span class="label label-default">{{data.data.length}}</span>  registro de <span class="label label-default">{{CountItems}}</span> en total</span>
+              <ul *ngIf="inputs.length > 0" class="pagination pagination-sm no-margin pull-right">
                 <li><a (click)="moverPage('prev')">«</a></li>
                 <li [ngClass]="{'active': i == page}" *ngFor="let i of arrayPage"><a (click)="getPage(i)">{{i}}</a></li>
                 <li><a (click)="moverPage('next')">»</a></li>
