@@ -13,6 +13,7 @@
                 <li><a (click)="moverPage('next')">»</a></li>
               </ul>
               <a *ngIf="btnNew" class="btn btn-primary btn-sm m pull-right" routerLink="Nuevo">Nuevo</a>
+              <a *ngIf="addModal" class="btn btn-primary btn-sm m pull-right" (click)="fnNewModal()">Nuevo</a>
             </div>
             <div class="box-body">
               <table class="table table-bordered table-hover">
@@ -47,3 +48,42 @@
     </div>
   </div>
 </div>
+
+<div #ModalAdd class="modal modal-default fade" id="modal-add">
+    <div class="modal-dialog">
+        <form>
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span></button>
+          <h4 class="modal-title">Nuevo usuario</h4>
+        </div>
+        <div class="modal-body">
+            <div class="form-group" >
+                <label for="tipoUsuarioAdd">Tipo de usuario</label>
+                <select name="" (change)="changeSelect()" id="tipoUsuarioAdd" class="form-control"  [(ngModel)]="Usuario.IdTipoUsuario" name="IdTipoUsuario">
+                    <option value="2">Admisionista</option>
+                    <option value="3">Enfermeria</option>
+                    <option value="8">Opciones</option>
+                    <option value="7">Pantalla</option>
+                  </select>
+            </div>
+            <div class="form-group" [@fadeInAnimation] *ngIf="Usuario.IdTipoUsuario != '7' && Usuario.IdTipoUsuario != '8'">
+                <label for="usernameAdd">Username</label>
+                <input type="hidden" id="usernameAdd" class="form-control"  [(ngModel)]="Usuario.Username" name="Username">
+                <ng-select *ngIf="User.length > 0" [allowClear]="true"
+                  [items]='User'
+                  (selected)="selected($event)"
+                  (removed)="removed($event)"
+                  placeholder="Seleccione username">
+                </ng-select>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+          <button (click)="submit(Usuario, 'modal-add')" [disabled]="(Usuario.IdTipoUsuario == '2' || Usuario.IdTipoUsuario == '3' || Usuario.IdTipoUsuario == '') && Usuario.Username == 'temporal'" type="button" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </form>
+    </div>
+  </div>

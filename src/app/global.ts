@@ -13,11 +13,21 @@ export class Global {
 	public itemShow:string = '10';
 	public textTitleModal:string = 'Aggiungi';
 	public titleRequiered:string = 'es requerido';
+	public erisListTable:any[] = [
+		{table:'VitalSigns', label:'Signos vitales'}
+	];
 	public colasListTable:any[] = [
+		{table:'TipoCola', label:"Tipos de cola"},
+		{table:'TipoSeguro', label:"Tipos de seguro"},
+		{table:'TipoUsuario', label:"Tipos de usuario"},
+		{table:'Usuario', label:"Usuarios"},
+		{table:'Servicio', label:"Servicíos"},
+		{table:'TipoServicio', label:"Tipos de Servicío"},
+	];
+	public adminListTable:any[] = [
 		{table:'UserProfile', label:'Tipos de usuario'},
 		{table:'User', label:'Usuarios'},
-		{table:'Assured', label:"Seguros"},
-		{table:'VitalSigns', label:'Signos vitales'}
+		{table:'Assured', label:"Seguros"}
 	];
 	public loading = (accion) => {
 		if (accion == 'in') {

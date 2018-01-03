@@ -17,13 +17,22 @@ const routes: Routes = [
   // { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: '',  component: LoginComponent },
   { path: 'dashboard',  component: DashboardComponent },
-  { path: 'Pantalla',  component: PantallaComponent },
+  { path: 'Admin-ERIS',  component: ContentColasComponent, canActivate:[AuthGuard,TypeUserGuard],
+  children: [
+    { path: ':entityname',  component: SingleTableComponent },
+    { path: ':entityname/:id',  component: SingleFormComponent }   
+ ]  },
  //{ path: 'Pacientes',  component: PacientesComponent },
-  { path: 'COLAS',  component: ContentColasComponent, canActivate:[AuthGuard],
+  { path: 'Admin-COLAS',  component: ContentColasComponent, canActivate:[AuthGuard,TypeUserGuard],
  	children: [
      { path: ':entityname',  component: SingleTableComponent },
      { path: ':entityname/:id',  component: SingleFormComponent }   
   ]  },
+  { path: 'Admin-global',  component: ContentColasComponent, canActivate:[AuthGuard,TypeUserGuard],
+  children: [
+    { path: ':entityname',  component: SingleTableComponent },
+    { path: ':entityname/:id',  component: SingleFormComponent }   
+ ]  },
 
   { path: '**' ,redirectTo: ''}
 ];

@@ -62,7 +62,7 @@ export class httpService {
 	       	
 	       	setTimeout(()=>{
 	          this.validarToken();
-	        }, 5000);
+	        }, 10000);
 	       }     
 	    })
 	}

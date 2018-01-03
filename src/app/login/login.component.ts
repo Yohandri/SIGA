@@ -17,14 +17,15 @@ export class LoginComponent implements OnInit {
   			  private fb:FormBuilder, 
   			  public global: Global, 
   			  private router: Router,
-  			  public authService:AuthService,) { }
+  			  public authService:AuthService,) {
+						$('#exampleInputEmail1').focus();
+  					this.restFormLogin();
+						if (this.authService.isLoggedIn) {
+							this.router.navigate(['/dashboard']);
+						}
+					 }
 
   ngOnInit() {
-  	$('#exampleInputEmail1').focus();
-  	this.restFormLogin();
-  	if (this.authService.isLoggedIn) {
-        this.router.navigate(['/dashboard']);
-    }
   }
   formLogin: FormGroup;
 

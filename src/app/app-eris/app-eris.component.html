@@ -293,15 +293,34 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header" *ngIf="authService.isLoggedIn">Menú principal</li>
-        <li class="" *ngIf="authService.isLoggedIn">
-          <a routerLinkActive="active" routerLink="dashboard">
+        <li class="treeview" *ngIf="authService.isLoggedIn">
+          <a >
             <span>ERIS</span>
             <span class="pull-right-container">
-              <!-- <i class="fa fa-angle-left pull-right"></i> -->
+              <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
+          <ul class="treeview-menu">
+            <li  routerLinkActive="active">
+              <a  routerLink="dashboard">
+                <i class="fa fa-circle-o"></i> Dashboard
+              </a>
+            </li>
+            <li class="treeview" *ngIf="global.getUserProfileId() == 1">
+              <a><i class="fa fa-circle-o"></i> <span>Administrar tablas</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li *ngFor="let i of global.erisListTable" routerLinkActive="active">
+                  <a routerLink="Admin-ERIS/{{i.table}}"><i class="fa fa-circle-o"></i> {{i.label}}</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
         </li>
-        <li class="treeview" *ngIf="global.getUserProfileId() == 1 && authService.isLoggedIn">
+        <li class="treeview" *ngIf="global.getUserProfileId() == 1">
           <a>
             <span>COLAS</span>
             <span class="pull-right-container">
@@ -309,8 +328,30 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li *ngFor="let i of global.colasListTable">
-              <a routerLinkActive="active" routerLink="COLAS/{{i.table}}">
+            <li class="treeview">
+                <a><i class="fa fa-circle-o"></i> <span>Administrar tablas</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li *ngFor="let i of global.colasListTable" routerLinkActive="active">
+                      <a routerLink="Admin-COLAS/{{i.table}}"><i class="fa fa-circle-o"></i> {{i.label}}</a>
+                    </li>
+                  </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="treeview" *ngIf="global.getUserProfileId() == 1">
+          <a>
+            <span>Administración global</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li *ngFor="let i of global.adminListTable" routerLinkActive="active">
+              <a  routerLink="Admin-global/{{i.table}}">
                 <i class="fa fa-circle-o"></i> {{i.label}}
               </a>
             </li>

@@ -85,7 +85,7 @@
                       class="form-control"
                       >
                         <option value="">Seleccione</option>
-                        <option *ngFor="let j of i.data" value="{{j.Name}}">{{j.Name}}</option>
+                        <option *ngFor="let j of i.data" value="{{j.Id}}">{{j.Name}}</option>
                       </select>
                       <select *ngIf="i.type == 'select' && i.campoName == 'Description'" 
                       name="{{i.campo}}" 
@@ -94,9 +94,26 @@
                       class="form-control"
                       >
                         <option value="">Seleccione</option>
-                        <option *ngFor="let j of i.data" value="{{j.Description}}">{{j.Description}}</option>
+                        <option *ngFor="let j of i.data" value="{{j.Id}}">{{j.Description}}</option>
                       </select>
-
+                      <select *ngIf="i.type == 'select' && i.campoName == 'Descr'" 
+                      name="{{i.campo}}" 
+                      id="{{i.campo}}"
+                      formControlName="{{i.campo}}" 
+                      class="form-control"
+                      >
+                        <option value="">Seleccione</option>
+                        <option *ngFor="let j of i.data" value="{{j.Id}}">{{j.Descr}}</option>
+                      </select>
+                      <select *ngIf="i.type == 'select' && i.campoName == 'Nombre'" 
+                      name="{{i.campo}}" 
+                      id="{{i.campo}}"
+                      formControlName="{{i.campo}}" 
+                      class="form-control"
+                      >
+                        <option value="">Seleccione</option>
+                        <option *ngFor="let j of i.data" value="{{j.Id}}">{{j.Nombre}}</option>
+                      </select>
                       <select *ngIf="i.type == 'selectLocal'" 
                       name="{{i.campo}}" 
                       id="{{i.campo}}"
@@ -106,6 +123,17 @@
                         <option value="">Seleccione</option>
                         <option *ngFor="let j of i.data" value="{{j}}">{{j}}</option>
                       </select>
+
+                      <div *ngIf="i.type == 'selectSearch' && i.data.length > 0">
+                          <input type="hidden" formControlName="{{i.campo}}" 
+                          name="{{i.campo}}" #ID$ >
+                          <ng-select  [allowClear]="true"
+                          [items]='i.data'
+                          [active]='[{id: ID$.value, text: getText(ID$.value)}]'
+                          (selected)="selected($event, i.campo)"
+                          placeholder="Seleccione {{i.label}}">
+                        </ng-select>
+                      </div>
                     </div>
                   </div>
                 </div>

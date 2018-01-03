@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { Global } from '../../global';
 import { AdminTable } from '../../admin-table';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { fadeInAnimation } from '../../_animations';
 import { tableSingle } from '../interfaces';
 import { httpService } from "../../http.service";
+import { setTimeout } from 'timers';
 
 
 @Component({
@@ -15,6 +16,7 @@ import { httpService } from "../../http.service";
 })
 export class SingleTableComponent implements OnInit {
   @Input() tableConfig:any;
+  @ViewChild('ModalAdd') ModalAdd:ElementRef;
   constructor(
     public global: Global,
     public aTable: AdminTable,
@@ -27,7 +29,15 @@ export class SingleTableComponent implements OnInit {
         this.entityName = params.entityname;
         ////console.log(this.entityName);
         this.getData(this.entityName);
+        this.addModal = this.aTable.setEntityName(this.entityName).addModal;
+        if(this.addModal){
+          this.btnNew = false;
+        } else {
+          this.btnNew = true;
+        }
+        this.getUser();
       } );
+      
     }
   ngOnInit() {    
   }
@@ -47,6 +57,7 @@ export class SingleTableComponent implements OnInit {
   search:string = '';
   onLoad:boolean = false;
   inputs:any = [];
+  addModal:boolean = false;
   getData = (entityName:string, changePage?:boolean) => {
     this.onLoad = true;
     let rePage = this.global.getLocal('Page');
@@ -60,14 +71,13 @@ export class SingleTableComponent implements OnInit {
       }
     }
     let path:string = 'api/WebServices/SelectRecord?sParamsIn={"Id": 0,"EntityName": "'+ entityName +'Client","page":'+ this.page +', "pageSize": '+ this.global.itemShow +'}';
-    ////console.log(path);
+    //console.log(path);
     this.api.get(path).then((res:any) => {
       //console.log(res);
       this.onLoad = false;
       let status:boolean = res.Status;
       let self = this;
       if(status){
-        this.btnNew = true;
         this.global.saveLocal('Page', [entityName,this.page]);
         this.data.title = [];
         this.data.data = [];
@@ -82,10 +92,16 @@ export class SingleTableComponent implements OnInit {
         self.data.titleTable = this.aTable.setEntityName(entityName).titleTable;
         
         self.data.data = listItems;
-        this.getPagination();      
+        this.getPagination();
+        if(self.inputs.length == 0){
+          this.global.msj('La tabla "' + this.entityName + '" no esta configurada en "Admin-Tables.ts"','danger');
+          this.btnNew = false;
+          this.addModal = false;
+        }  
         //console.log(self.data.data);
       } else {
         this.btnNew = false;
+        this.addModal = false;
         this.data.title = [];
         this.data.data = [];
         this.data.campos = [];
@@ -95,6 +111,65 @@ export class SingleTableComponent implements OnInit {
         console.log('Tabla no encontrada => ', self.inputs);
       }
     });
+  }
+  User:any = [];
+  Usuario:any = {
+    IdTipoUsuario:2,
+    Username:'temporal'
+  }
+  public selected = (val) => {
+    this.Usuario.Username = val.text;
+  }
+  public removed = (val) => {
+    this.Usuario.Username = 'temporal';
+  }
+  getText = (id):string => {
+    let cadena:string = '';
+    this.User.forEach(element => {
+      if(element.id == id){
+        cadena = element.text;
+      }
+    });
+    return cadena;
+  }
+  changeSelect = () => {
+    this.Usuario.Username = 'temporal';
+    let temp = this.Usuario.IdTipoUsuario;
+    this.Usuario.IdTipoUsuario = 8;
+    setTimeout(()=>{
+      this.Usuario.IdTipoUsuario = temp;
+    },1);
+  }
+  fnNewModal = ():void => {
+    let idModal = this.ModalAdd.nativeElement.id;
+    this.global.openModal(idModal);
+  }
+  submit = (obj:any, idModal:string) => {
+    console.log(obj);
+    this.api.addEntity('UsuarioClient', obj).then(res=>{
+      console.log(res);
+      let status = res.Status;
+      if(status){
+        this.global.msj('Guardado con éxito', 'success');
+        this.global.closeModal(idModal);
+        this.getData(this.entityName);
+      } else {
+        this.global.msj(res.Object, 'danger');
+      }
+    });
+  }
+  getUser = () => {
+    let path:string = 'api/WebServices/SelectRecord?sParamsIn={"Id": 0,"EntityName": "UserClient","page":0, "pageSize": 1}'
+    this.api.get(path).then((res)=>{
+      let status:boolean = res.Status;
+      //console.log(res);
+      if(status){
+        res.Object.ListItems.forEach(element => {
+          this.User.push({id:element.Id,text:element.Username});
+        });
+      } 
+    });
+    //console.log(this.User);
   }
   show = (p,i) => {
     let dato:any = p + ' ' + i;

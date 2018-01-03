@@ -11,6 +11,7 @@ import {NgxMaskModule} from 'ngx-mask';
 import { PipesPipe } from './pipes.pipe';
 import { DirectivesDirective, CedulaDirective } from './directives.directive';
 import {CustomFormsModule } from 'ng2-validation';
+import { SelectModule } from 'ng2-select';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import {CustomFormsModule } from 'ng2-validation';
     FormsModule,
     ReactiveFormsModule,
     NgxMaskModule.forRoot(),
-    CustomFormsModule
+    CustomFormsModule,
+    SelectModule
   ],
   declarations: [ContentColasComponent, SingleTableComponent, UserProfileComponent, UserComponent, SingleFormComponent, PipesPipe, DirectivesDirective, CedulaDirective],
   exports: [

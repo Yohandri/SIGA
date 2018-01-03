@@ -6,6 +6,7 @@ import { fadeInAnimation } from '../../_animations';
 import { tableSingle } from '../interfaces';
 import { httpService } from "../../http.service";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { element } from 'protractor';
 declare var moment:any;
 
 @Component({
@@ -83,15 +84,40 @@ export class SingleFormComponent implements OnInit {
     });
     
   }
+  getText = (id):string => {
+    let cadena:string = '';
+    this.inputs.forEach(element => {
+      if(element.type == 'selectSearch'){
+        element.data.forEach(val => {
+          if(id == val.id){
+            cadena = val.text;
+          }
+        });
+      }
+    });
+    return cadena;
+  }
   getOption = (entityName, index):void => {
     let data:any = [];
     let path:string = 'api/WebServices/SelectRecord?sParamsIn={"Id": 0,"EntityName": "'+ entityName +'Client","page":0, "pageSize": 1}';
     this.api.get(path).then(res => {
       //console.log(res);
       if(res.Status){
-        this.inputs[index].data = res.Object.ListItems;
+        if(this.inputs[index].type == 'select'){
+          this.inputs[index].data = res.Object.ListItems;
+          
+        } else if(this.inputs[index].type == 'selectSearch'){
+          console.log(this.inputs[index]);
+          let campo = this.inputs[index].campoName;
+          res.Object.ListItems.forEach((element)=>{
+            this.inputs[index].data.push({id:element.Id,text:eval('element.' + campo)})
+          });
+        }
       }
     });
+  }
+  public selected = (val, campo):void =>{
+    this.form.controls[campo].setValue(val.id);
   }
   getData = (entityName, id) => {
     if(id != 'Nuevo'){
@@ -129,7 +155,7 @@ export class SingleFormComponent implements OnInit {
     }
   }
   submit = (form) => {
-    //console.log(form);
+    console.log(form);
     this.onLoad = true;
     let path:string = '';
     let body:any = {};
@@ -140,7 +166,7 @@ export class SingleFormComponent implements OnInit {
     body = {"EntityName": entityName +'Client',entityJson:form};
     this.api.post(path,body).then((res)=>{
       this.onLoad = false;
-      //console.log(res);
+      console.log(res);
       let status = res.Status;
       if(status){
         this.global.msj('Guardado con éxito', 'success');
@@ -153,9 +179,6 @@ export class SingleFormComponent implements OnInit {
           let p = this.router.url.split('/');
           let url:string = p[1] + '/' + p[2] + '/' + id;
           this.router.navigate([url]);
-          /* this.form.reset();
-          this.getData(this.entityName,id);
-          this.restForm(); */
         }
       } else {
         this.global.msj(res.Object, 'danger');
@@ -174,19 +197,44 @@ export class SingleFormComponent implements OnInit {
       if(element.required){
         //console.log(element.minLength);
         if(element.minLength != undefined){
-          form[element.campo] = ['',Validators.compose([Validators.required,Validators.minLength(element.minLength)])];
+          if(element.init){
+            form[element.campo] = [element.init,Validators.compose([Validators.required,Validators.minLength(element.minLength)])];
+          } else {
+            form[element.campo] = ['',Validators.compose([Validators.required,Validators.minLength(element.minLength)])];
+          } 
         } else {
           if(element.type == 'checkbox'){
             form[element.campo] = [false,Validators.required];
           } else {
-            form[element.campo] = ['',Validators.required];
+            if(element.init){
+              form[element.campo] = [element.init,Validators.required];
+            } else {
+              form[element.campo] = ['',Validators.required];
+            }
           }         
         }
-      } else {
+      } else{
         if(element.type == 'checkbox'){
-          form[element.campo] = false;
+          if(element.disabled){
+            form[element.campo] = {value: false, disabled: true};
+          }else {
+            form[element.campo] = false;
+          }
         } else {
-          form[element.campo] = '';
+          if(element.disabled){
+            if(element.init){
+              form[element.campo] = {value: element.init, disabled: true};
+            } else {
+              form[element.campo] = {value: '', disabled: true};
+            }
+          }else {
+            if(element.init){
+              form[element.campo] = element.init;
+            } else {
+              form[element.campo] = '';
+            }
+          }
+          
         }
       }
       if(element.campo == 'Id'){
