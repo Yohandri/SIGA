@@ -13,7 +13,8 @@
                 <li><a (click)="moverPage('next')">»</a></li>
               </ul>
               <a *ngIf="btnNew" class="btn btn-primary btn-sm m pull-right" routerLink="Nuevo">Nuevo</a>
-              <a *ngIf="addModal" class="btn btn-primary btn-sm m pull-right" (click)="fnNewModal()">Nuevo</a>
+              <a *ngIf="addModal" class="btn btn-primary btn-sm m pull-right" (click)="fnNewModal()">Nuevo usuario opciones o pantalla</a>
+              <a *ngIf="addModal" class="btn btn-primary btn-sm m pull-right" (click)="fnNewModalAE()">Nuevo usuario admision o enfermeria</a>
             </div>
             <div class="box-body">
               <table class="table table-bordered table-hover">
@@ -62,8 +63,8 @@
             <div class="form-group" >
                 <label for="tipoUsuarioAdd">Tipo de usuario</label>
                 <select name="" (change)="changeSelect()" id="tipoUsuarioAdd" class="form-control"  [(ngModel)]="Usuario.IdTipoUsuario" name="IdTipoUsuario">
-                    <option value="2">Admisionista</option>
-                    <option value="3">Enfermeria</option>
+                    <!-- <option value="2">Admisionista</option>
+                    <option value="3">Enfermeria</option> -->
                     <option value="8">Opciones</option>
                     <option value="7">Pantalla</option>
                   </select>
@@ -87,3 +88,48 @@
     </form>
     </div>
   </div>
+
+  <div #ModalAddAE class="modal modal-default fade" id="modal-addAE">
+      <div class="modal-dialog">
+          <form [formGroup]="formUsuarioAE">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span></button>
+            <h4 class="modal-title">Nuevo usuario</h4>
+          </div>
+          <div class="modal-body">
+              <div class="form-group" >
+                  <label for="tipoUsuarioAddAE">Tipo de usuario</label>
+                  <select name="" (change)="changeSelectAE()" id="tipoUsuarioAddAE" class="form-control"  formControlName="IdTipoUsuario" name="IdTipoUsuario">
+                      <option value="2">Admisionista</option>
+                      <option value="3">Enfermeria</option>
+                      <!-- <option value="8">Opciones</option>
+                      <option value="7">Pantalla</option> -->
+                    </select>
+              </div>
+              <div class="form-group">
+                  <label for="NominativoAddAE">Nominativo</label>
+                  <input type="text" id="NominativoAddAE" class="form-control"  formControlName="Nominativo" name="Nominativo">
+              </div>
+              <div class="form-group">
+                  <label for="EmailAddAE">Email</label>
+                  <input type="email" id="EmailAddAE" class="form-control" formControlName="Email" name="Email">
+              </div>
+              <div class="form-group">
+                  <label for="TelefonoAddAE">Telefono</label>
+                  <input type="number" id="TelefonoAddAE" class="form-control"  formControlName="Telefono" name="Telefono">
+              </div>
+              <div class="form-group">
+                  <label for="TelInternoAddAE">Tel Interno</label>
+                  <input type="number" id="TelInternoAddAE" class="form-control"  formControlName="TelInterno" name="TelInterno">
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <button (click)="submit(formUsuarioAE.value, 'modal-addAE')" [disabled]="!formUsuarioAE.valid" type="button" class="btn btn-primary">Guardar</button>
+          </div>
+        </div>
+      </form>
+      </div>
+    </div>

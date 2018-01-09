@@ -23,11 +23,20 @@ export class Global {
 		{table:'Usuario', label:"Usuarios"},
 		{table:'Servicio', label:"Servicíos"},
 		{table:'TipoServicio', label:"Tipos de Servicío"},
+		{table:'Colectivo', label:"Colectivo"},
+		{table:'Seguro', label:"Seguro"},
+		{table:'Cola', label:"Cola"},
+		{table:'TaquillaPC', label:"Taquilla PC"},
+		{table:'TextoEnPantalla', label:"Texto en pantalla"},
+		{table:'VideoEnPantalla', label:"Video en pantalla"},
 	];
 	public adminListTable:any[] = [
 		{table:'UserProfile', label:'Tipos de usuario'},
 		{table:'User', label:'Usuarios'},
-		{table:'Assured', label:"Seguros"}
+		{table:'Assured', label:"Seguros"},
+		{table:'Collective', label:"Colectivo"},
+		{table:'Location', label:"Ubicaciones"},
+		{table:'Parameter', label:"Parámetros"},
 	];
 	public loading = (accion) => {
 		if (accion == 'in') {

@@ -37,11 +37,54 @@ export class SingleFormComponent implements OnInit {
       this.inputs = this.aTable.setEntityName(this.entityName).inputs;
       this.title = this.aTable.setEntityName(this.entityName).titleTable;
       this.titles = this.aTable.setEntityName(this.entityName).title;
+      this.create = this.aTable.setEntityName(this.entityName).config.create;
+      this.delete = this.aTable.setEntityName(this.entityName).config.delete;
+      this.update = this.aTable.setEntityName(this.entityName).config.update;
+      setTimeout(()=>{
+        if(this.id == 'Nuevo'){
+          if(!this.create){
+            this.btnBack.nativeElement.click();
+          }
+        }
+      },1000);
       this.inputs.forEach((element,index) => {
         if(element.option){
           this.getOption(element.option, index);
         }
       });
+      setTimeout(()=>{
+        if(this.entityName == 'Usuario'){
+          let tUsuario = this.form.get('IdTipoUsuario').value;
+          //console.log(tUsuario);
+          if(tUsuario == 2 || tUsuario == 3){
+            this.form.controls['IdProfesionalCita'].disable();
+            this.form.controls['AccesoCMS'].disable();
+            this.form.controls['AceptaTriaje'].disable();
+            this.form.controls['NoCola'].disable();
+            this.form.controls['DispTriaje'].disable();
+            this.form.controls['DispTriaje'].disable();
+          }
+          if(tUsuario == 4 || tUsuario == 5){
+            this.form.controls['Nominativo'].disable();
+            this.form.controls['Email'].disable();
+            this.form.controls['Telefono'].disable();
+            this.form.controls['TelInterno'].disable();
+          }
+          if(tUsuario == 7 || tUsuario == 8){
+            this.form.controls['IdProfesionalCita'].disable();
+            this.form.controls['AccesoCMS'].disable();
+            this.form.controls['AceptaTriaje'].disable();
+            this.form.controls['NoCola'].disable();
+            this.form.controls['DispTriaje'].disable();
+            this.form.controls['DispTriaje'].disable();
+            this.form.controls['Nominativo'].disable();
+            this.form.controls['Email'].disable();
+            this.form.controls['Telefono'].disable();
+            this.form.controls['TelInterno'].disable();
+            this.form.controls['Estado'].disable();
+          }
+        }
+      }, 500);
     } );
    }
   ngOnInit() {
@@ -56,6 +99,9 @@ export class SingleFormComponent implements OnInit {
   onLoad:boolean = false;
   data:any = {};
   fechaInvalida:boolean = false;
+  create:boolean = false;
+  delete:boolean = true;
+  update:boolean = true;
   fnDelete = () => {
     let idModal = this.ModalDelete.nativeElement.id;
     this.global.removeClass('#'+idModal, 'modal-success');
@@ -107,7 +153,7 @@ export class SingleFormComponent implements OnInit {
           this.inputs[index].data = res.Object.ListItems;
           
         } else if(this.inputs[index].type == 'selectSearch'){
-          console.log(this.inputs[index]);
+          //console.log(this.inputs[index]);
           let campo = this.inputs[index].campoName;
           res.Object.ListItems.forEach((element)=>{
             this.inputs[index].data.push({id:element.Id,text:eval('element.' + campo)})
@@ -124,7 +170,7 @@ export class SingleFormComponent implements OnInit {
       this.onEdit = true;
       this.onLoad = true;
       let path:string = 'api/WebServices/FindOneRecord?sParamsIn={"Id": '+ id +',"EntityName": "'+ entityName +'Client"}';
-      ////console.log(path);
+      //console.log(path);
       this.api.get(path).then(res => {
         //console.log(res);
         this.onLoad = false;
@@ -150,6 +196,8 @@ export class SingleFormComponent implements OnInit {
             this.btnBack.nativeElement.click();
           }
           
+        } else {
+          this.btnBack.nativeElement.click();
         }
       });
     }

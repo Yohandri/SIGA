@@ -10,9 +10,9 @@
                 <h3 class="box-title">
                   {{title}}
                 </h3>
-                <a *ngIf="onEdit || id != 'Nuevo'" (click)="fnDelete()" class="btn btn-danger pull-right">Eliminar</a>
+                <a *ngIf="(onEdit || id != 'Nuevo') && delete" (click)="fnDelete()" class="btn btn-danger pull-right">Eliminar</a>
                 <a (click)="fnBack(form.dirty)" class="btn btn-default m pull-right">Cancelar</a>
-                <a *ngIf="id != 'Nuevo'" (click)="nuevo()" class="btn btn-default m pull-right">Nuevo</a>
+                <a *ngIf="create && id != 'Nuevo'" (click)="nuevo()" class="btn btn-default m pull-right">Nuevo</a>
               </div>
               <div class="box-body">
                 <div class="row">
@@ -139,7 +139,7 @@
                 </div>
               </div>
               <div class="box-footer">
-                <input [disabled]="!form.valid || fechaInvalida" type="submit" value="Guardar" class="btn btn-primary">
+                <input *ngIf="update" [disabled]="!form.valid || fechaInvalida" type="submit" value="Guardar" class="btn btn-primary">
                 <a routerLink="../" class="btn btn-default hidden" id="btnBack" #btnBack>Cancelar</a>
                 <a (click)="fnBack(form.dirty)" class="btn btn-default">Cancelar</a>
               </div> 

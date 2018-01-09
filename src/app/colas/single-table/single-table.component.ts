@@ -6,6 +6,7 @@ import { fadeInAnimation } from '../../_animations';
 import { tableSingle } from '../interfaces';
 import { httpService } from "../../http.service";
 import { setTimeout } from 'timers';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -17,23 +18,30 @@ import { setTimeout } from 'timers';
 export class SingleTableComponent implements OnInit {
   @Input() tableConfig:any;
   @ViewChild('ModalAdd') ModalAdd:ElementRef;
+  @ViewChild('ModalAddAE') ModalAddAE:ElementRef;
   constructor(
     public global: Global,
     public aTable: AdminTable,
   	public aRouter: ActivatedRoute,
     public router: Router,
-    public api: httpService
+    public api: httpService,
+    public fb: FormBuilder
   	) { 
       this.aRouter.params.subscribe( params => {
         //console.log(params);
         this.entityName = params.entityname;
         ////console.log(this.entityName);
         this.getData(this.entityName);
-        this.addModal = this.aTable.setEntityName(this.entityName).addModal;
+        this.addModal = this.aTable.setEntityName(this.entityName).config.addModal;
+        this.create = this.aTable.setEntityName(this.entityName).config.create;
         if(this.addModal){
           this.btnNew = false;
         } else {
           this.btnNew = true;
+        }
+        if (!this.create){
+          this.btnNew = false;
+          //this.addModal = false;
         }
         this.getUser();
       } );
@@ -58,6 +66,7 @@ export class SingleTableComponent implements OnInit {
   onLoad:boolean = false;
   inputs:any = [];
   addModal:boolean = false;
+  create:boolean = false;
   getData = (entityName:string, changePage?:boolean) => {
     this.onLoad = true;
     let rePage = this.global.getLocal('Page');
@@ -114,9 +123,17 @@ export class SingleTableComponent implements OnInit {
   }
   User:any = [];
   Usuario:any = {
-    IdTipoUsuario:2,
+    IdTipoUsuario:8,
     Username:'temporal'
   }
+  UsuarioAE:any = {
+    IdTipoUsuario:2,
+    Nominativo:['', Validators.compose([Validators.required,Validators.minLength(3)])],
+    Email:'',
+    Telefono:'',
+    TelInterno:''
+  }
+  formUsuarioAE = this.fb.group(this.UsuarioAE);
   public selected = (val) => {
     this.Usuario.Username = val.text;
   }
@@ -140,8 +157,15 @@ export class SingleTableComponent implements OnInit {
       this.Usuario.IdTipoUsuario = temp;
     },1);
   }
+  changeSelectAE = () => {
+
+  }
   fnNewModal = ():void => {
     let idModal = this.ModalAdd.nativeElement.id;
+    this.global.openModal(idModal);
+  }
+  fnNewModalAE = ():void => {
+    let idModal = this.ModalAddAE.nativeElement.id;
     this.global.openModal(idModal);
   }
   submit = (obj:any, idModal:string) => {
