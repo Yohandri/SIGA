@@ -114,6 +114,15 @@
                         <option value="">Seleccione</option>
                         <option *ngFor="let j of i.data" value="{{j.Id}}">{{j.Nombre}}</option>
                       </select>
+                      <select *ngIf="i.type == 'select' && i.campoName == 'Name1'" 
+                      name="{{i.campo}}" 
+                      id="{{i.campo}}"
+                      formControlName="{{i.campo}}" 
+                      class="form-control"
+                      >
+                        <option value="">Seleccione</option>
+                        <option *ngFor="let j of i.data" value="{{j.Id}}">{{j.IdentityCard}} {{j.Name1}} {{j.LastName1}}</option>
+                      </select>
                       <select *ngIf="i.type == 'selectLocal'" 
                       name="{{i.campo}}" 
                       id="{{i.campo}}"

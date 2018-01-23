@@ -24,6 +24,37 @@
                       <input type="text" class="form-control">
                     </th>
                   </tr>
+                  <tr *ngIf="filterLog">
+                    <th style="padding:0;">
+                      <input type="text" mask="99/99/9999" class="form-control" placeholder="From" [(ngModel)]="FromLog">
+                    </th>
+                    <th style="padding:0;">
+                      <input type="text" mask="99/99/9999" class="form-control" placeholder="To" [(ngModel)]="ToLog">
+                    </th>
+                    <th style="padding:0;">
+                      <select class="form-control" name="LevelLog" id="LevelLog" [(ngModel)]="LevelLog">
+                        <option value="">Level</option>
+                        <option value="INFO">INFO</option>
+                        <option value="ERROR">ERROR</option>
+                        <option value="WARN">WARN</option>
+                      </select>
+                      <!-- <input type="text" class="form-control" placeholder="Level" [(ngModel)]="LevelLog"> -->
+                    </th>
+                    <th style="padding:0;">
+                      <select class="form-control" name="SourceLog" id="SourceLog" [(ngModel)]="SourceLog">
+                        <option value="">Source</option>
+                        <option value="WEB">Web</option>
+                        <option value="MOBILI">Mobile</option>
+                      </select>
+                      <!-- <input type="text" class="form-control" placeholder="Source" [(ngModel)]="SourceLog"> -->
+                    </th>
+                    <th style="padding:0;">
+                      <button class="btn" (click)="getPage(1)">
+                        <span class="glyphicon glyphicon-filter"></span>
+                      </button>
+                    </th>
+                    <th></th>
+                  </tr>
                   <tr>
                     <th [ngClass]="{'hidden':!i.showGrip}" *ngFor="let i of inputs;let index2 = index">{{i.label}}</th>
                   </tr>

@@ -313,6 +313,18 @@
                 </span>
               </a>
               <ul class="treeview-menu">
+                <li *ngFor="let i of global.erisListTable" routerLinkActive="active" [ngClass]="{'hidden':i.sAdmin}">
+                  <a routerLink="Admin-ERIS/{{i.table}}"><i class="fa fa-circle-o"></i> {{i.label}}</a>
+                </li>
+              </ul>
+            </li>
+            <li class="treeview" *ngIf="global.getUserProfileId() == 6">
+              <a><i class="fa fa-circle-o"></i> <span>Administrar tablas</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
                 <li *ngFor="let i of global.erisListTable" routerLinkActive="active">
                   <a routerLink="Admin-ERIS/{{i.table}}"><i class="fa fa-circle-o"></i> {{i.label}}</a>
                 </li>
@@ -335,6 +347,28 @@
                   </span>
                 </a>
                 <ul class="treeview-menu">
+                    <li *ngFor="let i of global.colasListTable" routerLinkActive="active" [ngClass]="{'hidden':i.sAdmin}">
+                      <a routerLink="Admin-COLAS/{{i.table}}"><i class="fa fa-circle-o"></i> {{i.label}}</a>
+                    </li>
+                  </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="treeview" *ngIf="global.getUserProfileId() == 6">
+          <a>
+            <span>COLAS</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="treeview">
+                <a><i class="fa fa-circle-o"></i> <span>Administrar tablas</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
                     <li *ngFor="let i of global.colasListTable" routerLinkActive="active">
                       <a routerLink="Admin-COLAS/{{i.table}}"><i class="fa fa-circle-o"></i> {{i.label}}</a>
                     </li>
@@ -343,6 +377,21 @@
           </ul>
         </li>
         <li class="treeview" *ngIf="global.getUserProfileId() == 1">
+          <a>
+            <span>Administración global</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li *ngFor="let i of global.adminListTable" routerLinkActive="active" [ngClass]="{'hidden':i.sAdmin}">
+              <a  routerLink="Admin-global/{{i.table}}">
+                <i class="fa fa-circle-o"></i> {{i.label}}
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="treeview" *ngIf="global.getUserProfileId() == 6">
           <a>
             <span>Administración global</span>
             <span class="pull-right-container">
@@ -377,7 +426,7 @@
 </div>
 <footer class="main-footer" >
   <div class="pull-right hidden-xs">
-    <b>Versión</b> 1
+    <b>Versión</b> 2 beta
   </div>
   <strong>Copyright &copy; 2017 <a href="http://www.idbclinicas.com/">Grupo de Clínica IDB</a>.</strong> All rights
   reserved. <!-- {{authService.isLoggedIn}} {{global.getUserProfileId()}} -->

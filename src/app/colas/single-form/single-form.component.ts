@@ -170,9 +170,9 @@ export class SingleFormComponent implements OnInit {
       this.onEdit = true;
       this.onLoad = true;
       let path:string = 'api/WebServices/FindOneRecord?sParamsIn={"Id": '+ id +',"EntityName": "'+ entityName +'Client"}';
-      //console.log(path);
+      console.log(path);
       this.api.get(path).then(res => {
-        //console.log(res);
+        console.log(res);
         this.onLoad = false;
         let status = res.Status;
         let self = this;
@@ -203,7 +203,7 @@ export class SingleFormComponent implements OnInit {
     }
   }
   submit = (form) => {
-    console.log(form);
+    console.log(JSON.stringify(form));
     this.onLoad = true;
     let path:string = '';
     let body:any = {};
@@ -295,8 +295,12 @@ export class SingleFormComponent implements OnInit {
   fnBack = (accion) => {
     //console.log(accion);
     if(accion){
-      let idModal = this.ModalWarning.nativeElement.id;
-      this.global.openModal(idModal);    
+      if(this.update){
+        let idModal = this.ModalWarning.nativeElement.id;
+        this.global.openModal(idModal);
+      } else{
+        this.btnBack.nativeElement.click();
+      }  
     } else {
       this.btnBack.nativeElement.click();
     }

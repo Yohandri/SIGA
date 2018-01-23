@@ -32,6 +32,7 @@ export class FormTriajeComponent implements OnInit {
 	FormPaciente: FormGroup;
 	isMenor:boolean = false;
 	accion:string = '';
+	isResponsable:boolean = false;
 	
 
 	get = (id:number) => {
@@ -324,7 +325,8 @@ export class FormTriajeComponent implements OnInit {
 				"Email": "",
 				"IsMinor": false,
 				"TypeIdentityCard":'V',
-				"Address":''
+				"Address":'',
+				"isResponsable": false
 			}),
 			FamiliarClient: this.fb.group({
 				"Id": 0,

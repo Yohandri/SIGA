@@ -67,6 +67,11 @@ export class SingleTableComponent implements OnInit {
   inputs:any = [];
   addModal:boolean = false;
   create:boolean = false;
+  filterLog:boolean = false;
+  FromLog:string = '';
+  ToLog:string = '';
+  LevelLog:string = '';
+  SourceLog:string = '';
   getData = (entityName:string, changePage?:boolean) => {
     this.onLoad = true;
     let rePage = this.global.getLocal('Page');
@@ -79,7 +84,39 @@ export class SingleTableComponent implements OnInit {
         this.page = 1;
       }
     }
-    let path:string = 'api/WebServices/SelectRecord?sParamsIn={"Id": 0,"EntityName": "'+ entityName +'Client","page":'+ this.page +', "pageSize": '+ this.global.itemShow +'}';
+    this.filterLog = this.aTable.setEntityName(this.entityName).config.filterLog;
+    let path:string;
+    if(this.filterLog){
+      let from:string = this.FromLog;
+      let to:string = this.ToLog;
+      let level = this.LevelLog;
+      let source = this.SourceLog;
+      
+      let filter:string = '';
+      if (from != "") {
+        filter += 'dateFrom:' + from + '|';
+        //filter += 'dateFrom:' + from + '|';
+        }
+      if (to != '') {
+        filter += 'dateTo:' + to + '|';
+        //filter += 'dateTo:' + to + '|';
+        }
+      if (level != '') {
+        filter += 'Level:' + level + '|';
+        }
+      if (source != '') {
+        filter += 'Source:' + source + '|';
+      }
+      if (filter !== '') {
+       filter = filter.substring(0, filter.length -1);
+       path = 'api/WebServices/SelectRecord?sParamsIn={"strFilters": '+ JSON.stringify(filter) +' ,"Id": 0,"EntityName":"'+ entityName +'Client","page":'+ this.page +', "pageSize":'+ this.global.itemShow +'}';
+      } else if(filter == ''){
+        path = 'api/WebServices/SelectRecord?sParamsIn={"Id": 0,"EntityName":"'+ entityName +'Client","page":'+ this.page +', "pageSize":'+ this.global.itemShow +'}';
+      }
+    } else {
+      path = 'api/WebServices/SelectRecord?sParamsIn={"Id": 0,"EntityName": "'+ entityName +'Client","page":'+ this.page +', "pageSize": '+ this.global.itemShow +'}';
+    }
+    //let path:string = 'api/WebServices/SelectRecord?sParamsIn={"Id": 0,"EntityName": "'+ entityName +'Client","page":'+ this.page +', "pageSize": '+ this.global.itemShow +'}';
     //console.log(path);
     this.api.get(path).then((res:any) => {
       //console.log(res);
@@ -120,6 +157,24 @@ export class SingleTableComponent implements OnInit {
         console.log('Tabla no encontrada => ', self.inputs);
       }
     });
+  }
+  chageFormat = (_date,_format?,_delimiter?):any => {
+    var formatLowerCase=_format.toLowerCase();
+    var formatItems=formatLowerCase.split(_delimiter);
+    var dateItems=_date.split(_delimiter);
+    var monthIndex=formatItems.indexOf("mm");
+    var dayIndex=formatItems.indexOf("dd");
+    var yearIndex=formatItems.indexOf("yyyy");
+    var month=parseInt(dateItems[monthIndex]);
+    month-=1;
+    var formatedDate;
+    //var formatedDate = new Date(dateItems[yearIndex],month,dateItems[dayIndex]);
+    if ((month + 1) < 10) {
+      formatedDate = dateItems[yearIndex] + '0'+(month + 1) + dateItems[dayIndex];
+    } else {
+      formatedDate = dateItems[yearIndex] + (month + 1) + dateItems[dayIndex];
+    }
+    return formatedDate;
   }
   User:any = [];
   Usuario:any = {

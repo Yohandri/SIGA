@@ -208,16 +208,16 @@ export class AdminTable {
             config = {addModal:false,create:true,delete:true,update:true};
             inputs = [
                 {required:false, showForm:false,showGrip:false, disabled:false,campo:'Id', label:'Id', type:'text'},
-                {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'Code', label:'Código', type:'text'},                
+                {required:false, showForm:true,showGrip:true,readonly:true, disabled:false,campo:'Code', label:'Código', type:'text'},                
                 {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'Name', label:'Nombre', type:'text'},
                 {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'Description', label:'Descripción', type:'text'},
                 {required:false, showForm:true,showGrip:false,readonly:false, disabled:false,campo:'Note', label:'Nota', type:'text'},
                 {required:false, showForm:true,showGrip:false,readonly:false, disabled:false,campo:'Type', label:'Tipo', type:'text'},
                 {required:false, showForm:true,showGrip:false,readonly:false, disabled:false,campo:'Status', label:'Estado', type:'checkbox'}
             ]
-        } else if (entityname == 'Parameter'){
+        } else if (entityname == 'Parameters'){
             titleTable = 'Parámetros';
-            config = {addModal:false,create:false,delete:true,update:true};
+            config = {addModal:false,create:false,delete:false,update:true};
             inputs = [
                 {required:false, showForm:false,showGrip:false, disabled:false,campo:'Id', label:'Id', type:'text'},
                 {required:false, showForm:true,showGrip:true,readonly:false, disabled:true,campo:'Key', label:'Key', type:'text'},                
@@ -225,6 +225,144 @@ export class AdminTable {
                 {required:false, showForm:true,showGrip:true,readonly:false, disabled:true,campo:'LayerType', label:'LayerType', type:'text'},
                 {required:false, showForm:true,showGrip:true,readonly:false, disabled:true,campo:'ValueType', label:'ValueType', type:'text'},
                 {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'Description', label:'Descripción', type:'textarea'}
+            ]
+        } else if (entityname == 'WorkPlace'){
+            titleTable = 'Puesto de Trabajo';
+            config = {addModal:false,create:true,delete:true,update:true};
+            inputs = [
+                {required:false, showForm:false,showGrip:false, disabled:false,campo:'Id', label:'Id', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'Name', label:'Nombre', type:'text'},                
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'Description', label:'Descripción', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'NamePlace', label:'Puesto', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'PC', label:'PC', type:'text'},
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'TypeTail', label:'Tipo de cola', type:'text'},
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'Status', label:'Estado', type:'number'}
+            ]
+        } else if (entityname == 'Patient'){
+            titleTable = 'Pacientes';
+            config = {addModal:false,create:false,delete:false,update:false};
+            inputs = [
+                {required:false, showForm:false,showGrip:false, disabled:false,campo:'Id', label:'Id', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:true,campo:'Name1', label:'Nombre', type:'text'},                
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'Name2', label:'Segundo nombre', type:'text'},                
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:true,campo:'LastName1', label:'Apellido', type:'text'},               
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'LastName2', label:'Segundo apellido', type:'text'},               
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'TypeIdentityCard', label:'Tipo de cédula', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:true,campo:'IdentityCard', label:'Cédula', type:'text'},
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'BirthDate', label:'Fecha de nacimiento', type:'date'},
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'Gender', label:'Genero', type:'selectLocal',data:['F','M']},
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'HomePhone', label:'Teléfono', type:'text'},
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'CellPhone', label:'Celular', type:'text'},
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'Email', label:'Email', type:'text'},
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'Address', label:'Dirección', type:'textarea'},
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'IsMinor', label:'Es menor', type:'checkbox'},
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'FamiliarId', label:'Familiar', type:'select',option:'Familiar',campoName:'Name1'},
+            ]
+        } else if (entityname == 'Familiar'){
+            titleTable = 'Familiar';
+            config = {addModal:false,create:false,delete:false,update:false};
+            inputs = [
+                {required:false, showForm:false,showGrip:false, disabled:false,campo:'Id', label:'Id', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:true,campo:'Name1', label:'Nombre', type:'text'},                
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'Name2', label:'Segundo nombre', type:'text'},                
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:true,campo:'LastName1', label:'Apellido', type:'text'},               
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'LastName2', label:'Segundo apellido', type:'text'},               
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'TypeIdentityCard', label:'Tipo de cédula', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:true,campo:'IdentityCard', label:'Cédula', type:'text'},
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'BirthDate', label:'Fecha de nacimiento', type:'date'},
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'Gender', label:'Genero', type:'selectLocal',data:['F','M']},
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'HomePhone', label:'Teléfono', type:'text'},
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'CellPhone', label:'Celular', type:'text'},
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'Email', label:'Email', type:'text'},
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'Address', label:'Dirección', type:'textarea'},
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'Active', label:'Activo', type:'checkbox'}
+            ]
+        } else if (entityname == 'Log'){
+            titleTable = 'Log';
+            config = {addModal:false,create:false,delete:false,update:false, filterLog:true};
+            inputs = [
+                {required:false, showForm:false,showGrip:false, disabled:false,campo:'Id', label:'Id', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:true,campo:'TimeStamp', label:'TimeStamp', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:true,campo:'Version', label:'Version', type:'text'},                
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:true,campo:'Level', label:'Level', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:true,campo:'Source', label:'Source', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:true,campo:'Device', label:'Device', type:'text'},
+                
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'UserId', label:'User', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:true,campo:'Section', label:'Section', type:'text'},
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'Category', label:'Category', type:'text'},
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'MessagesBusiness', label:'MessagesBusiness', type:'textarea'},
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:true,campo:'StackException', label:'StackException', type:'textarea'},
+            ]
+        } else if (entityname == 'Test'){
+            titleTable = 'Test';
+            config = {addModal:false,create:false,delete:false,update:true, filterLog:false};
+            inputs = [
+                {required:false, showForm:false,showGrip:false, disabled:false,campo:'Id', label:'Id', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'Date', label:'Date', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'Time', label:'Time', type:'text'},
+            ]
+        } else if (entityname == 'Emergency'){
+            titleTable = 'Admisión';
+            config = {addModal:false,create:false,delete:false,update:false, filterLog:false};
+            inputs = [
+                {required:false, showForm:false,showGrip:false, disabled:false,campo:'Id', label:'Id', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'Ticket', label:'Ticket', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'RasonToConsultation', label:'Rason Consulta', type:'textarea'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'AllergiesAndHistory', label:'Alergias', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'ActualTypeRoom', label:'Sala actual', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'DestinationTypeRoom', label:'Sala destino', type:'text'},
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:false,campo:'IsPresent', label:'Presente', type:'checkbox'},
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:false,campo:'IsTraumaShock', label:'TraumaShock', type:'checkbox'},
+            ]
+        } else if (entityname == 'StageParams'){
+            titleTable = 'StageParams';
+            config = {addModal:false,create:false,delete:false,update:true, filterLog:false};
+            inputs = [
+                {required:false, showForm:false,showGrip:false, disabled:false,campo:'Id', label:'Id', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:true, disabled:true,campo:'Code', label:'Codigo', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:true, disabled:true,campo:'Name', label:'Nombre', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'Alert', label:'Alerta', type:'number'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'Limit', label:'Limit', type:'number'},
+                {required:false, showForm:true,showGrip:false,readonly:true, disabled:true,campo:'Priority', label:'Prioridad', type:'checkbox'}
+            ]
+        } else if (entityname == 'ServiceRequestParams'){
+            titleTable = 'ServiceRequestParams';
+            config = {addModal:false,create:false,delete:false,update:true, filterLog:false};
+            inputs = [
+                {required:false, showForm:false,showGrip:false, disabled:false,campo:'Id', label:'Id', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:true, disabled:true,campo:'Code', label:'Codigo', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:true, disabled:true,campo:'Name', label:'Nombre', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'Alert', label:'Alerta', type:'number'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'Limit', label:'Limit', type:'number'},
+                {required:false, showForm:true,showGrip:false,readonly:true, disabled:true,campo:'Priority', label:'Prioridad', type:'checkbox'}
+            ]
+        } else if (entityname == 'Settings'){
+            titleTable = 'Settings';
+            config = {addModal:false,create:false,delete:false,update:false, filterLog:false};
+            inputs = [
+                {required:false, showForm:false,showGrip:false, disabled:false,campo:'Id', label:'Id', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:true, disabled:true,campo:'Codigo', label:'Codigo', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:true, disabled:true,campo:'Nombre', label:'Nombre', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'Descr', label:'Descripción', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'Tipo', label:'Tipo', type:'number'},
+                {required:false, showForm:true,showGrip:false,readonly:true, disabled:true,campo:'DatoString', label:'DatoString', type:'text'},
+                {required:false, showForm:true,showGrip:false,readonly:true, disabled:true,campo:'DatoFecha', label:'DatoFecha', type:'text'},
+                {required:false, showForm:true,showGrip:false,readonly:true, disabled:true,campo:'DatoInt', label:'DatoInt', type:'text'},
+                {required:false, showForm:true,showGrip:false,readonly:true, disabled:true,campo:'DatoNum', label:'DatoNum', type:'text'},
+                {required:false, showForm:true,showGrip:false,readonly:true, disabled:true,campo:'DatoBit', label:'DatoBit', type:'text'},
+                {required:false, showForm:true,showGrip:false,readonly:true, disabled:true,campo:'DatoTime', label:'DatoTime', type:'text'}
+            ]
+        } else if (entityname == 'TEST'){
+            titleTable = 'TEST';
+            config = {addModal:false,create:false,delete:false,update:true, filterLog:false};
+            inputs = [
+                {required:false, showForm:false,showGrip:false, disabled:false,campo:'Id', label:'Id', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:true, disabled:true,campo:'Code', label:'Codigo', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:true, disabled:true,campo:'Name', label:'Nombre', type:'text'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'Alert', label:'Alerta', type:'number'},
+                {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'Limit', label:'Limit', type:'number'},
+                {required:false, showForm:true,showGrip:false,readonly:true, disabled:true,campo:'Priority', label:'Prioridad', type:'checkbox'}
             ]
         }
         inputs.forEach(element => {

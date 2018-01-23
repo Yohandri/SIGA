@@ -114,8 +114,15 @@
 									<textarea class="form-control" rows="1"  style="resize: none;" placeholder="Dirección" formControlName="Address" name="Address"></textarea><br>
 								</div>
 							</div>
+							<div class="row" *ngIf="!isMenor">
+								<div class="col-md-12">
+									<label>
+										<input type="checkbox" formControlName="isResponsable" name="isResponsable"> Responsable
+									</label>
+								</div>
+							</div>
 						</div>
-						<div *ngIf="isMenor">
+						<div *ngIf="isMenor || FormPaciente.get('PatientClient.isResponsable').value">
 							<div class="row">
 
 								<div class="col-md-12">

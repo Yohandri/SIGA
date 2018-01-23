@@ -37,10 +37,10 @@ export class TypeUserGuard implements CanActivate {
   check(url: string,Id): boolean {
     ////console.log('Login: ' + this.authService.isLoggedIn);
     if (this.authService.isLoggedIn) {
-      if (Id !== 1) {
-         return false;
-       }else {
+      if (Id == 1 || Id == 6) {
          return true;
+       }else {
+         return false;
        }     
     } else{
       this.router.navigate(['/']);
