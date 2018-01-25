@@ -32,19 +32,19 @@ export class FormTriajeComponent implements OnInit {
 	FormPaciente: FormGroup;
 	isMenor:boolean = false;
 	accion:string = '';
-	isResponsable:boolean = false;
+	Responsable:boolean = false;
 	
 
 	get = (id:number) => {
 		let path = 'api/WebServicesERIS/GetFileEmergency?sParamsSigleIdClient={"Id":' +id+ '}';
 		console.log(path);
 		this.httpService.get(path).then(res=>{
-			//console.log(res);
+			console.log(res);
 			let statu:boolean = res.Status;
 			if (statu) {
 				let obj = res.Object;
 				let pacient = obj.Patient;
-			    let familiar = obj.Patient.Familiar;
+			    let familiar = obj.Familiar;
 			    let vitalSigns = obj.VitalSigns;
 
 				let forForm:any;
@@ -157,7 +157,7 @@ export class FormTriajeComponent implements OnInit {
 
 	submit = (form:any, type:string, edit?:boolean) => {
 		if (type == 'triaje') {
-			//console.log(form);
+			console.log(form);
 			let formulario = {
 				PatientClient:this.FormPaciente.controls['PatientClient'].value,
 				FamiliarClient:this.FormPaciente.controls['FamiliarClient'].value,
@@ -171,6 +171,7 @@ export class FormTriajeComponent implements OnInit {
 			let IsvitalSigns = false;
 			let virtalsigns = form.VitalSignsClient;
 			let isMenor = this.isMenor;
+			let Responsable = form.PatientClient.Responsable;
 			let cerrar:boolean = this.init.cerrar;
 			//console.log(cerrar);
 			let vital:boolean = form.EmergencyClient.IsVitalSigns;
@@ -186,7 +187,7 @@ export class FormTriajeComponent implements OnInit {
 				this.global.msj('Numero de cedula es requerido', 'danger');
 				return;
 			}
-			if (isMenor) {
+			if (isMenor || Responsable) {
 				// form.PatientClient.CellPhone = form.FamiliarClient.CellPhone;
 				// form.PatientClient.IdentityCard = form.FamiliarClient.IdentityCard;
 				cedula = form.PatientClient.IdentityCard;
@@ -198,7 +199,7 @@ export class FormTriajeComponent implements OnInit {
 								if (telefono != '') {
 									//console.log(form);
 									this.httpService.triaje(form).then((res)=>{
-										//console.log(res);
+										console.log(res);
 										let data = res.Object;
 										if (res.Status) {
 
@@ -227,7 +228,7 @@ export class FormTriajeComponent implements OnInit {
 							if (telefono != '') {
 								//console.log(form);
 								this.httpService.triaje(form).then((res)=>{
-									//console.log(res);
+									console.log(res);
 									let data = res.Object;
 									if (res.Status) {
 
@@ -257,7 +258,7 @@ export class FormTriajeComponent implements OnInit {
 						if (cedula != '') {
 							if (telefono != '') {
 								this.httpService.triaje(form).then((res)=>{
-									//console.log(res);
+									console.log(res);
 									let data = res.Object;
 									if (res.Status) {
 
@@ -284,7 +285,7 @@ export class FormTriajeComponent implements OnInit {
 					if (cedula != '') {
 						if (telefono != '') {
 							this.httpService.triaje(form).then((res)=>{
-								//console.log(res);
+								console.log(res);
 								let data = res.Object;
 								if (res.Status) {
 
@@ -326,7 +327,7 @@ export class FormTriajeComponent implements OnInit {
 				"IsMinor": false,
 				"TypeIdentityCard":'V',
 				"Address":'',
-				"isResponsable": false
+				"Responsable": false
 			}),
 			FamiliarClient: this.fb.group({
 				"Id": 0,
@@ -373,7 +374,7 @@ export class FormTriajeComponent implements OnInit {
 		let emergencia = form.EmergencyClient;
 		let vitalsigns = form.VitalSignsClient;
 		this.isMenor = pacient.IsMinor;
-		console.log(form);
+		//console.log(form);
 		if (familiar !== null) {
 			if (vitalsigns !== null) {
 				this.FormPaciente = this.fb.group({
@@ -391,7 +392,8 @@ export class FormTriajeComponent implements OnInit {
 						"Email": pacient.Email,
 						"IsMinor": pacient.IsMinor,
 						"TypeIdentityCard":pacient.TypeIdentityCard,
-						"Address":pacient.Address
+						"Address":pacient.Address,
+						"Responsable": pacient.Responsable
 					}),
 					FamiliarClient: this.fb.group({
 						"Id": familiar.Id,
@@ -445,7 +447,8 @@ export class FormTriajeComponent implements OnInit {
 						"Email": pacient.Email,
 						"IsMinor": pacient.IsMinor,
 						"TypeIdentityCard":pacient.TypeIdentityCard,
-						"Address":pacient.Address
+						"Address":pacient.Address,
+						"Responsable": pacient.Responsable
 					}),
 					FamiliarClient: this.fb.group({
 						"Id": familiar.Id,
@@ -501,7 +504,8 @@ export class FormTriajeComponent implements OnInit {
 						"Email": pacient.Email,
 						"IsMinor": pacient.IsMinor,
 						"TypeIdentityCard":pacient.TypeIdentityCard,
-						"Address":pacient.Address
+						"Address":pacient.Address,
+						"Responsable": pacient.Responsable
 					}),
 					FamiliarClient: this.fb.group({
 						"Id": 0,
@@ -540,7 +544,7 @@ export class FormTriajeComponent implements OnInit {
 					})
 				});
 			} else {
-				console.log(pacient);
+				//console.log(pacient);
 				this.FormPaciente = this.fb.group({
 					PatientClient: this.fb.group({
 						"Id": pacient.Id,
@@ -556,7 +560,8 @@ export class FormTriajeComponent implements OnInit {
 						"Email": pacient.Email,
 						"IsMinor": pacient.IsMinor,
 						"TypeIdentityCard":pacient.TypeIdentityCard,
-						"Address":pacient.Address
+						"Address":pacient.Address,
+						"Responsable": pacient.Responsable
 					}),
 					FamiliarClient: this.fb.group({
 						"Id": 0,

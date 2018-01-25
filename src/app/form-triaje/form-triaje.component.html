@@ -117,12 +117,13 @@
 							<div class="row" *ngIf="!isMenor">
 								<div class="col-md-12">
 									<label>
-										<input type="checkbox" formControlName="isResponsable" name="isResponsable"> Responsable
+										<input type="checkbox" formControlName="Responsable" name="isResponsable"> Responsable
 									</label>
 								</div>
 							</div>
 						</div>
-						<div *ngIf="isMenor || FormPaciente.get('PatientClient.isResponsable').value">
+						<!-- <div *ngIf="isMenor || FormPaciente.get('PatientClient.isResponsable').value"> -->
+								<div *ngIf="isMenor || FormPaciente.get('PatientClient.Responsable').value">
 							<div class="row">
 
 								<div class="col-md-12">
