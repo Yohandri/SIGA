@@ -9,3 +9,50 @@
 .badge {
 	border:1px solid #777;
 }
+.popup {
+	display: inline-block;
+	position: fixed;
+	top: -50%;
+	z-index: 2001;
+	margin-left: 18%;
+	width: 50%;
+}
+.popup.openM {
+	animation-name: animacion1;
+	animation-duration: .6s;
+	top: 25%;
+}
+.popup.closeM {
+	animation-name: animacion2;
+	animation-duration: .6s;
+}
+.popup div.box {
+	box-shadow: 1px 1px 4px #777;
+}
+.popup table tbody tr td {
+	cursor: pointer;
+}
+.popup .box-body {
+	max-height: 200px;
+	overflow: auto;
+}
+.cortinaPopup {
+	display: none;
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	z-index: 2000;
+	background-color: rgba(0,0,0,.2);
+	top: 0;
+	left: 0;
+  }
+@keyframes animacion1 {
+	0%   { top:-50%;}
+	50%   { top:30%;}
+    100%  { top:25%;}
+}
+@keyframes animacion2 {
+	0%   { top:25%;}
+	30%   { top:30%;}
+    100%  { top:-50%;}
+}

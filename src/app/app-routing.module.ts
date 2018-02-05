@@ -17,6 +17,7 @@ const routes: Routes = [
   // { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: '',  component: LoginComponent },
   { path: 'dashboard',  component: DashboardComponent },
+  { path: 'Pantalla',  component: PantallaComponent },
   { path: 'Admin-ERIS',  component: ContentColasComponent, canActivate:[AuthGuard,TypeUserGuard],
   children: [
     { path: ':entityname',  component: SingleTableComponent },

@@ -142,7 +142,8 @@ export class FormAdmisionComponent implements OnInit {
         let typeCedula = form.PatientClient.typeIdentityCard;
         let familiar = form.FamiliarClient;
         let telefono = form.PatientClient.CellPhone;
-        if (this.isMenor) {
+        let responsable = form.PatientClient.Responsable;
+        if (this.isMenor || responsable) {
           form.PatientClient.CellPhone = form.FamiliarClient.CellPhone;
           form.PatientClient.IdentityCard = form.FamiliarClient.IdentityCard;
           cedula = form.PatientClient.IdentityCard;
@@ -297,7 +298,7 @@ export class FormAdmisionComponent implements OnInit {
 			if (statu) {
 				let obj = res.Object;
 				let pacient = obj.Patient;
-			    let familiar = obj.Patient.Familiar;
+			    let familiar = obj.Familiar;
 			    let vitalSigns = obj.VitalSigns;
 
 				let forForm:any;
@@ -331,6 +332,7 @@ export class FormAdmisionComponent implements OnInit {
     let pacient = form.PatientClient;
     let familiar = form.FamiliarClient;
     let admision = form.AdmissionClient;
+    this.isMenor = form.PatientClient.IsMinor;
     ////console.log(pacient);
     if (familiar !== null) {
       this.FormPacienteAdmision = this.fb.group({
@@ -348,7 +350,8 @@ export class FormAdmisionComponent implements OnInit {
           "Email": pacient.Email,
           "IsMinor": pacient.IsMinor,
           "TypeIdentityCard":pacient.TypeIdentityCard,
-          "Address":pacient.Address
+          "Address":pacient.Address,
+          "Responsable": pacient.Responsable
         }),
         FamiliarClient: this.fb.group({
           "Id": familiar.Id,
@@ -389,7 +392,8 @@ export class FormAdmisionComponent implements OnInit {
           "Email": pacient.Email,
           "IsMinor": pacient.IsMinor,
           "TypeIdentityCard":pacient.TypeIdentityCard,
-          "Address":pacient.Address
+          "Address":pacient.Address,
+          "Responsable": pacient.Responsable
         }),
         FamiliarClient: this.fb.group({
           "Id": 0,
@@ -432,7 +436,8 @@ export class FormAdmisionComponent implements OnInit {
   			"Email": "",
   			"IsMinor": false,
   			"TypeIdentityCard":'V',
-  			"Address":''
+        "Address":'',
+        "Responsable": false
   		}),
   		FamiliarClient: this.fb.group({
   			"Id": 0,
@@ -478,4 +483,61 @@ export class FormAdmisionComponent implements OnInit {
       });
     });
   }
+  buscar = (value,type):void => {
+		//console.log(value);
+		this.typeSearch = type;
+		this.listEncontrados = [];
+		this.apiPacientes.forEach(element => {
+			if(value == element.IdentityCard){
+				this.listEncontrados.push(element);
+			}
+		});
+		//console.log(this.listEncontrados);
+		if(this.listEncontrados.length == 0){
+			this.global.msj("Lo siento, no se encontraron pacientes/responsables correspondientes a ésta cédula","success");
+		} else {
+			$('.cortinaPopup').css('display', 'block');
+			$('.popup').removeClass("closeM");
+			$('.popup').addClass("openM");
+		}
+	}
+	fnClosePopup = ():void => {
+		$('.popup').removeClass("openM");
+		$('.popup').addClass("closeM");
+		setTimeout(()=>{
+			$('.popup').removeClass("closeM");
+			$('.cortinaPopup').css('display', 'none');
+		},601);
+	}
+	fnSelect = (obj):void => {
+		let type:string = this.typeSearch; 
+		//console.log(obj);
+		if(type == "pacient"){
+			this.resPacient(obj);
+		} else if(type == "familiar") {
+			this.resFamiliar(obj);
+		}
+		this.fnClosePopup();
+	}
+	resPacient = (obj):void => {
+		this.FormPacienteAdmision.controls['PatientClient'].value.Name1 = obj.Name1;
+		this.FormPacienteAdmision.controls['PatientClient'].value.LastName1 = obj.LastName1;
+		let array = this.FormPacienteAdmision.controls['PatientClient'].value;
+		this.FormPacienteAdmision.controls['PatientClient'].setValue(array);
+	}
+	resFamiliar = (obj):void => {
+		this.FormPacienteAdmision.controls['FamiliarClient'].value.Name1 = obj.Name1;
+		this.FormPacienteAdmision.controls['FamiliarClient'].value.LastName1 = obj.LastName1;
+		let array = this.FormPacienteAdmision.controls['FamiliarClient'].value;
+		this.FormPacienteAdmision.controls['FamiliarClient'].setValue(array);
+	}
+	typeSearch:string = '';
+	listEncontrados:any = [];
+	apiPacientes:any = [
+		{IdentityCard: 1234567,Name1:"Yohandri", LastName1:"Ramírez"},
+		{IdentityCard: 12345678,Name1:"José", LastName1:"Perez"},
+		{IdentityCard: 123456789,Name1:"Daniel", LastName1:"Urdaneta"},
+		{IdentityCard: 987456321,Name1:"David", LastName1:"villega"},
+		{IdentityCard: 55555555,Name1:"Oswaldo", LastName1:"Peña"}
+	];
 }

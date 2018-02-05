@@ -210,10 +210,10 @@ export class AdminTable {
                 {required:false, showForm:false,showGrip:false, disabled:false,campo:'Id', label:'Id', type:'text'},
                 {required:false, showForm:true,showGrip:true,readonly:true, disabled:false,campo:'Code', label:'Código', type:'text'},                
                 {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'Name', label:'Nombre', type:'text'},
-                {required:false, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'Description', label:'Descripción', type:'text'},
+                {required:true, showForm:true,showGrip:true,readonly:false, disabled:false,campo:'Description', label:'Descripción', type:'text'},
                 {required:false, showForm:true,showGrip:false,readonly:false, disabled:false,campo:'Note', label:'Nota', type:'text'},
                 {required:false, showForm:true,showGrip:false,readonly:false, disabled:false,campo:'Type', label:'Tipo', type:'text'},
-                {required:false, showForm:true,showGrip:false,readonly:false, disabled:false,campo:'Status', label:'Estado', type:'checkbox'}
+                {required:false, showForm:true,showGrip:false,readonly:false, disabled:false,campo:'Status', label:'Estado', type:'number'}
             ]
         } else if (entityname == 'Parameters'){
             titleTable = 'Parámetros';

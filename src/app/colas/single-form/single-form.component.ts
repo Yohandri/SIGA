@@ -111,7 +111,7 @@ export class SingleFormComponent implements OnInit {
   confirmarDelete = () => {
     let idModal = this.ModalDelete.nativeElement.id;
     this.api.deleteEntity(this.entityName + 'Client', this.id).then(res => {
-      console.log(res);
+      //console.log(res);
       let status:boolean = res.Status;
       if(status){
         this.global.removeClass('#'+idModal, 'modal-danger');
@@ -170,9 +170,9 @@ export class SingleFormComponent implements OnInit {
       this.onEdit = true;
       this.onLoad = true;
       let path:string = 'api/WebServices/FindOneRecord?sParamsIn={"Id": '+ id +',"EntityName": "'+ entityName +'Client"}';
-      console.log(path);
+      //console.log(path);
       this.api.get(path).then(res => {
-        console.log(res);
+        //console.log(res);
         this.onLoad = false;
         let status = res.Status;
         let self = this;
@@ -203,7 +203,7 @@ export class SingleFormComponent implements OnInit {
     }
   }
   submit = (form) => {
-    console.log(JSON.stringify(form));
+    //console.log(JSON.stringify(form));
     this.onLoad = true;
     let path:string = '';
     let body:any = {};
@@ -214,7 +214,7 @@ export class SingleFormComponent implements OnInit {
     body = {"EntityName": entityName +'Client',entityJson:form};
     this.api.post(path,body).then((res)=>{
       this.onLoad = false;
-      console.log(res);
+      //console.log(res);
       let status = res.Status;
       if(status){
         this.global.msj('Guardado con éxito', 'success');
@@ -286,6 +286,9 @@ export class SingleFormComponent implements OnInit {
         }
       }
       if(element.campo == 'Id'){
+        form[element.campo] = 0;
+      }
+      if(element.type == 'number'){
         form[element.campo] = 0;
       }
     });

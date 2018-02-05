@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Global } from '../global';
 import { httpService } from '../http.service';
 import { Router } from '@angular/router';
+import { setTimeout } from 'timers';
 declare var $:any;
 declare var moment:any;
 declare var kendo:any;
@@ -149,12 +150,67 @@ export class FormTriajeComponent implements OnInit {
 			}
 		} 
 	}
-	calFecha = (d1, d2):any =>{
+	calFecha = (d1, d2):any => {
 		return d2.getFullYear()-d1.getFullYear();
 	}
 
-
-
+	buscar = (value,type):void => {
+		//console.log(value);
+		this.typeSearch = type;
+		this.listEncontrados = [];
+		this.apiPacientes.forEach(element => {
+			if(value == element.IdentityCard){
+				this.listEncontrados.push(element);
+			}
+		});
+		//console.log(this.listEncontrados);
+		if(this.listEncontrados.length == 0){
+			this.global.msj("Lo siento, no se encontraron pacientes/responsables correspondientes a ésta cédula","success");
+		} else {
+			$('.cortinaPopup').css('display', 'block');
+			$('.popup').removeClass("closeM");
+			$('.popup').addClass("openM");
+		}
+	}
+	fnClosePopup = ():void => {
+		$('.popup').removeClass("openM");
+		$('.popup').addClass("closeM");
+		setTimeout(()=>{
+			$('.popup').removeClass("closeM");
+			$('.cortinaPopup').css('display', 'none');
+		},601);
+	}
+	fnSelect = (obj):void => {
+		let type:string = this.typeSearch; 
+		//console.log(obj);
+		if(type == "pacient"){
+			this.resPacient(obj);
+		} else if(type == "familiar") {
+			this.resFamiliar(obj);
+		}
+		this.fnClosePopup();
+	}
+	resPacient = (obj):void => {
+		this.FormPaciente.controls['PatientClient'].value.Name1 = obj.Name1;
+		this.FormPaciente.controls['PatientClient'].value.LastName1 = obj.LastName1;
+		let array = this.FormPaciente.controls['PatientClient'].value;
+		this.FormPaciente.controls['PatientClient'].setValue(array);
+	}
+	resFamiliar = (obj):void => {
+		this.FormPaciente.controls['FamiliarClient'].value.Name1 = obj.Name1;
+		this.FormPaciente.controls['FamiliarClient'].value.LastName1 = obj.LastName1;
+		let array = this.FormPaciente.controls['FamiliarClient'].value;
+		this.FormPaciente.controls['FamiliarClient'].setValue(array);
+	}
+	typeSearch:string = '';
+	listEncontrados:any = [];
+	apiPacientes:any = [
+		{IdentityCard: 1234567,Name1:"Yohandri", LastName1:"Ramírez"},
+		{IdentityCard: 12345678,Name1:"José", LastName1:"Perez"},
+		{IdentityCard: 123456789,Name1:"Daniel", LastName1:"Urdaneta"},
+		{IdentityCard: 987456321,Name1:"David", LastName1:"villega"},
+		{IdentityCard: 55555555,Name1:"Oswaldo", LastName1:"Peña"}
+	];
 	submit = (form:any, type:string, edit?:boolean) => {
 		if (type == 'triaje') {
 			console.log(form);
