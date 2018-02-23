@@ -1,3 +1,166 @@
-<p [@fadeInAnimation]>
-  single-table works!
-</p>
+<div class="container-fluid" [@fadeInAnimation]>
+  <div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div [@fadeInAnimation] *ngIf="onLoad" style="z-index: 2;position: absolute;background-color: rgba(255,255,255,.9);width: 100%;height: 100%;">
+              <i style="position: relative;top: 30%;left: 43%;" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+            </div>
+            <div class="box-header with-border">
+              <h3 class="box-title">{{data.titleTable}}</h3>
+              <ul *ngIf="inputs.length > 0" class="pagination pagination-sm no-margin pull-right">
+                <li><a (click)="moverPage('prev')">«</a></li>
+                <li [ngClass]="{'active': i == page}" *ngFor="let i of arrayPage"><a (click)="getPage(i)">{{i}}</a></li>
+                <li><a (click)="moverPage('next')">»</a></li>
+              </ul>
+              <a *ngIf="btnNew" class="btn btn-primary btn-sm m pull-right" routerLink="Nuevo">Nuevo</a>
+              <a *ngIf="addModal" class="btn btn-primary btn-sm m pull-right" (click)="fnNewModal()">Nuevo usuario opciones o pantalla</a>
+              <a *ngIf="addModal" class="btn btn-primary btn-sm m pull-right" (click)="fnNewModalAE()">Nuevo usuario admision o enfermeria</a>
+            </div>
+            <div class="box-body">
+              <table class="table table-bordered table-hover">
+                <thead>
+                  <tr *ngIf="data.filter">
+                    <th *ngFor="let i of data.campos;let index2 = index" style="padding:0;" [ngClass]="{'hidden':index2 == 0}">
+                      <input type="text" class="form-control">
+                    </th>
+                  </tr>
+                  <tr *ngIf="filterLog">
+                    <th style="padding:0;">
+                      <input type="text" mask="99/99/9999" class="form-control" placeholder="From" [(ngModel)]="FromLog">
+                    </th>
+                    <th style="padding:0;">
+                      <input type="text" mask="99/99/9999" class="form-control" placeholder="To" [(ngModel)]="ToLog">
+                    </th>
+                    <th style="padding:0;">
+                      <select class="form-control" name="LevelLog" id="LevelLog" [(ngModel)]="LevelLog">
+                        <option value="">Level</option>
+                        <option value="INFO">INFO</option>
+                        <option value="ERROR">ERROR</option>
+                        <option value="WARN">WARN</option>
+                      </select>
+                      <!-- <input type="text" class="form-control" placeholder="Level" [(ngModel)]="LevelLog"> -->
+                    </th>
+                    <th style="padding:0;">
+                      <select class="form-control" name="SourceLog" id="SourceLog" [(ngModel)]="SourceLog">
+                        <option value="">Source</option>
+                        <option value="WEB">Web</option>
+                        <option value="MOBILI">Mobile</option>
+                      </select>
+                      <!-- <input type="text" class="form-control" placeholder="Source" [(ngModel)]="SourceLog"> -->
+                    </th>
+                    <th style="padding:0;">
+                      <button class="btn" (click)="getPage(1)">
+                        <span class="glyphicon glyphicon-filter"></span>
+                      </button>
+                    </th>
+                    <th></th>
+                  </tr>
+                  <tr>
+                    <th [ngClass]="{'hidden':!i.showGrip}" *ngFor="let i of inputs;let index2 = index">{{i.label}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr (click)="fnSelect(i)" *ngFor="let i of data.data;let index = index" [@fadeInAnimation]>
+                    <td *ngFor="let j of inputs;let index2 = index" [ngClass]="{'hidden':index2 == 0,'hidden':!j.showGrip}">{{show(index,index2)}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="box-footer clearfix">
+              <p *ngIf="inputs.length == 0">No se encontraron datos</p>
+              <span *ngIf="inputs.length > 0 && data.data.length > 1"><span class="label label-default">{{data.data.length}}</span>  registros de <span class="label label-default">{{CountItems}}</span> en total</span>
+              <span *ngIf="inputs.length > 0 && data.data.length <= 1"><span class="label label-default">{{data.data.length}}</span>  registro de <span class="label label-default">{{CountItems}}</span> en total</span>
+              <ul *ngIf="inputs.length > 0" class="pagination pagination-sm no-margin pull-right">
+                <li><a (click)="moverPage('prev')">«</a></li>
+                <li [ngClass]="{'active': i == page}" *ngFor="let i of arrayPage"><a (click)="getPage(i)">{{i}}</a></li>
+                <li><a (click)="moverPage('next')">»</a></li>
+              </ul>
+            </div>
+          </div>
+    </div>
+  </div>
+</div>
+
+<div #ModalAdd class="modal modal-default fade" id="modal-add">
+    <div class="modal-dialog">
+        <form>
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span></button>
+          <h4 class="modal-title">Nuevo usuario</h4>
+        </div>
+        <div class="modal-body">
+            <div class="form-group" >
+                <label for="tipoUsuarioAdd">Tipo de usuario</label>
+                <select name="" (change)="changeSelect()" id="tipoUsuarioAdd" class="form-control"  [(ngModel)]="Usuario.IdTipoUsuario" name="IdTipoUsuario">
+                    <!-- <option value="2">Admisionista</option>
+                    <option value="3">Enfermeria</option> -->
+                    <option value="8">Opciones</option>
+                    <option value="7">Pantalla</option>
+                  </select>
+            </div>
+            <div class="form-group" [@fadeInAnimation] *ngIf="Usuario.IdTipoUsuario != '7' && Usuario.IdTipoUsuario != '8'">
+                <label for="usernameAdd">Username</label>
+                <input type="hidden" id="usernameAdd" class="form-control"  [(ngModel)]="Usuario.Username" name="Username">
+                <ng-select *ngIf="User.length > 0" [allowClear]="true"
+                  [items]='User'
+                  (selected)="selected($event)"
+                  (removed)="removed($event)"
+                  placeholder="Seleccione username">
+                </ng-select>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+          <button (click)="submit(Usuario, 'modal-add')" [disabled]="(Usuario.IdTipoUsuario == '2' || Usuario.IdTipoUsuario == '3' || Usuario.IdTipoUsuario == '') && Usuario.Username == 'temporal'" type="button" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </form>
+    </div>
+  </div>
+
+  <div #ModalAddAE class="modal modal-default fade" id="modal-addAE">
+      <div class="modal-dialog">
+          <form [formGroup]="formUsuarioAE">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span></button>
+            <h4 class="modal-title">Nuevo usuario</h4>
+          </div>
+          <div class="modal-body">
+              <div class="form-group" >
+                  <label for="tipoUsuarioAddAE">Tipo de usuario</label>
+                  <select name="" (change)="changeSelectAE()" id="tipoUsuarioAddAE" class="form-control"  formControlName="IdTipoUsuario" name="IdTipoUsuario">
+                      <option value="2">Admisionista</option>
+                      <option value="3">Enfermeria</option>
+                      <!-- <option value="8">Opciones</option>
+                      <option value="7">Pantalla</option> -->
+                    </select>
+              </div>
+              <div class="form-group">
+                  <label for="NominativoAddAE">Nominativo</label>
+                  <input type="text" id="NominativoAddAE" class="form-control"  formControlName="Nominativo" name="Nominativo">
+              </div>
+              <div class="form-group">
+                  <label for="EmailAddAE">Email</label>
+                  <input type="email" id="EmailAddAE" class="form-control" formControlName="Email" name="Email">
+              </div>
+              <div class="form-group">
+                  <label for="TelefonoAddAE">Telefono</label>
+                  <input type="number" id="TelefonoAddAE" class="form-control"  formControlName="Telefono" name="Telefono">
+              </div>
+              <div class="form-group">
+                  <label for="TelInternoAddAE">Tel Interno</label>
+                  <input type="number" id="TelInternoAddAE" class="form-control"  formControlName="TelInterno" name="TelInterno">
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <button (click)="submit(formUsuarioAE.value, 'modal-addAE')" [disabled]="!formUsuarioAE.valid" type="button" class="btn btn-primary">Guardar</button>
+          </div>
+        </div>
+      </form>
+      </div>
+    </div>

@@ -17,14 +17,15 @@ export class LoginComponent implements OnInit {
   			  private fb:FormBuilder, 
   			  public global: Global, 
   			  private router: Router,
-  			  public authService:AuthService,) { }
+  			  public authService:AuthService,) {
+						$('#exampleInputEmail1').focus();
+  					this.restFormLogin();
+						if (this.authService.isLoggedIn) {
+							this.router.navigate(['/dashboard']);
+						}
+					 }
 
   ngOnInit() {
-  	$('#exampleInputEmail1').focus();
-  	this.restFormLogin();
-  	if (this.authService.isLoggedIn) {
-        this.router.navigate(['/dashboard']);
-    }
   }
   formLogin: FormGroup;
 
@@ -39,14 +40,14 @@ export class LoginComponent implements OnInit {
     });
   }
     submit(form) {
-  	//console.log(this.rememberCheck);
+  	////console.log(this.rememberCheck);
   	this.global.loading('in');
   	this.httpService.login(form).then((response) => {
   		let status:boolean = response.Status;
   		let statusCode:number = response.HttpStatusCode;
   		let data:any = response.Object;
   		let errorAuth:boolean = response.ResultIsObject;
-  		console.log(response);
+  		//console.log(response);
   		if (status) {
   			if (statusCode == 200) {
   				if (errorAuth != true) {
@@ -83,7 +84,7 @@ export class LoginComponent implements OnInit {
   		}
   		this.global.loading('out');
   	}).catch((response) => {
-  		console.log(response);
+  		//console.log(response);
   		this.global.loading('out');
   	});
   }

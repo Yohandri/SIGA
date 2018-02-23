@@ -62,7 +62,7 @@ export class httpService {
 	       	
 	       	setTimeout(()=>{
 	          this.validarToken();
-	        }, 5000);
+	        }, 10000);
 	       }     
 	    })
 	}
@@ -126,9 +126,9 @@ export class httpService {
 	}
 	loadFileCar(file, idVehicle) {
 		let json = new FormData();
-		console.log(file, idVehicle);
+		//console.log(file, idVehicle);
 		json.append('uploadFile', file, file.name);
-		console.log(json);
+		//console.log(json);
 
 		return this.httpClient
 		    //.post(this.pathUrlUpImgCar, json, {headers:  new HttpHeaders({"Tokenkey": this.global.Login.Guid,"VehicleId": idVehicle})})'enctype', 'multipart/form-data
@@ -182,7 +182,7 @@ export class httpService {
 	}
 	recoveryPass(email: string) {
 		let json = {"email":email};
-		//console.log(this.pathUrlRecovery, {"email":email});
+		////console.log(this.pathUrlRecovery, {"email":email});
 		return this.httpClient
 		    .post(this.pathUrlRecovery, json, {headers: this.headers})
 		    .toPromise()
@@ -206,7 +206,7 @@ export class httpService {
 		    .catch(this.handleError);
 	}
 	addConnecttionUser(Ids: any) {
-		//console.log(Ids);
+		////console.log(Ids);
 		let pathUrlConnectionUser = this.global.dominio + 'api/WebServices/ConnectionRequestUsers?connectToUserClient='+ Ids.userId2;
 		return this.httpClient
 		    .post(pathUrlConnectionUser, Ids, {headers: new HttpHeaders().set("Tokenkey", this.global.Login.Guid)})
@@ -215,7 +215,7 @@ export class httpService {
 		    .catch(this.handleError);
 	}
 	changeFollowUsers(Ids: any) {
-		console.log(Ids);
+		//console.log(Ids);
 		let pathUrlConnectionUser = this.global.dominio + 'api/WebServices/ChangeFollowUsers?userId1='+ Ids.userId1 +'&userId2=' + Ids.userId2;
 		return this.httpClient
 		    .post(pathUrlConnectionUser, Ids, {headers: new HttpHeaders().set("Tokenkey", this.global.Login.Guid)})
@@ -232,8 +232,8 @@ export class httpService {
 	}
 	addEntity(tabla,obj) {
 		let datos = {"EntityName": tabla,	"EntityJson": obj};
-		//console.log(datos);
-		//console.log({headers: new HttpHeaders().set("Tokenkey", this.global.Login.Guid)});
+		////console.log(datos);
+		////console.log({headers: new HttpHeaders().set("Tokenkey", this.global.Login.Guid)});
 		return this.httpClient
 			.post(this.global.dominio + 'api/WebServices/UpsertEntity', datos , {headers: new HttpHeaders().set("Tokenkey", this.global.Login.Guid)})
 			.toPromise()
@@ -242,7 +242,7 @@ export class httpService {
 	}
 	deleteEntity(tabla,obj) {
 		let datos = {Id: obj,"EntityName": tabla, "EntityJson": ''};
-		//console.log('api/WebServices/RemoveRecord?paramsIn='+JSON.stringify(datos));
+		////console.log('api/WebServices/RemoveRecord?paramsIn='+JSON.stringify(datos));
 		return this.httpClient
 			.post(this.global.dominio + 'api/WebServices/RemoveRecord',datos ,{headers: new HttpHeaders().set("Tokenkey", this.global.Login.Guid)})
 			.toPromise()

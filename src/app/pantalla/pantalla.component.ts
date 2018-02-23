@@ -45,7 +45,7 @@ export class PantallaComponent implements OnInit {
   get = () => {
     let path = 'api/WebServicesERIS/ShowScreenTicket';
   	this.httpService.get(path).then((res)=>{
-  		console.log(res);
+  		//console.log(res);
       let status = res.Status;
       let datos = res.Object.ListItems;
       //this.listPantalla = datos;
@@ -79,7 +79,7 @@ export class PantallaComponent implements OnInit {
   	audio.src = "assets/tono.mp3";
   	audio.load();
   	audio.play();
-  	//console.log(audio);
+  	////console.log(audio);
   }
   public closeSession() {
     this.global.loading('in');
@@ -89,7 +89,7 @@ export class PantallaComponent implements OnInit {
         let data:any = response.Object;
         let errorAuth:boolean = response.ResultIsObject;
       this.global.loading('out');
-     //console.log(response);
+     ////console.log(response);
       if (status) {
         if (statusCode == 200) {
           this.global.closeModal('modal-confirmar-cerrarSession');
@@ -99,7 +99,7 @@ export class PantallaComponent implements OnInit {
           //this.act();
           this.global.authService.logout();
           this.global.msj('Hasta pronto', null);
-          //this.facebook.logout().then(() => console.log('Logged out!'));
+          //this.facebook.logout().then(() => //console.log('Logged out!'));
         }
       } else {
         //Materialize.toast(data, 5000, 'red');

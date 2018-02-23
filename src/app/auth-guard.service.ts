@@ -15,7 +15,7 @@ export class AuthGuard implements CanActivate {
     return this.checkLogin(url);
   }
   checkLogin(url: string): boolean {
-    //console.log('Login: ' + this.authService.isLoggedIn);
+    ////console.log('Login: ' + this.authService.isLoggedIn);
     if (this.authService.isLoggedIn) { 
     	this.authService.redirectUrl = url;
     	return true;
@@ -35,12 +35,12 @@ export class TypeUserGuard implements CanActivate {
     return this.check(url,typeUserId);
   }
   check(url: string,Id): boolean {
-    //console.log('Login: ' + this.authService.isLoggedIn);
+    ////console.log('Login: ' + this.authService.isLoggedIn);
     if (this.authService.isLoggedIn) {
-      if (Id !== 1) {
-         return false;
-       }else {
+      if (Id == 1 || Id == 6) {
          return true;
+       }else {
+         return false;
        }     
     } else{
       this.router.navigate(['/']);

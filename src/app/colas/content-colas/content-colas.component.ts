@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Global} from '../../global';
+import { Global } from '../../global';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -10,10 +11,13 @@ import {Global} from '../../global';
 export class ContentColasComponent implements OnInit {
 
   constructor(
-  	public global:Global
-  	) { }
+    public global:Global,
+    public aRouter: Router
+  	) { 
+      this.title = this.aRouter.url.split('/')[1];
+    }
 
   ngOnInit() {
   }
-
+  title:string = '';
 }

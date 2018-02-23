@@ -13,35 +13,35 @@
 <section class="content" [@fadeInAnimation]>
 	<div class="nav-tabs-custom">
 		<ul class="nav nav-tabs">
-			<li class="active"><a id="clickAqui" href="#Buscar_paciente" data-toggle="tab" aria-expanded="true">Buscar paciente</a></li>
+			<li class="active"><a (click)="fnclickTag()" id="clickAqui" href="#Buscar_paciente" data-toggle="tab" aria-expanded="true">Buscar paciente</a></li>
 
-			<li class="" *ngIf="global.getUserProfileId() == 3 || global.getUserProfileId() == 1 || global.getUserProfileId() == 5"><a href="#traumaShock" data-toggle="tab" aria-expanded="false">Trauma shock</a></li>
+			<li class="" *ngIf="global.getUserProfileId() == 3 || global.getUserProfileId() == 1 || global.getUserProfileId() == 5 || global.getUserProfileId() == 6"><a (click)="fnclickTag()" href="#traumaShock" data-toggle="tab" aria-expanded="false">Trauma shock</a></li>
 
-			<li class="" *ngIf="global.getUserProfileId() == 3 || global.getUserProfileId() == 1 || global.getUserProfileId() == 2"><a href="#solicitudesPendiente" data-toggle="tab" aria-expanded="false">Solicitudes pendientes</a></li>
+			<li class="" *ngIf="global.getUserProfileId() == 3 || global.getUserProfileId() == 1 || global.getUserProfileId() == 2 || global.getUserProfileId() == 6"><a (click)="fnclickTag()" href="#solicitudesPendiente" data-toggle="tab" aria-expanded="false">Solicitudes pendientes</a></li>
 
-			<li  *ngIf="global.getUserProfileId() == 3 || global.getUserProfileId() == 1"><a (click)="clickTag()" href="#Nuevo_paciente_triaje" data-toggle="tab" aria-expanded="false">Nuevo paciente triaje</a></li>
+			<li  *ngIf="global.getUserProfileId() == 3 || global.getUserProfileId() == 1 || global.getUserProfileId() == 6"><a (click)="clickTag()" href="#Nuevo_paciente_triaje" data-toggle="tab" aria-expanded="false">Nuevo paciente triaje</a></li>
 			<li  *ngIf="false"><a (click)="clickTag()" href="#Nuevo_paciente_admision" data-toggle="tab" aria-expanded="false">Nuevo paciente admisión</a></li>
-			<li class="" *ngIf="global.getUserProfileId() == 3 || global.getUserProfileId() == 1 || global.getUserProfileId() == 5"><a href="#Paciente_espera" data-toggle="tab" aria-expanded="false">Pacientes por llamar</a></li>
-			<li class="" *ngIf="global.getUserProfileId() == 3 || global.getUserProfileId() == 1 || global.getUserProfileId() == 5"><a href="#Paciente_sala" data-toggle="tab" aria-expanded="false">Sala adulto</a></li>
-			<li class="" *ngIf="global.getUserProfileId() == 3 || global.getUserProfileId() == 1 || global.getUserProfileId() == 5"><a href="#Paciente_sala_pediatra" data-toggle="tab" aria-expanded="false">Sala pediátrica</a></li>
+			<li class="" *ngIf="global.getUserProfileId() == 3 || global.getUserProfileId() == 1 || global.getUserProfileId() == 5 || global.getUserProfileId() == 6"><a (click)="fnclickTag()" href="#Paciente_espera" data-toggle="tab" aria-expanded="false">Pacientes por llamar</a></li>
+			<li class="" *ngIf="global.getUserProfileId() == 3 || global.getUserProfileId() == 1 || global.getUserProfileId() == 5 || global.getUserProfileId() == 6"><a (click)="fnclickTag()" href="#Paciente_sala" data-toggle="tab" aria-expanded="false">Sala adulto</a></li>
+			<li class="" *ngIf="global.getUserProfileId() == 3 || global.getUserProfileId() == 1 || global.getUserProfileId() == 5 || global.getUserProfileId() == 6"><a (click)="fnclickTag()" href="#Paciente_sala_pediatra" data-toggle="tab" aria-expanded="false">Sala pediátrica</a></li>
 
-			<li class="pull-right"  *ngIf="global.getUserProfileId() == 1 || global.getUserProfileId() == 3"><button class="btn btn-primary" (click)="global.openModal('modal-confirmar-traumaShock')">Nuevo paciente de Trauma Shock</button></li>
+			<li class="pull-right"  *ngIf="global.getUserProfileId() == 1 || global.getUserProfileId() == 3 || global.getUserProfileId() == 6"><button class="btn btn-primary" (click)="global.openModal('modal-confirmar-traumaShock')">Nuevo paciente de Trauma Shock</button></li>
 		</ul>
 		<div class="tab-content">
 		<div class="tab-pane active" id="Buscar_paciente">
 			<app-yo-table [type]="1"></app-yo-table>
 		
 		</div>
-		<div class="tab-pane" id="traumaShock" *ngIf="global.getUserProfileId() == 3 || global.getUserProfileId() == 1 || global.getUserProfileId() == 5">
+		<div class="tab-pane" id="traumaShock" *ngIf="global.getUserProfileId() == 3 || global.getUserProfileId() == 1 || global.getUserProfileId() == 5 || global.getUserProfileId() == 6">
 			<app-yo-table [type]="5"></app-yo-table>
 		
 		</div>
-		<div class="tab-pane" id="solicitudesPendiente" *ngIf="global.getUserProfileId() == 3 || global.getUserProfileId() == 1 || global.getUserProfileId() == 2">
+		<div class="tab-pane" id="solicitudesPendiente" *ngIf="global.getUserProfileId() == 3 || global.getUserProfileId() == 1 || global.getUserProfileId() == 2 || global.getUserProfileId() == 6">
 			<app-yo-table [type]="6"></app-yo-table>
 		
 		</div>
 
-		<div *ngIf="global.getUserProfileId() == 3 || global.getUserProfileId() == 1" class="tab-pane  " id="Nuevo_paciente_triaje">
+		<div *ngIf="global.getUserProfileId() == 3 || global.getUserProfileId() == 1 || global.getUserProfileId() == 6" class="tab-pane  " id="Nuevo_paciente_triaje">
 			<div class="row" id="exportarPDF">
 				<div class="col-md-12">
 					<app-form-triaje [btnNpaciente]='true' [init]="{cerrar:true}"></app-form-triaje>
@@ -320,10 +320,10 @@
 		<div class="tab-pane" id="Paciente_espera">
 			<app-yo-table [type]="2"></app-yo-table>
 	</div>
-	<div class="tab-pane" id="Paciente_sala" *ngIf="global.getUserProfileId() == 3 || global.getUserProfileId() == 1 || global.getUserProfileId() == 5">
+	<div class="tab-pane" id="Paciente_sala" *ngIf="global.getUserProfileId() == 3 || global.getUserProfileId() == 1 || global.getUserProfileId() == 5 || global.getUserProfileId() == 6">
 		<app-yo-table [type]="3"></app-yo-table>
 </div>
-<div class="tab-pane" id="Paciente_sala_pediatra" *ngIf="global.getUserProfileId() == 3 || global.getUserProfileId() == 1 || global.getUserProfileId() == 5">
+<div class="tab-pane" id="Paciente_sala_pediatra" *ngIf="global.getUserProfileId() == 3 || global.getUserProfileId() == 1 || global.getUserProfileId() == 5 || global.getUserProfileId() == 6">
 		<app-yo-table [type]="4"></app-yo-table>
 </div>
 </div>

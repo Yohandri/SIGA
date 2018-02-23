@@ -1,6 +1,6 @@
 <section class="content-header">
 	<h1 class="tituloTriaje">
-		COLAS
+		{{title}}
 		<small class="pull-right"></small>
 	</h1>
 
@@ -9,10 +9,10 @@
 	</ol> -->
 </section>
 <section class="content">
-	<li *ngFor="let i of global.colasListTable">
+<!-- 	<li *ngFor="let i of global.colasListTable">
       <a routerLinkActive="active" routerLink="{{i.table}}">
-        <i class="fa fa-circle-o"></i> {{i.label}}
+        <i class="fa fa-circle-o"></i> {{i.table}}
       </a>
-    </li>
+    </li> -->
 	<router-outlet></router-outlet>
 </section>

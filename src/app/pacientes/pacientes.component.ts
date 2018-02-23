@@ -34,7 +34,7 @@ export class PacientesComponent implements OnInit {
   	this.httpService.get(path).then(res => {
   		
   		this.listPatients = res.Object.ListItems;
-  		//console.log(this.listPatients);
+  		////console.log(this.listPatients);
   		this.table = {
   				'headers':['Nombre','Apellido','Cedula'],
   				'body':['Name1'],

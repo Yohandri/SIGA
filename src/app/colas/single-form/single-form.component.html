@@ -1,0 +1,197 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+        <form [formGroup]="form" novalidate (ngSubmit)="submit(form.value)">
+            <div class="box box-primary" [@fadeInAnimation]>
+              <div [@fadeInAnimation] *ngIf="onLoad" style="z-index: 2;position: absolute;background-color: rgba(255,255,255,.9);width: 100%;height: 100%;">
+                  <i style="position: relative;top: 30%;left: 43%;" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                </div>
+              <div class="box-header with-border">
+                <h3 class="box-title">
+                  {{title}}
+                </h3>
+                <a *ngIf="(onEdit || id != 'Nuevo') && delete" (click)="fnDelete()" class="btn btn-danger pull-right">Eliminar</a>
+                <a (click)="fnBack(form.dirty)" class="btn btn-default m pull-right">Cancelar</a>
+                <a *ngIf="create && id != 'Nuevo'" (click)="nuevo()" class="btn btn-default m pull-right">Nuevo</a>
+              </div>
+              <div class="box-body">
+                <div class="row">
+                  <div *ngFor="let i of inputs;let index = index" [ngClass]="{'hidden': index == 0 || !i.showForm}" class="col-sm-12 col-md-6 col-lg-4">
+                    <div class="form-group" [ngClass]="{'has-error':!form.controls[i.campo].valid && (form.controls[i.campo].touched && form.controls[i.campo].dirty),'has-success':form.controls[i.campo].valid && (form.controls[i.campo].touched && form.controls[i.campo].dirty),'validateDate':i.type == 'date'}">
+                      <label for="{{i.campo}}">{{i.label}}</label>
+                      <label *ngIf="!form.controls[i.campo].valid && (form.controls[i.campo].touched && form.controls[i.campo].dirty)">{{global.titleRequiered}}</label>
+                      <label *ngIf="form.controls[i.campo].errors?.minlength && (form.controls[i.campo].touched && form.controls[i.campo].dirty)">como mínimo {{form.controls[i.campo].errors?.minlength?.requiredLength}} dígitos</label>
+                      <label *ngIf="form.controls[i.campo].errors?.number && (form.controls[i.campo].touched && form.controls[i.campo].dirty)">solo número</label>
+                      <label *ngIf="form.controls[i.campo].errors?.email && (form.controls[i.campo].touched && form.controls[i.campo].dirty)">correo inválido</label>
+                      <input *ngIf="i.type == 'text'" 
+                      autocomplete="off" 
+                      type="text" 
+                      class="form-control" 
+                      id="{{i.campo}}" 
+                      formControlName="{{i.campo}}" 
+                      placeholder="{{i.label}}" 
+                      name="{{i.campo}}"
+                      [readonly]="i.readonly"
+                      >
+                      <input *ngIf="i.type == 'number'" 
+                      autocomplete="off" 
+                      type="text" 
+                      class="form-control" 
+                      id="{{i.campo}}" 
+                      formControlName="{{i.campo}}" 
+                      placeholder="{{i.label}}" 
+                      name="{{i.campo}}"
+                      [readonly]="i.readonly"
+                      number
+                      >
+                      <input *ngIf="i.type == 'email'" 
+                      autocomplete="off" 
+                      type="email" 
+                      class="form-control" 
+                      id="{{i.campo}}" 
+                      formControlName="{{i.campo}}" 
+                      placeholder="{{i.label}}" 
+                      name="{{i.campo}}"
+                      [readonly]="i.readonly"
+                      [email]
+                      >
+                      <input *ngIf="i.type == 'date'" 
+                      autocomplete="off" 
+                      type="text" 
+                      class="form-control" 
+                      id="{{i.campo}}" 
+                      formControlName="{{i.campo}}" 
+                      placeholder="{{i.label}}" 
+                      name="{{i.campo}}"
+                      [readonly]="i.readonly"
+                      mask="99/99/9999"
+                      (blur)="validarFecha($event)"
+                      >
+                      <div class="checkbox" *ngIf="i.type == 'checkbox'">
+                        <label>
+                          <input 
+                          type="checkbox"
+                          formControlName="{{i.campo}}"
+                          id="{{i.campo}}" 
+                          name="{{i.campo}}"
+                          >
+                        </label>
+                      </div>
+                      <textarea [readonly]="i.readonly" *ngIf="i.type == 'textarea'" class="form-control" style="resize: none;" placeholder="{{i.label}}"  formControlName="{{i.campo}}"  name="{{i.campo}}" id="{{i.campo}}" cols="30" rows="1"></textarea>
+                      <select *ngIf="i.type == 'select' && i.campoName == 'Name'" 
+                      name="{{i.campo}}" 
+                      id="{{i.campo}}"
+                      formControlName="{{i.campo}}" 
+                      class="form-control"
+                      >
+                        <option value="">Seleccione</option>
+                        <option *ngFor="let j of i.data" value="{{j.Id}}">{{j.Name}}</option>
+                      </select>
+                      <select *ngIf="i.type == 'select' && i.campoName == 'Description'" 
+                      name="{{i.campo}}" 
+                      id="{{i.campo}}"
+                      formControlName="{{i.campo}}" 
+                      class="form-control"
+                      >
+                        <option value="">Seleccione</option>
+                        <option *ngFor="let j of i.data" value="{{j.Id}}">{{j.Description}}</option>
+                      </select>
+                      <select *ngIf="i.type == 'select' && i.campoName == 'Descr'" 
+                      name="{{i.campo}}" 
+                      id="{{i.campo}}"
+                      formControlName="{{i.campo}}" 
+                      class="form-control"
+                      >
+                        <option value="">Seleccione</option>
+                        <option *ngFor="let j of i.data" value="{{j.Id}}">{{j.Descr}}</option>
+                      </select>
+                      <select *ngIf="i.type == 'select' && i.campoName == 'Nombre'" 
+                      name="{{i.campo}}" 
+                      id="{{i.campo}}"
+                      formControlName="{{i.campo}}" 
+                      class="form-control"
+                      >
+                        <option value="">Seleccione</option>
+                        <option *ngFor="let j of i.data" value="{{j.Id}}">{{j.Nombre}}</option>
+                      </select>
+                      <select *ngIf="i.type == 'select' && i.campoName == 'Name1'" 
+                      name="{{i.campo}}" 
+                      id="{{i.campo}}"
+                      formControlName="{{i.campo}}" 
+                      class="form-control"
+                      >
+                        <option value="">Seleccione</option>
+                        <option *ngFor="let j of i.data" value="{{j.Id}}">{{j.IdentityCard}} {{j.Name1}} {{j.LastName1}}</option>
+                      </select>
+                      <select *ngIf="i.type == 'selectLocal'" 
+                      name="{{i.campo}}" 
+                      id="{{i.campo}}"
+                      formControlName="{{i.campo}}" 
+                      class="form-control"
+                      >
+                        <option value="">Seleccione</option>
+                        <option *ngFor="let j of i.data" value="{{j}}">{{j}}</option>
+                      </select>
+
+                      <div *ngIf="i.type == 'selectSearch' && i.data.length > 0">
+                          <input type="hidden" formControlName="{{i.campo}}" 
+                          name="{{i.campo}}" #ID$ >
+                          <ng-select  [allowClear]="true"
+                          [items]='i.data'
+                          [active]='[{id: ID$.value, text: getText(ID$.value)}]'
+                          (selected)="selected($event, i.campo)"
+                          placeholder="Seleccione {{i.label}}">
+                        </ng-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="box-footer">
+                <input *ngIf="update" [disabled]="!form.valid || fechaInvalida" type="submit" value="Guardar" class="btn btn-primary">
+                <a routerLink="../" class="btn btn-default hidden" id="btnBack" #btnBack>Cancelar</a>
+                <a (click)="fnBack(form.dirty)" class="btn btn-default">Cancelar</a>
+              </div> 
+            </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+<div #ModalDelete class="modal modal-danger fade" id="modal-delete">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span></button>
+          <h4 class="modal-title">Eliminar</h4>
+        </div>
+        <div class="modal-body">
+          <p>¿Esta seguro que desea eliminar?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" data-dismiss="modal">Cancelar</button>
+          <button (click)="confirmarDelete()" type="button" class="btn btn-outline">ELIMINAR</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div #ModalWarning class="modal modal-warning fade" id="modal-warning">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span></button>
+            <h4 class="modal-title">Alerta</h4>
+          </div>
+          <div class="modal-body">
+            <p>¿Esta seguro que desea cancelar sin guardar?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline" data-dismiss="modal">No</button>
+            <button (click)="confirmarWarning()" type="button" class="btn btn-outline">SI</button>
+          </div>
+        </div>
+      </div>
+    </div>

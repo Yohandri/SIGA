@@ -42,7 +42,7 @@ export class HistoriaClinicaComponent implements OnInit {
   }
   act = () =>{
     setTimeout(()=>{
-      //console.log(this.obj2,this.print);
+      ////console.log(this.obj2,this.print);
       if (this.print) {
         this.obj = this.obj2;
         this.act();

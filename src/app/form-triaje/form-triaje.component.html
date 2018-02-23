@@ -76,7 +76,9 @@
 												</select>
 											</span>
 											<input maxlength="10" type="text" class="form-control" placeholder="Cédula" formControlName="IdentityCard" name="IdentityCard" required="false" id="Cedula">
-
+											<span class="input-group-btn">
+												<button type="button" class="btn btn-primary" (click)="buscar(FormPaciente.get('PatientClient.IdentityCard').value,'patient')" [disabled]="FormPaciente.get('PatientClient.IdentityCard').value.length < 7">Buscar</button>
+											</span>
 										</div>
 									</div>
 								</div>
@@ -114,8 +116,16 @@
 									<textarea class="form-control" rows="1"  style="resize: none;" placeholder="Dirección" formControlName="Address" name="Address"></textarea><br>
 								</div>
 							</div>
+							<div class="row" *ngIf="!isMenor">
+								<div class="col-md-12">
+									<label>
+										<input type="checkbox" formControlName="Responsable" name="isResponsable"> Responsable
+									</label>
+								</div>
+							</div>
 						</div>
-						<div *ngIf="isMenor">
+						<!-- <div *ngIf="isMenor || FormPaciente.get('PatientClient.isResponsable').value"> -->
+								<div *ngIf="isMenor || FormPaciente.get('PatientClient.Responsable').value">
 							<div class="row">
 
 								<div class="col-md-12">
@@ -180,6 +190,9 @@
 																	</select>
 																</span>
 																<input maxlength="8" type="text" class="form-control" placeholder="Cédula" formControlName="IdentityCard" name="IdentityCard">
+																<span class="input-group-btn">
+																	<button type="button" class="btn btn-primary" (click)="buscar(FormPaciente.get('FamiliarClient.IdentityCard').value,'familiar')" [disabled]="FormPaciente.get('FamiliarClient.IdentityCard').value.length < 7">Buscar</button>
+																</span>
 															</div>
 														</div>
 													</div>
@@ -281,10 +294,10 @@
 		                        	<div class="form-group">
 		                        		<b for="">Emergencia: </b>
 										<label for="adulto">A</label>
-										<input type="radio" name="DestinationTypeRoom" value="ADULTO" id="adulto" formControlName="DestinationTypeRoom">
+										<input type="radio" name="DestinationTypeRoom" value="SALA DE ADULTO" id="adulto" formControlName="DestinationTypeRoom">
 
 										<label for="pediatria">P</label>
-										<input type="radio" name="DestinationTypeRoom" value="PEDIATRICA" id="pediatria" formControlName="DestinationTypeRoom">
+										<input type="radio" name="DestinationTypeRoom" value="SALA PEDIATRICA" id="pediatria" formControlName="DestinationTypeRoom">
 									</div>
 		                        </div>				                        
 							</div>
@@ -356,3 +369,34 @@
 		</div>
 	</div>
 </div>
+
+<div class="popup">
+	<div class="containerssss">
+		<div class="box box-success">
+			<div class="box-header with-border">
+					<button type="button" class="close" (click)="fnClosePopup()">
+							<span aria-hidden="true">×</span></button>
+				<h3 class="box-title">Resultado de la busqueda</h3>
+			</div>
+			<div class="box-body">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>Cedula</th>
+							<th>Nombre</th>
+							<th>Apellido</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let i of listEncontrados" (click)="fnSelect(i)">
+							<td>{{i.IdentityCard}}</td>
+							<td>{{i.Name1}}</td>
+							<td>{{i.LastName1}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="cortinaPopup"></div>

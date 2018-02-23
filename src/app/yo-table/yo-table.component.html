@@ -76,7 +76,7 @@
 	<div class="box box-default" *ngIf="fichaOn">
 		<div class="box-header with-border">
 			<h3 class="box-title">Ficha del Paciente </h3>
-			<button type="button" class="close" (click)="cerrarFicha()"><span aria-hidden="true">&times;</span></button>
+			<button type="button" class="close" id="btnCerrarFicha" (click)="cerrarFicha()"><span aria-hidden="true">&times;</span></button>
 			<span class="pull-right">Ticket <b style="padding-right:30px;">{{fichaPaciente.Ticket}} </b> <b style="margin-right:10px;font-size: 18px;" [ngClass]="{'bg-blanco':fichaPaciente.StatusManage == 1,'bg-red':fichaPaciente.StatusManage == 3,'bg-Amarillo':fichaPaciente.StatusManage == 2}" class="badge bg-blanco">{{fichaPaciente.Priority}}</b></span>
 		</div>
 		<div *ngIf="cargarFicha" style="z-index: 2;position: absolute;background-color: rgba(255,255,255,.9);width: 100%;height: 100%;">
@@ -218,7 +218,8 @@
 						</div>
 						<div class="col-sm-6 col-md-3">
 							<div>Hora sala emerg: </div>
-							<b>{{fichaPaciente.Hingreso | date:'h:mm a'}}</b>
+							<b>{{fichaPaciente.Hingreso | date:'h:mm a'}}</b> <span *ngIf="fichaPaciente.HegresoSala != ''"> - </span>
+							<b>{{fichaPaciente.HegresoSala | date:'h:mm a'}}</b>
 						</div>
 						<div class="col-sm-6 col-md-3">
 							<div>Hora egreso: </div>
@@ -226,23 +227,31 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-6">
-							<div>Ubicación del paciente: </div>
+						<div class="col-md-3">
+							<div>Ubicación: </div>
 							<b>{{fichaPaciente.ubicacion}}</b>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-3">
 							<div>Estado</div>
 							<div>
-							<div *ngIf="fichaPaciente.StatusManage == 1" class="badge bg-green">
-								a tiempo
-							</div>
-							<div *ngIf="fichaPaciente.StatusManage == 2" class="badge bg-Amarillo">
-								alerta
-							</div>
-							<div *ngIf="fichaPaciente.StatusManage == 3" class="badge bg-red">
-								fuera de tiempo
+								<div *ngIf="fichaPaciente.StatusManage == 1" class="badge bg-green">
+									a tiempo
+								</div>
+								<div *ngIf="fichaPaciente.StatusManage == 2" class="badge bg-Amarillo">
+									alerta
+								</div>
+								<div *ngIf="fichaPaciente.StatusManage == 3" class="badge bg-red">
+									fuera de tiempo
+								</div>
 							</div>
 						</div>
+						<div class="col-md-3">
+							<br>
+							<b>{{fichaPaciente.MessageStatusManage}}</b>
+						</div>
+						<div class="col-md-3">
+							<br>
+							<b>{{fichaPaciente.MessageServiceRequestAdmissionEgress}}</b>
 						</div>
 					</div>
 				</div>
@@ -319,7 +328,7 @@
 								</td>
 								<td>
 									<label>
-										<input type="radio" [disabled]="i.Status == 2 || i.Status == 4" (click)="changeChecked(4,i)" [checked]="i.Status == 4" name="status_{{index}}" id="status4_{{index}}" value="4">
+										<input type="radio" [disabled]="i.Status == 2 || i.Status == 4 || i.Name == 'EGRESO'" (click)="changeChecked(4,i)" [checked]="i.Status == 4" name="status_{{index}}" id="status4_{{index}}" value="4">
 
 									</label>
 								</td>

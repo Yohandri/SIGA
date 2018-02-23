@@ -10,6 +10,7 @@ import { PantallaComponent } from './pantalla/pantalla.component';
 import { PacientesComponent } from './pacientes/pacientes.component';
 import { ContentColasComponent } from './colas/content-colas/content-colas.component';
 import {SingleTableComponent} from './colas/single-table/single-table.component';
+import { SingleFormComponent } from "./colas/single-form/single-form.component";
 
  
 const routes: Routes = [
@@ -17,11 +18,22 @@ const routes: Routes = [
   { path: '',  component: LoginComponent },
   { path: 'dashboard',  component: DashboardComponent },
   { path: 'Pantalla',  component: PantallaComponent },
-  // { path: 'Pacientes',  component: PacientesComponent },
-  // { path: 'COLAS',  component: ContentColasComponent,
-  // 	children: [
-  //     { path: ':table',  component: SingleTableComponent }
-  //   ]  },
+  { path: 'Admin-ERIS',  component: ContentColasComponent, canActivate:[AuthGuard,TypeUserGuard],
+  children: [
+    { path: ':entityname',  component: SingleTableComponent },
+    { path: ':entityname/:id',  component: SingleFormComponent }   
+ ]  },
+ //{ path: 'Pacientes',  component: PacientesComponent },
+  { path: 'Admin-COLAS',  component: ContentColasComponent, canActivate:[AuthGuard,TypeUserGuard],
+ 	children: [
+     { path: ':entityname',  component: SingleTableComponent },
+     { path: ':entityname/:id',  component: SingleFormComponent }   
+  ]  },
+  { path: 'Admin-global',  component: ContentColasComponent, canActivate:[AuthGuard,TypeUserGuard],
+  children: [
+    { path: ':entityname',  component: SingleTableComponent },
+    { path: ':entityname/:id',  component: SingleFormComponent }   
+ ]  },
 
   { path: '**' ,redirectTo: ''}
 ];

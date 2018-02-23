@@ -23,7 +23,7 @@ export class YoTableComponent implements OnInit {
 			public fb:FormBuilder) { }
 
   ngOnInit() {
-  	//console.log(this.data);
+  	////console.log(this.data);
   	
   	let self = this;
   	this.getPacientes();
@@ -74,7 +74,7 @@ export class YoTableComponent implements OnInit {
   checkBoxPause:boolean = false;
   hidePresente:boolean = false;
   fnPresente = (accion) => {
-    console.log(accion);
+    //console.log(accion);
     // if (accion == 'P') {
     //   this.hidePresente = true;
     // } else if (accion == 'A') {
@@ -83,19 +83,19 @@ export class YoTableComponent implements OnInit {
     let path = 'api/WebServicesERIS/SetPatientIsPresent';
     let json = {Id: this.IdEmergency};
     this.httpService.post(path, json).then(res=>{
-      console.log(res);
+      //console.log(res);
       this.getFicha(this.IdEmergency);
     })
   }
    public selectedSeguro = (val) =>{
-  	//console.log(val);
+  	////console.log(val);
     this.FormPacienteAdmision.controls['AdmissionClient'].value.AssuredId = val.id;
     let array = this.FormPacienteAdmision.controls['AdmissionClient'].value;
     this.FormPacienteAdmision.controls['AdmissionClient'].setValue(array);
 
   }
   public selectedColectivo = (val) =>{
-  	//console.log(val);
+  	////console.log(val);
     this.FormPacienteAdmision.controls['AdmissionClient'].value.CollectiveId = val.id;
     let array = this.FormPacienteAdmision.controls['AdmissionClient'].value;
     this.FormPacienteAdmision.controls['AdmissionClient'].setValue(array);
@@ -103,7 +103,7 @@ export class YoTableComponent implements OnInit {
   getSeguro = () => {
     let path = "api/WebServices/SelectRecord?sParamsIn={'Id': 0,'EntityName': 'AssuredClient','page':0, 'pageSize':20}";
     this.httpService.get(path).then((res)=>{
-      //console.log(res);
+      ////console.log(res);
       let datos = res.Object.ListItems;
       datos.forEach((val)=>{
         this.listSeguro.push({id:val.Id,text:val.Name});
@@ -113,7 +113,7 @@ export class YoTableComponent implements OnInit {
   getColectivo = () => {
     let path = "api/WebServices/SelectRecord?sParamsIn={'Id': 0,'EntityName': 'CollectiveClient','page':0, 'pageSize':20}";
     this.httpService.get(path).then((res)=>{
-      //console.log(res);
+      ////console.log(res);
       let datos = res.Object.ListItems;
       datos.forEach((val)=>{
         this.listColectivo.push({id:val.Id,text:val.Name});
@@ -121,7 +121,7 @@ export class YoTableComponent implements OnInit {
     });
   }
   fnCheckbox = (event) => {
-  	//console.log(this.checkBoxPause);
+  	////console.log(this.checkBoxPause);
   	let val:boolean = this.checkBoxPause;
   	if (val) {
   		this.fnPause();
@@ -138,7 +138,7 @@ export class YoTableComponent implements OnInit {
   	this.global.openModal('modal-HM_'+this.type);
     let path:string = "api/WebServicesERIS/ViewHM?sParamsIn={'Id': "+this.IdEmergency+"}";
     this.httpService.get(path).then((res)=>{
-      console.log(res);
+      ////console.log(res);
       let estatus = res.Status;
       if (estatus) {
         this.objHM = res.Object;
@@ -151,7 +151,7 @@ export class YoTableComponent implements OnInit {
     let valor = val.target.value;
     let fecha = valor;
     let isValid = moment(this.parseDMY(fecha)).isValid();
-    console.log(fecha);
+    //console.log(fecha);
     if (!isValid) {
       this.global.msj('Fecha invalida','danger');
       $('.validateDate').addClass('has-error');
@@ -163,7 +163,7 @@ export class YoTableComponent implements OnInit {
       //this.FormPaciente.controls['PatientClient'].setValue(array);
 
       if (accion == 'familiar') {
-        console.log('paso');
+        ////console.log('paso');
       } else {
         this.calcularFN(this.stringDMY(fecha));
       }
@@ -189,11 +189,11 @@ export class YoTableComponent implements OnInit {
       return (m + '/' + (d) + '/' + y);
   }
   calcularFN = (date) => {
-    //console.log(date);
+    ////console.log(date);
     let fecha:any = new Date(date);
     let hoy:any = new Date();
     let res:any = this.calFecha(fecha,hoy);
-    console.log(res);
+    ////console.log(res);
     if (res < 18) {
       this.isMenor = true;
     } else {
@@ -265,7 +265,7 @@ fichaOn:boolean = false;
 selectCambiarPacientes:boolean = false;
 fnClickPauses = () => {
   
-  console.log(this.pauseFilter);
+  ////console.log(this.pauseFilter);
   let status = this.pauseFilter;
   if (status) {
     this.selectCambiarPacientes = true;
@@ -275,6 +275,13 @@ fnClickPauses = () => {
   this.fichaOn = false;
   this.getPacientes();
   this.getTaquilleros();
+}
+setFicha = () => {
+  if(this.fichaOn){
+    this.fichaOn = false;
+  } else {
+    this.fichaOn = true;
+  }
 }
   getPacientes = () => {
   	//this.global.loading('in');
@@ -320,17 +327,17 @@ fnClickPauses = () => {
         path = 'api/WebServicesERIS/GetListDashboar?sParamsInSelectDashboard={"type": '+ this.type +',"page": '+ this.page +', "pageSize":10}';
       }
   	let fichaOn = this.fichaOn;
-    //console.log(fichaOn);
-    //console.log(path);
+    ////console.log(fichaOn);
+    ////console.log(path);
     if (!fichaOn) {
       this.httpService.get(path).then((res)=>{
-        //console.log(res);
+        ////console.log(res);
         //this.global.loading('out');
        
         let status = res.Status;
         //let fichaOn = this.fichaOn;
-        //console.log(fichaOn);
-        //console.log(res);
+        ////console.log(fichaOn);
+        ////console.log(res);
         if (status) {
           let datos = res.Object.ListItems;
           this.LastPage = res.Object.LastPage;
@@ -340,12 +347,12 @@ fnClickPauses = () => {
           datos.forEach((val)=>{
             this.listPacientes.push({Pause:val.Admission.Pause,obj:val,Ticket:val.Ticket,Nombre:val.Patient.Name1 + ' ' + val.Patient.LastName1,IdentityCard:val.Patient.IdentityCard,Estado:val.Priority,StatusManage:val.StatusManage })
           });
-    // console.log(this.listPacientes.length);
+    // //console.log(this.listPacientes.length);
             if (this.listPacientes.length == 0) {
               this.selectCambiarPacientes = false;
             }
             setTimeout(()=>{
-              //console.log(fichaOn);
+              ////console.log(fichaOn);
               this.getPacientes();
             },10000);
    
@@ -353,7 +360,7 @@ fnClickPauses = () => {
         } else {
           //this.global.msj(res.Object,'danger');
         }
-        //console.log(this.listPacientes);
+        ////console.log(this.listPacientes);
       });
     }else {
       let selectInlist = this.global.getLocal('selectInList');
@@ -384,7 +391,7 @@ fnClickPauses = () => {
     let json = {"Id": this.fichaAdmisionId}
     let path = 'api/WebServicesERIS/OpenManageAdmission';
     this.httpService.post(path,json).then((res)=>{
-      //console.log(res);
+      ////console.log(res);
       if (res.Status) {
         //this.fichaPaciente.pause = true;
         this.getPacientes();
@@ -395,7 +402,7 @@ fnClickPauses = () => {
     let json = {"Id": this.fichaAdmisionId}
     let path = 'api/WebServicesERIS/SetAdmissionPause';
     this.httpService.post(path,json).then((res)=>{
-      //console.log(res);
+      ////console.log(res);
       if (res.Status) {
         this.fichaPaciente.pause = true;
         this.getPacientes();
@@ -407,7 +414,7 @@ fnClickPauses = () => {
     let json = {"Id": this.fichaAdmisionId}
     let path = 'api/WebServicesERIS/SetAdmissionPlay';
     this.httpService.post(path,json).then((res)=>{
-      //console.log(res);
+      ////console.log(res);
       if (res.Status) {
         this.fichaPaciente.pause = false;
         this.getPacientes();
@@ -421,10 +428,10 @@ fnClickPauses = () => {
                 "EntityName": "UserCallTicketClient",
                 "EntityJson": {Ticket: this.fichaPaciente.Ticket}
               }
-              //console.log(json);
+              ////console.log(json);
       let path = 'api/WebServices/UpsertEntity';
       this.httpService.post(path,json).then((res)=>{
-        //console.log(res);
+        ////console.log(res);
         if (res.Status) {
           //this.fichaPaciente.pause = false;
           this.fichaPaciente.StatusScreen = true;
@@ -434,10 +441,10 @@ fnClickPauses = () => {
       let json = {
                 "Value":  this.fichaPaciente.Ticket
               }
-              console.log(json);
+              //console.log(json);
       let path = 'api/WebServicesERIS/SetArrivedPatientToCall';
       this.httpService.post(path,json).then((res)=>{
-        console.log(res);
+        ////console.log(res);
         if (res.Status) {
           //this.fichaPaciente.pause = false;
           this.fichaPaciente.StatusScreen = false;
@@ -448,7 +455,7 @@ fnClickPauses = () => {
     this.getFicha(this.IdEmergency);
   }
   fnEdit = (obj) => {
-    //console.log(obj);
+    ////console.log(obj);
     this.global.openModal('modal-Editar_'+this.type);
     this.fnOpenForm();
     this.getPacientes();
@@ -461,9 +468,9 @@ fnClickPauses = () => {
   }
   closeManager = () => {
     let json = {id:this.IdEmergency};
-    //console.log(this.IdEmergency);
+    ////console.log(this.IdEmergency);
     this.httpService.CloseManager(json).then((res)=>{
-      //console.log(res);
+      ////console.log(res);
       this.getPacientes();
     });
   }
@@ -518,9 +525,9 @@ fnClickPauses = () => {
   }
   getPacientesSolicitudes = ()=>{
     let path = 'api/WebServicesERIS/GetServiceRequest?sParamsInSelectServiceRequest={EmergencyId: '+ this.IdEmergency +',"page": '+ this.pageSolicitudes +', "pageSize":10}';
-      console.log(path);
+      //console.log(path);
       this.httpService.get(path).then((res)=>{
-        console.log(res);
+        //console.log(res);
         let datos = res.Object.ListItems;
         this.solicitudes = datos;
         this.getPaginationSolicitudes();
@@ -539,9 +546,9 @@ fnClickPauses = () => {
       path = 'api/WebServicesERIS/SetCheckOutEmergency';
       this.showE = false;
     }
-    console.log(path, json);
+    ////console.log(path, json);
     this.httpService.post(path,json).then(res=>{
-      console.log(res);
+      //console.log(res);
       this.getPacientes();
       this.getFicha(this.IdEmergency);
     });
@@ -550,7 +557,7 @@ fnClickPauses = () => {
     let path = 'api/WebServicesERIS/SetCheckOutAdmission';
     let json = {"Id": this.IdEmergency };
     this.httpService.post(path,json).then(res=>{
-      console.log(res);
+      //console.log(res);
       
       if (res.Status) {
         this.showL = false;
@@ -570,13 +577,13 @@ fnClickPauses = () => {
         let datos = res.Object.ListItems;
         this.listTaquilleros = datos;
       }
-      //console.log(res);
+      ////console.log(res);
     });
   }
   CambiarPaciente = () => {
     let path = 'api/WebServicesERIS/TransferAdmissionToUser';
     let json = {"UserIdTransfer":this.taquillero,"AdmissionId":this.fichaAdmisionId};
-    console.log(json);
+    //console.log(json);
     this.httpService.post(path,json).then(res=>{
       let status = res.Status;
       if (status) {
@@ -585,13 +592,13 @@ fnClickPauses = () => {
       } else {
         this.global.msj('No se puede transferir', 'danger');
       }
-      console.log(res);
+      //console.log(res);
     });
   }
   CambiarPacientes = () => {
     let path = 'api/WebServicesERIS/TransferAllAdmissionToUser';
     let json = {"Id":this.taquillero};
-    console.log(json);
+    //console.log(json);
     this.httpService.post(path,json).then(res=>{
       let status = res.Status;
       if (status) {
@@ -602,7 +609,7 @@ fnClickPauses = () => {
       } else {
         this.global.msj('No se puede transferir', 'danger');
       }
-      //console.log(res);
+      ////console.log(res);
     });
   }
   obj:any;
@@ -612,7 +619,7 @@ fnClickPauses = () => {
     let path = 'api/WebServicesERIS/GetFileEmergency?sParamsSigleIdClient={"Id":' +id+ '}';
     setTimeout(()=>{
       this.httpService.get(path).then(res=>{
-        console.log(res.Object);
+        //console.log(res.Object);
         let status = res.Status;
         if (status) {
           let obj = res.Object;
@@ -694,7 +701,7 @@ fnClickPauses = () => {
   fnSelectPaciente = (obj,event) => {
     this.restFicha();
     this.getTaquilleros();
-  	console.log(obj.Id);
+  	//console.log(obj.Id);
     this.IdEmergency = obj.Id;
     this.getFicha(this.IdEmergency);
 
@@ -743,7 +750,7 @@ fnClickPauses = () => {
     //   this.showL = true;
     // }
     // if (obj.CheckOut == '1900-01-01T00:00:00') {
-    //   console.log('paso',obj.CheckOut);
+    //   //console.log('paso',obj.CheckOut);
     //   this.fichaPaciente.Hegreso = '';
     // } else {
     //   this.fichaPaciente.Hegreso = obj.CheckOut;
@@ -771,7 +778,7 @@ fnClickPauses = () => {
     let familiar = obj.Patient.Familiar;
     let admision = obj.Admission;
     let forForm:any = {};
-    //console.log(pacient.IsMinor);
+    ////console.log(pacient.IsMinor);
     this.isMenor = pacient.IsMinor;
     if (familiar == null) {
       forForm = {
@@ -879,8 +886,8 @@ fnClickPauses = () => {
       }
     });
      
-   // console.log(this.seguroActivo);
-    //console.log(forForm);
+   // //console.log(this.seguroActivo);
+    ////console.log(forForm);
     
 
 
@@ -919,7 +926,7 @@ fnClickPauses = () => {
   }
  
   fnCloseModalEditar = (val) => {
-  	//console.log(val.touched);
+  	////console.log(val.touched);
   	let sucio = val.touched;
   	if (sucio) {
   		this.global.closeModal('modal-Editar_'+this.type);
@@ -936,7 +943,7 @@ fnClickPauses = () => {
   	let edit = this.edit;
   	if (type == 'admision') {
       if (edit) {
-        console.log(form);
+        //console.log(form);
         let cedula = form.PatientClient.IdentityCard;
         let typeCedula = form.PatientClient.typeIdentityCard;
         let familiar = form.FamiliarClient;
@@ -952,7 +959,7 @@ fnClickPauses = () => {
                 if (cedula != '') {
                   if (telefono != '') {
                     this.httpService.admision(form).then((res)=>{
-                      console.log(res);
+                      //console.log(res);
                       let data = res.Object;
                       if (res.Status) {
                       	this.global.closeModal('modal-confirmar_'+this.type);
@@ -982,7 +989,7 @@ fnClickPauses = () => {
               if (cedula != '') {
                 if (telefono != '') {
                   this.httpService.admision(form).then((res)=>{
-                    console.log(res);
+                    //console.log(res);
                     let data = res.Object;
                     if (res.Status) {
                     	this.global.closeModal('modal-confirmar_'+this.type);
@@ -1006,27 +1013,27 @@ fnClickPauses = () => {
         }
         
       } else {
-        console.log(form);
+        //console.log(form);
         let cedula = form.PatientClient.IdentityCard;
         let typeCedula = form.PatientClient.TypeIdentityCard;
         let familiar = form.FamiliarClient;
         let telefono = form.PatientClient.CellPhone;
         //let IsvitalSigns = form.EmergencyClient.IsVitalSigns;
         //let virtalsigns = form.VitalSignsClient;
-        //console.log(typeCedula);
+        ////console.log(typeCedula);
         if (typeCedula === "M") {
           form.PatientClient.CellPhone = form.FamiliarClient.CellPhone;
           form.PatientClient.IdentityCard = form.FamiliarClient.IdentityCard;
           cedula = form.PatientClient.IdentityCard;
           telefono = form.PatientClient.CellPhone;
-          console.log(cedula);
+          //console.log(cedula);
           if (familiar.Address !== '',familiar.Name1 !== '' && familiar.LastName1 !== '' && familiar.BirthDate !== '' && familiar.Gender !== '' && familiar.IdentityCard !== '' && familiar.Phone !== '') {
             if (true) {
               if (true) {
                 if (cedula != '') {
                   if (telefono != '') {
                     this.httpService.traumaShock().then((res)=>{
-                      console.log(res);
+                      //console.log(res);
                       let data = res.Object;
                       if (res.Status) {
                         this.resFormAdmision(data);
@@ -1054,7 +1061,7 @@ fnClickPauses = () => {
               if (cedula != '') {
                 if (telefono != '') {
                   this.httpService.traumaShock().then((res)=>{
-                    console.log(res);
+                    //console.log(res);
                     let data = res.Object;
                     if (res.Status) {
                       this.resFormAdmision(data);
@@ -1087,7 +1094,7 @@ fnClickPauses = () => {
     let pacient = form.PatientClient;
     let familiar = form.FamiliarClient;
     let admision = form.AdmissionClient;
-    //console.log(pacient);
+    ////console.log(pacient);
     if (familiar !== null) {
       this.FormPacienteAdmision = this.fb.group({
         PatientClient: this.fb.group({
@@ -1219,12 +1226,12 @@ changeTypeIdentity = (accion) => {
 
       let self = this;
       let type = this.FormPacienteAdmision.controls['PatientClient'].value.TypeIdentityCard;
-      //console.log(type);
+      ////console.log(type);
       if (this.isMenor) {
         this.FormPacienteAdmision.controls['PatientClient'].value.IsMinor = true;
          this.FormPacienteAdmision.controls['PatientClient'].value.IdentityCard = 'temporal';
          this.FormPacienteAdmision.controls['PatientClient'].value.Phone = 'temporal';
-         //console.log(this.FormPacienteAdmision.controls['PatientClient'].value.Phone);
+         ////console.log(this.FormPacienteAdmision.controls['PatientClient'].value.Phone);
          //$('#Cedula').removeAttr('required');​​​​​
         // $('#Telefono').removeAttr('required');​​​​​
         //$('#Cedula').text('?');
@@ -1239,10 +1246,10 @@ changeTypeIdentity = (accion) => {
     
   }
   changeChecked = (val, obj) => {
-    //console.log(val,obj.Id);
+    ////console.log(val,obj.Id);
     let json = {"Id": obj.Id,"Status": val}
     this.httpService.setStatusService(json).then((res)=>{
-     // console.log(res);
+     // //console.log(res);
      this.getFicha(this.IdEmergency);
     });
   }
