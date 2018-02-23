@@ -485,21 +485,27 @@ export class FormAdmisionComponent implements OnInit {
   }
   buscar = (value,type):void => {
 		//console.log(value);
-		this.typeSearch = type;
-		this.listEncontrados = [];
-		this.apiPacientes.forEach(element => {
-			if(value == element.IdentityCard){
-				this.listEncontrados.push(element);
+		let path:string = "api/WebServicesERIS/GetPacients?cedula=" + value +"&type=" + type;
+		this.httpService.get(path).then((res):any => {
+			//console.log(res);
+			this.apiPacientes = res.Object;
+			this.typeSearch = type;
+			this.listEncontrados = [];
+			if(res.Object != "Type Not Found"){
+				this.apiPacientes.forEach(element => {
+					this.listEncontrados.push(element);
+				});
+			}
+			if(this.listEncontrados.length == 0){
+				this.global.msj("Lo siento, no se encontraron pacientes/responsables correspondientes a ésta cédula","success");
+			} else {
+        
+				$('.cortinaPopup').css('display', 'block');
+				$('.popup').removeClass("closeM");
+        $('.popup').addClass("openM");
+        $('.modal.fade.in').animate({ scrollTop: 50 }, 100);
 			}
 		});
-		//console.log(this.listEncontrados);
-		if(this.listEncontrados.length == 0){
-			this.global.msj("Lo siento, no se encontraron pacientes/responsables correspondientes a ésta cédula","success");
-		} else {
-			$('.cortinaPopup').css('display', 'block');
-			$('.popup').removeClass("closeM");
-			$('.popup').addClass("openM");
-		}
 	}
 	fnClosePopup = ():void => {
 		$('.popup').removeClass("openM");
@@ -512,7 +518,7 @@ export class FormAdmisionComponent implements OnInit {
 	fnSelect = (obj):void => {
 		let type:string = this.typeSearch; 
 		//console.log(obj);
-		if(type == "pacient"){
+		if(type == "patient"){
 			this.resPacient(obj);
 		} else if(type == "familiar") {
 			this.resFamiliar(obj);
@@ -522,22 +528,37 @@ export class FormAdmisionComponent implements OnInit {
 	resPacient = (obj):void => {
 		this.FormPacienteAdmision.controls['PatientClient'].value.Name1 = obj.Name1;
 		this.FormPacienteAdmision.controls['PatientClient'].value.LastName1 = obj.LastName1;
+		this.FormPacienteAdmision.controls['PatientClient'].value.Name2 = obj.Name2;
+		this.FormPacienteAdmision.controls['PatientClient'].value.LastName2 = obj.LastName2;
+		this.FormPacienteAdmision.controls['PatientClient'].value.BirthDate = moment(obj.BirthDate).format('DD/MM/YYYY');
+		this.FormPacienteAdmision.controls['PatientClient'].value.CellPhone = obj.CellPhone;
+		this.FormPacienteAdmision.controls['PatientClient'].value.HomePhone = obj.HomePhone;
+		this.FormPacienteAdmision.controls['PatientClient'].value.Email = obj.Email;
+		this.FormPacienteAdmision.controls['PatientClient'].value.Address = obj.Address;
+		this.FormPacienteAdmision.controls['PatientClient'].value.Responsable = obj.Responsable;
+		this.FormPacienteAdmision.controls['PatientClient'].value.Gender = obj.Gender;
+    this.FormPacienteAdmision.controls['PatientClient'].value.IdentityCard = obj.IdentityCard;
+    this.FormPacienteAdmision.controls['PatientClient'].value.TypeIdentityCard = obj.TypeIdentityCard;
 		let array = this.FormPacienteAdmision.controls['PatientClient'].value;
 		this.FormPacienteAdmision.controls['PatientClient'].setValue(array);
 	}
 	resFamiliar = (obj):void => {
 		this.FormPacienteAdmision.controls['FamiliarClient'].value.Name1 = obj.Name1;
 		this.FormPacienteAdmision.controls['FamiliarClient'].value.LastName1 = obj.LastName1;
+		this.FormPacienteAdmision.controls['FamiliarClient'].value.Name2 = obj.Name2;
+		this.FormPacienteAdmision.controls['FamiliarClient'].value.LastName2 = obj.LastName2;
+		this.FormPacienteAdmision.controls['FamiliarClient'].value.BirthDate = moment(obj.BirthDate).format('DD/MM/YYYY');
+		this.FormPacienteAdmision.controls['FamiliarClient'].value.CellPhone = obj.CellPhone;
+		this.FormPacienteAdmision.controls['FamiliarClient'].value.HomePhone = obj.HomePhone;
+		this.FormPacienteAdmision.controls['FamiliarClient'].value.Email = obj.Email;
+		this.FormPacienteAdmision.controls['FamiliarClient'].value.Address = obj.Address;
+		this.FormPacienteAdmision.controls['FamiliarClient'].value.Gender = obj.Gender;
+    this.FormPacienteAdmision.controls['FamiliarClient'].value.IdentityCard = obj.IdentityCard;
+    this.FormPacienteAdmision.controls['FamiliarClient'].value.TypeIdentityCard = obj.TypeIdentityCard;    
 		let array = this.FormPacienteAdmision.controls['FamiliarClient'].value;
 		this.FormPacienteAdmision.controls['FamiliarClient'].setValue(array);
 	}
 	typeSearch:string = '';
 	listEncontrados:any = [];
-	apiPacientes:any = [
-		{IdentityCard: 1234567,Name1:"Yohandri", LastName1:"Ramírez"},
-		{IdentityCard: 12345678,Name1:"José", LastName1:"Perez"},
-		{IdentityCard: 123456789,Name1:"Daniel", LastName1:"Urdaneta"},
-		{IdentityCard: 987456321,Name1:"David", LastName1:"villega"},
-		{IdentityCard: 55555555,Name1:"Oswaldo", LastName1:"Peña"}
-	];
+	apiPacientes:any = [];
 }

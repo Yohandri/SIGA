@@ -38,9 +38,9 @@ export class FormTriajeComponent implements OnInit {
 
 	get = (id:number) => {
 		let path = 'api/WebServicesERIS/GetFileEmergency?sParamsSigleIdClient={"Id":' +id+ '}';
-		console.log(path);
+		//console.log(path);
 		this.httpService.get(path).then(res=>{
-			console.log(res);
+			//console.log(res);
 			let statu:boolean = res.Status;
 			if (statu) {
 				let obj = res.Object;
@@ -56,7 +56,7 @@ export class FormTriajeComponent implements OnInit {
 				          EmergencyClient: obj,
 				          VitalSignsClient: vitalSigns
 				      };
-				      console.log(forForm);
+				      //console.log(forForm);
 				      this.resForm(forForm);
 			}
 		});
@@ -156,21 +156,29 @@ export class FormTriajeComponent implements OnInit {
 
 	buscar = (value,type):void => {
 		//console.log(value);
-		this.typeSearch = type;
-		this.listEncontrados = [];
-		this.apiPacientes.forEach(element => {
-			if(value == element.IdentityCard){
-				this.listEncontrados.push(element);
+		let path:string = "api/WebServicesERIS/GetPacients?cedula=" + value +"&type=" + type;
+		this.httpService.get(path).then((res):any => {
+			//console.log(res);
+			this.apiPacientes = res.Object;
+			this.typeSearch = type;
+			this.listEncontrados = [];
+			if(res.Object != "Type Not Found"){
+				this.apiPacientes.forEach(element => {
+					this.listEncontrados.push(element);
+				});
+			}
+			if(this.listEncontrados.length == 0){
+				this.global.msj("Lo siento, no se encontraron pacientes/responsables correspondientes a ésta cédula","success");
+			} else {
+				$('.cortinaPopup').css('display', 'block');
+				$('.popup').removeClass("closeM");
+				$('.popup').addClass("openM");
+				$('.modal.fade.in').animate({ scrollTop: 50 }, 100);
 			}
 		});
+		
 		//console.log(this.listEncontrados);
-		if(this.listEncontrados.length == 0){
-			this.global.msj("Lo siento, no se encontraron pacientes/responsables correspondientes a ésta cédula","success");
-		} else {
-			$('.cortinaPopup').css('display', 'block');
-			$('.popup').removeClass("closeM");
-			$('.popup').addClass("openM");
-		}
+		
 	}
 	fnClosePopup = ():void => {
 		$('.popup').removeClass("openM");
@@ -183,7 +191,7 @@ export class FormTriajeComponent implements OnInit {
 	fnSelect = (obj):void => {
 		let type:string = this.typeSearch; 
 		//console.log(obj);
-		if(type == "pacient"){
+		if(type == "patient"){
 			this.resPacient(obj);
 		} else if(type == "familiar") {
 			this.resFamiliar(obj);
@@ -193,27 +201,43 @@ export class FormTriajeComponent implements OnInit {
 	resPacient = (obj):void => {
 		this.FormPaciente.controls['PatientClient'].value.Name1 = obj.Name1;
 		this.FormPaciente.controls['PatientClient'].value.LastName1 = obj.LastName1;
+		this.FormPaciente.controls['PatientClient'].value.Name2 = obj.Name2;
+		this.FormPaciente.controls['PatientClient'].value.LastName2 = obj.LastName2;
+		this.FormPaciente.controls['PatientClient'].value.BirthDate = moment(obj.BirthDate).format('DD/MM/YYYY');
+		this.FormPaciente.controls['PatientClient'].value.CellPhone = obj.CellPhone;
+		this.FormPaciente.controls['PatientClient'].value.HomePhone = obj.HomePhone;
+		this.FormPaciente.controls['PatientClient'].value.Email = obj.Email;
+		this.FormPaciente.controls['PatientClient'].value.Address = obj.Address;
+		this.FormPaciente.controls['PatientClient'].value.Responsable = obj.Responsable;
+		this.FormPaciente.controls['PatientClient'].value.Gender = obj.Gender;
+		this.FormPaciente.controls['PatientClient'].value.IdentityCard = obj.IdentityCard;
+		this.FormPaciente.controls['PatientClient'].value.TypeIdentityCard = obj.TypeIdentityCard;
 		let array = this.FormPaciente.controls['PatientClient'].value;
 		this.FormPaciente.controls['PatientClient'].setValue(array);
 	}
 	resFamiliar = (obj):void => {
 		this.FormPaciente.controls['FamiliarClient'].value.Name1 = obj.Name1;
 		this.FormPaciente.controls['FamiliarClient'].value.LastName1 = obj.LastName1;
+		this.FormPaciente.controls['FamiliarClient'].value.Name2 = obj.Name2;
+		this.FormPaciente.controls['FamiliarClient'].value.LastName2 = obj.LastName2;
+		this.FormPaciente.controls['FamiliarClient'].value.BirthDate = moment(obj.BirthDate).format('DD/MM/YYYY');
+		this.FormPaciente.controls['FamiliarClient'].value.CellPhone = obj.CellPhone;
+		this.FormPaciente.controls['FamiliarClient'].value.HomePhone = obj.HomePhone;
+		this.FormPaciente.controls['FamiliarClient'].value.Email = obj.Email;
+		this.FormPaciente.controls['FamiliarClient'].value.Address = obj.Address;
+		this.FormPaciente.controls['FamiliarClient'].value.Gender = obj.Gender;
+		this.FormPaciente.controls['FamiliarClient'].value.IdentityCard = obj.IdentityCard;
+		this.FormPaciente.controls['FamiliarClient'].value.TypeIdentityCard = obj.TypeIdentityCard;
+
 		let array = this.FormPaciente.controls['FamiliarClient'].value;
 		this.FormPaciente.controls['FamiliarClient'].setValue(array);
 	}
 	typeSearch:string = '';
 	listEncontrados:any = [];
-	apiPacientes:any = [
-		{IdentityCard: 1234567,Name1:"Yohandri", LastName1:"Ramírez"},
-		{IdentityCard: 12345678,Name1:"José", LastName1:"Perez"},
-		{IdentityCard: 123456789,Name1:"Daniel", LastName1:"Urdaneta"},
-		{IdentityCard: 987456321,Name1:"David", LastName1:"villega"},
-		{IdentityCard: 55555555,Name1:"Oswaldo", LastName1:"Peña"}
-	];
+	apiPacientes:any = [];
 	submit = (form:any, type:string, edit?:boolean) => {
 		if (type == 'triaje') {
-			console.log(form);
+			//console.log(form);
 			let formulario = {
 				PatientClient:this.FormPaciente.controls['PatientClient'].value,
 				FamiliarClient:this.FormPaciente.controls['FamiliarClient'].value,
@@ -255,7 +279,7 @@ export class FormTriajeComponent implements OnInit {
 								if (telefono != '') {
 									//console.log(form);
 									this.httpService.triaje(form).then((res)=>{
-										console.log(res);
+										//console.log(res);
 										let data = res.Object;
 										if (res.Status) {
 
@@ -284,7 +308,7 @@ export class FormTriajeComponent implements OnInit {
 							if (telefono != '') {
 								//console.log(form);
 								this.httpService.triaje(form).then((res)=>{
-									console.log(res);
+									//console.log(res);
 									let data = res.Object;
 									if (res.Status) {
 
@@ -314,7 +338,7 @@ export class FormTriajeComponent implements OnInit {
 						if (cedula != '') {
 							if (telefono != '') {
 								this.httpService.triaje(form).then((res)=>{
-									console.log(res);
+									//console.log(res);
 									let data = res.Object;
 									if (res.Status) {
 
@@ -341,7 +365,7 @@ export class FormTriajeComponent implements OnInit {
 					if (cedula != '') {
 						if (telefono != '') {
 							this.httpService.triaje(form).then((res)=>{
-								console.log(res);
+								//console.log(res);
 								let data = res.Object;
 								if (res.Status) {
 
