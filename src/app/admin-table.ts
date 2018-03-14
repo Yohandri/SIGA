@@ -11,7 +11,7 @@ export class AdminTable {
             config = {addModal:false,create:false,delete:false,update:true};
             inputs = [
                 {required:false,showGrip:false,showForm:false,campo:'Id', label:'Id', type:'text'},
-                {required:false,showGrip:true,showForm:true,readonly:true,campo:'Name', label:'Nombre', type:'text'},
+                {required:false,showGrip:true,showForm:true,readonly:true,filter:"Name",campo:'Name', label:'Nombre', type:'text'},
                 {required:true,showGrip:true,showForm:true,campo:'Description', label:'Descripción', type:'text'}
 		    ];
 		} else if(entityname == 'User'){
@@ -76,8 +76,8 @@ export class AdminTable {
             config = {addModal:false,create:false,delete:false,update:false};
             inputs = [
                 {required:false, showForm:false,showGrip:false, campo:'Id', label:'Id', type:'text'},
-                {required:false, showForm:true,showGrip:true,readonly:true, campo:'Codigo', label:'Codigo', type:'text'},
-                {required:true, showForm:true,showGrip:true, campo:'Descr', label:'Descripción', type:'textarea'}
+                {required:false, showForm:true,showGrip:true,filter:"codigo",readonly:true, campo:'Codigo', label:'Codigo', type:'text'},
+                {required:true, showForm:true,showGrip:true,filter:"descripcion", campo:'Descr', label:'Descripción', type:'textarea'}
             ]
         } else if (entityname == 'Usuario'){
             titleTable = 'Usuario';

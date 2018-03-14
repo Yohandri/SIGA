@@ -12,6 +12,9 @@
                 <li [ngClass]="{'active': i == page}" *ngFor="let i of arrayPage"><a (click)="getPage(i)">{{i}}</a></li>
                 <li><a (click)="moverPage('next')">»</a></li>
               </ul>
+              <a *ngIf="filterActive" class="btn btn-primary btn-sm m pull-right" (click)="clearFilter()">
+                Remover filtro
+              </a>              
               <a *ngIf="btnNew" class="btn btn-primary btn-sm m pull-right" routerLink="Nuevo">Nuevo</a>
               <a *ngIf="addModal" class="btn btn-primary btn-sm m pull-right" (click)="fnNewModal()">Nuevo usuario opciones o pantalla</a>
               <a *ngIf="addModal" class="btn btn-primary btn-sm m pull-right" (click)="fnNewModalAE()">Nuevo usuario admision o enfermeria</a>
@@ -19,9 +22,9 @@
             <div class="box-body">
               <table class="table table-bordered table-hover">
                 <thead>
-                  <tr *ngIf="data.filter">
-                    <th *ngFor="let i of data.campos;let index2 = index" style="padding:0;" [ngClass]="{'hidden':index2 == 0}">
-                      <input type="text" class="form-control">
+                  <tr *ngIf="data.filter && entityName != 'Log'">
+                    <th *ngFor="let i of inputs;let index2 = index" style="padding:0;" [ngClass]="{'hidden':index2 == 0,'hidden':!i.showGrip}">
+                      <input type="text" class="form-control" id="{{i.campo}}_filter" (keyup)="keyUp($event)">
                     </th>
                   </tr>
                   <tr *ngIf="filterLog">
