@@ -24,7 +24,11 @@
                 <thead>
                   <tr *ngIf="data.filter && entityName != 'Log'">
                     <th *ngFor="let i of inputs;let index2 = index" style="padding:0;" [ngClass]="{'hidden':index2 == 0,'hidden':!i.showGrip}">
-                      <input type="text" class="form-control" id="{{i.campo}}_filter" (keyup)="keyUp($event)">
+                      <input *ngIf="i.typeFilter == undefined" type="text" class="form-control" id="{{i.campo}}_filter" (keyup)="keyUp($event)">
+                      <select (change)="keyUp($event)" style="height:34px;padding:6px 12px;font-size:14px;width:100%;display:block;" *ngIf="i.typeFilter == 'select'" name="{{i.campo}}" id="{{i.campo}}_filter">
+                        <option value=""></option>
+                        <option value="{{j.value}}" *ngFor="let j of i.dataFilter">{{j.text}}</option>
+                      </select>
                     </th>
                   </tr>
                   <tr *ngIf="filterLog">

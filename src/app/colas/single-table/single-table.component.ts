@@ -73,13 +73,14 @@ export class SingleTableComponent implements OnInit {
   strFilter:string = '';
   keyUp = (e) => {
     let keycode = e.keyCode;
+    
     if(keycode == 13){
       this.global.saveLocal('Page', [this.entityName,1]);
       this.ArrayStrFilter();
       this.getData(this.entityName);
     } else {
       let filters = this.aTable.setEntityName(this.entityName).inputs;
-
+      
       let a:any = [];
       this.filterTable2 = [];
       filters.forEach(i => {
@@ -90,7 +91,12 @@ export class SingleTableComponent implements OnInit {
           this.filterTable2.push(z);
         }       
       });
-      this.filterTable = a;  
+      this.filterTable = a; 
+      }
+      if(e.type == 'change'){
+        this.global.saveLocal('Page', [this.entityName,1]);
+        this.ArrayStrFilter();
+        this.getData(this.entityName);
       }
   }
   ArrayStrFilter = () => {
@@ -129,6 +135,7 @@ export class SingleTableComponent implements OnInit {
         //console.log(rePage[0], entityName);
       } else {
         this.page = 1;
+        this.strFilter = '';
       }
     }
     this.filterLog = this.aTable.setEntityName(this.entityName).config.filterLog;
