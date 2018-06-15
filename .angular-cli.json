@@ -36,7 +36,7 @@
         "../maquetas/bower_components/moment/min/moment.min.js",
         "../maquetas/dist/js/kendo.js",
         "../maquetas/dist/js/icheck.min.js",
-        "../maquetas/dist/js/adminlte.min.js",
+        "../maquetas/dist/js/adminlte.js",
         "../maquetas/dist/js/demo.js"
       ],
       "environmentSource": "environments/environment.ts",

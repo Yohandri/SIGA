@@ -11,10 +11,17 @@ export class AdminTable {
             config = {addModal:false,create:false,delete:false,update:true};
             inputs = [
                 {required:false,showGrip:false,showForm:false,campo:'Id', label:'Id', type:'text'},
-                {required:false,showGrip:true,showForm:true,readonly:true,campo:'Name', label:'Nombre', type:'text'},
+                {required:false,showGrip:true,showForm:true,readonly:true,filter:"Name",campo:'Name', label:'Nombre', type:'text'},
                 {required:true,showGrip:true,showForm:true,campo:'Description', label:'Descripción', type:'text'}
 		    ];
 		} else if(entityname == 'User'){
+            let dataFilter = [
+                {value:1,text:"ADMINISTRADOR"},
+                {value:2,text:"CAJA"},
+                {value:3,text:"TRIAJE"},
+                {value:4,text:"PANTALLA"},
+                {value:5,text:"ENFERMERIA EMERGENCIA"}
+            ]
             titleTable = 'Usuario';
             config = {addModal:false,create:true,delete:true,update:true};            
             inputs = [
@@ -29,7 +36,7 @@ export class AdminTable {
 				{required:false, showGrip:false,showForm:true,campo:'Email', label:'Correo', type:'email'},
 				{required:false,showGrip:false, showForm:true,campo:'Phone', label:'Telefono', type:'text'},
 				{required:false,showGrip:false,showForm:true,campo:'BirthDate', label:'Fecha de nacimiento',type:'date'},
-                {required:false,showGrip:true,showForm:false,campo:'UserProfileName', label:'Tipo de usuario', type: 'text'},
+                {required:false,showGrip:true,showForm:false,campo:'UserProfileName',typeFilter:"select",dataFilter:dataFilter, label:'Tipo de usuario', type: 'text'},
                 {required:true,showGrip:false,showForm:true,campo:'UserProfileId', label:'Tipo de usuario', type: 'select', option: 'UserProfile', campoName:'Name'},
             ];
         } else if (entityname == 'Assured'){
@@ -76,8 +83,8 @@ export class AdminTable {
             config = {addModal:false,create:false,delete:false,update:false};
             inputs = [
                 {required:false, showForm:false,showGrip:false, campo:'Id', label:'Id', type:'text'},
-                {required:false, showForm:true,showGrip:true,readonly:true, campo:'Codigo', label:'Codigo', type:'text'},
-                {required:true, showForm:true,showGrip:true, campo:'Descr', label:'Descripción', type:'textarea'}
+                {required:false, showForm:true,showGrip:true,filter:"codigo",readonly:true, campo:'Codigo', label:'Codigo', type:'text'},
+                {required:true, showForm:true,showGrip:true,filter:"descripcion", campo:'Descr', label:'Descripción', type:'textarea'}
             ]
         } else if (entityname == 'Usuario'){
             titleTable = 'Usuario';

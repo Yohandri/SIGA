@@ -683,8 +683,8 @@ export class FormTriajeComponent implements OnInit {
 
 		}
 		if (cerrar) {
-			$('#clickAqui').click();
 			this.restForm();
+			$('#clickAqui').click();
 		}
 	}
 

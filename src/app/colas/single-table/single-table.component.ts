@@ -4,10 +4,10 @@ import { AdminTable } from '../../admin-table';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { fadeInAnimation } from '../../_animations';
 import { tableSingle } from '../interfaces';
-import { httpService } from "../../http.service";
+import { httpService } from '../../http.service';
 import { setTimeout } from 'timers';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+declare var $:any;
 
 @Component({
   selector: 'app-single-table',
@@ -16,45 +16,41 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   animations: [fadeInAnimation]
 })
 export class SingleTableComponent implements OnInit {
-  @Input() tableConfig:any;
-  @ViewChild('ModalAdd') ModalAdd:ElementRef;
-  @ViewChild('ModalAddAE') ModalAddAE:ElementRef;
+  @Input() tableConfig: any;
+  @ViewChild('ModalAdd') ModalAdd: ElementRef;
+  @ViewChild('ModalAddAE') ModalAddAE: ElementRef;
   constructor(
-    public global: Global,
-    public aTable: AdminTable,
-  	public aRouter: ActivatedRoute,
-    public router: Router,
-    public api: httpService,
-    public fb: FormBuilder
-  	) { 
+  public global: Global,
+  public aTable: AdminTable,
+  public aRouter: ActivatedRoute,
+  public router: Router,
+  public api: httpService,
+  public fb: FormBuilder
+  ) {
       this.aRouter.params.subscribe( params => {
-        //console.log(params);
         this.entityName = params.entityname;
         ////console.log(this.entityName);
         this.getData(this.entityName);
         this.addModal = this.aTable.setEntityName(this.entityName).config.addModal;
         this.create = this.aTable.setEntityName(this.entityName).config.create;
-        if(this.addModal){
+        if (this.addModal) {
           this.btnNew = false;
         } else {
           this.btnNew = true;
         }
-        if (!this.create){
+        if (!this.create) {
           this.btnNew = false;
-          //this.addModal = false;
         }
         this.getUser();
       } );
-      
     }
-  ngOnInit() {    
-  }
-  entityName:string;
+  ngOnInit() { }
+  entityName: string;
   data:any = {
     title:[],
     data:[],
     campos:[],
-    filter:false,
+    filter:true,
     titleTable:this.entityName
   };
   page:number = 1;
@@ -72,6 +68,64 @@ export class SingleTableComponent implements OnInit {
   ToLog:string = '';
   LevelLog:string = '';
   SourceLog:string = '';
+  filterTable:any = [];
+  filterTable2:any = [];
+  strFilter:string = '';
+  filterActive:boolean = false;
+  keyUp = (e) => {
+    let keycode = e.keyCode;
+    
+    if(keycode == 13){
+      this.global.saveLocal('Page', [this.entityName,1]);
+      this.ArrayStrFilter();
+      this.getData(this.entityName);
+    } else {
+      let filters = this.aTable.setEntityName(this.entityName).inputs;
+      
+      let a:any = [];
+      this.filterTable2 = [];
+      filters.forEach(i => {
+        if (i.campo){
+          let z = i.campo;
+          let obj = {z:$('#'+ z +'_filter').val()};
+          a[z] = $('#'+ z +'_filter').val();
+          this.filterTable2.push(z);
+        }       
+      });
+      this.filterTable = a; 
+      }
+      if(e.type == 'change'){
+        this.global.saveLocal('Page', [this.entityName,1]);
+        this.ArrayStrFilter();
+        this.getData(this.entityName);
+      }
+  }
+  ArrayStrFilter = () => {
+    let strFilterss:string = "";
+    let len = this.filterTable2.length - 1;
+    for(let i = 0;i <= len;i++){
+      let propiedad = this.filterTable2[i];
+      let value = this.filterTable[this.filterTable2[i]];
+      if (value != ''){
+        strFilterss += propiedad + ":" + value + "|";
+      }
+    }
+    strFilterss = strFilterss.substring(0, strFilterss.length -1)
+    this.strFilter = strFilterss;
+  }
+  fnFilter = () => {
+    let strn:string = this.strFilter;
+    let strn2:any = strn.split("|");
+    if(strn2 != ''){
+      strn2.forEach((i,index) => {
+        let pro = i.split(":");
+        setTimeout(()=>{
+          $("#"+ pro[0] + '_filter').val(pro[1]);
+          this.filterActive = true;
+        },10);
+      });
+    }
+  }
   getData = (entityName:string, changePage?:boolean) => {
     this.onLoad = true;
     let rePage = this.global.getLocal('Page');
@@ -82,6 +136,7 @@ export class SingleTableComponent implements OnInit {
         //console.log(rePage[0], entityName);
       } else {
         this.page = 1;
+        this.strFilter = '';
       }
     }
     this.filterLog = this.aTable.setEntityName(this.entityName).config.filterLog;
@@ -114,7 +169,11 @@ export class SingleTableComponent implements OnInit {
         path = 'api/WebServices/SelectRecord?sParamsIn={"Id": 0,"EntityName":"'+ entityName +'Client","page":'+ this.page +', "pageSize":'+ this.global.itemShow +'}';
       }
     } else {
-      path = 'api/WebServices/SelectRecord?sParamsIn={"Id": 0,"EntityName": "'+ entityName +'Client","page":'+ this.page +', "pageSize": '+ this.global.itemShow +'}';
+         if(this.strFilter != ''){
+          path = 'api/WebServices/SelectRecord?sParamsIn={"strFilters": '+ JSON.stringify(this.strFilter) +' ,"Id": 0,"EntityName": "'+ entityName +'Client","page":'+ this.page +', "pageSize": '+ this.global.itemShow +'}';
+         } else {
+          path = 'api/WebServices/SelectRecord?sParamsIn={"Id": 0,"EntityName": "'+ entityName +'Client","page":'+ this.page +', "pageSize": '+ this.global.itemShow +'}';
+         }
     }
     //let path:string = 'api/WebServices/SelectRecord?sParamsIn={"Id": 0,"EntityName": "'+ entityName +'Client","page":'+ this.page +', "pageSize": '+ this.global.itemShow +'}';
     //console.log(path);
@@ -133,6 +192,7 @@ export class SingleTableComponent implements OnInit {
         let object:any = res.Object;
         let listItems:any = object.ListItems;
         this.CountItems = object.CountItems;
+        this.fnFilter();
 
         self.inputs = this.aTable.setEntityName(this.entityName).inputs;
         self.data.titleTable = this.aTable.setEntityName(entityName).titleTable;
@@ -158,7 +218,23 @@ export class SingleTableComponent implements OnInit {
       }
     });
   }
-  chageFormat = (_date,_format?,_delimiter?):any => {
+  
+  clearFilter = () => {
+    let strn:string = this.strFilter;
+    let strn2:any = strn.split("|");
+    if(strn2 != ''){
+      strn2.forEach((i,index) => {
+        let pro = i.split(":");
+        setTimeout(()=>{
+          $("#"+ pro[0] + '_filter').val('');
+          this.filterActive = false;
+          this.strFilter = '';
+          this.getData(this.entityName);
+        },10);
+      });
+    }
+  }
+  /* chageFormat = (_date,_format?,_delimiter?):any => {
     var formatLowerCase=_format.toLowerCase();
     var formatItems=formatLowerCase.split(_delimiter);
     var dateItems=_date.split(_delimiter);
@@ -175,7 +251,7 @@ export class SingleTableComponent implements OnInit {
       formatedDate = dateItems[yearIndex] + (month + 1) + dateItems[dayIndex];
     }
     return formatedDate;
-  }
+  } */
   User:any = [];
   Usuario:any = {
     IdTipoUsuario:8,
@@ -212,9 +288,6 @@ export class SingleTableComponent implements OnInit {
       this.Usuario.IdTipoUsuario = temp;
     },1);
   }
-  changeSelectAE = () => {
-
-  }
   fnNewModal = ():void => {
     let idModal = this.ModalAdd.nativeElement.id;
     this.global.openModal(idModal);
@@ -224,9 +297,9 @@ export class SingleTableComponent implements OnInit {
     this.global.openModal(idModal);
   }
   submit = (obj:any, idModal:string) => {
-    console.log(obj);
+    //console.log(obj);
     this.api.addEntity('UsuarioClient', obj).then(res=>{
-      console.log(res);
+      //console.log(res);
       let status = res.Status;
       if(status){
         this.global.msj('Guardado con éxito', 'success');
