@@ -71,6 +71,7 @@ export class SingleTableComponent implements OnInit {
   filterTable:any = [];
   filterTable2:any = [];
   strFilter:string = '';
+  filterActive:boolean = false;
   keyUp = (e) => {
     let keycode = e.keyCode;
     
@@ -100,17 +101,17 @@ export class SingleTableComponent implements OnInit {
       }
   }
   ArrayStrFilter = () => {
-    let strFilters:string = "";
+    let strFilterss:string = "";
     let len = this.filterTable2.length - 1;
     for(let i = 0;i <= len;i++){
       let propiedad = this.filterTable2[i];
       let value = this.filterTable[this.filterTable2[i]];
       if (value != ''){
-        strFilters += propiedad + ":" + value + "|";
+        strFilterss += propiedad + ":" + value + "|";
       }
     }
-    strFilters = strFilters.substring(0, strFilters.length -1)
-    this.strFilter = strFilters;
+    strFilterss = strFilterss.substring(0, strFilterss.length -1)
+    this.strFilter = strFilterss;
   }
   fnFilter = () => {
     let strn:string = this.strFilter;
@@ -217,7 +218,7 @@ export class SingleTableComponent implements OnInit {
       }
     });
   }
-  filterActive:boolean = false;
+  
   clearFilter = () => {
     let strn:string = this.strFilter;
     let strn2:any = strn.split("|");
@@ -233,7 +234,7 @@ export class SingleTableComponent implements OnInit {
       });
     }
   }
-  chageFormat = (_date,_format?,_delimiter?):any => {
+  /* chageFormat = (_date,_format?,_delimiter?):any => {
     var formatLowerCase=_format.toLowerCase();
     var formatItems=formatLowerCase.split(_delimiter);
     var dateItems=_date.split(_delimiter);
@@ -250,7 +251,7 @@ export class SingleTableComponent implements OnInit {
       formatedDate = dateItems[yearIndex] + (month + 1) + dateItems[dayIndex];
     }
     return formatedDate;
-  }
+  } */
   User:any = [];
   Usuario:any = {
     IdTipoUsuario:8,
@@ -287,9 +288,6 @@ export class SingleTableComponent implements OnInit {
       this.Usuario.IdTipoUsuario = temp;
     },1);
   }
-  changeSelectAE = () => {
-
-  }
   fnNewModal = ():void => {
     let idModal = this.ModalAdd.nativeElement.id;
     this.global.openModal(idModal);
@@ -299,9 +297,9 @@ export class SingleTableComponent implements OnInit {
     this.global.openModal(idModal);
   }
   submit = (obj:any, idModal:string) => {
-    console.log(obj);
+    //console.log(obj);
     this.api.addEntity('UsuarioClient', obj).then(res=>{
-      console.log(res);
+      //console.log(res);
       let status = res.Status;
       if(status){
         this.global.msj('Guardado con éxito', 'success');

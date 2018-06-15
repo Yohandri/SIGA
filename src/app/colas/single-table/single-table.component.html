@@ -23,9 +23,9 @@
               <table class="table table-bordered table-hover">
                 <thead>
                   <tr *ngIf="data.filter && entityName != 'Log'">
-                    <th *ngFor="let i of inputs;let index2 = index" style="padding:0;" [ngClass]="{'hidden':index2 == 0,'hidden':!i.showGrip}">
+                    <th *ngFor="let i of inputs;let index2 = index" style="padding:0;" [ngClass]="{'hidden':index2 == 0 || !i.showGrip}">
                       <input *ngIf="i.typeFilter == undefined" type="text" class="form-control" id="{{i.campo}}_filter" (keyup)="keyUp($event)">
-                      <select (change)="keyUp($event)" style="height:34px;padding:6px 12px;font-size:14px;width:100%;display:block;" *ngIf="i.typeFilter == 'select'" name="{{i.campo}}" id="{{i.campo}}_filter">
+                      <select (change)="keyUp($event)" style="height:34px;padding:6px 12px;font-size:14px;width:100%;display:block;" *ngIf="i.typeFilter == 'select'" name="{{i.campo}}_" id="{{i.campo}}_filter">
                         <option value=""></option>
                         <option value="{{j.value}}" *ngFor="let j of i.dataFilter">{{j.text}}</option>
                       </select>
@@ -68,7 +68,7 @@
                 </thead>
                 <tbody>
                   <tr (click)="fnSelect(i)" *ngFor="let i of data.data;let index = index" [@fadeInAnimation]>
-                    <td *ngFor="let j of inputs;let index2 = index" [ngClass]="{'hidden':index2 == 0,'hidden':!j.showGrip}">{{show(index,index2)}}</td>
+                    <td *ngFor="let j of inputs;let index2 = index" [ngClass]="{'hidden':index2 == 0 || !j.showGrip}">{{show(index,index2)}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -100,7 +100,7 @@
         <div class="modal-body">
             <div class="form-group" >
                 <label for="tipoUsuarioAdd">Tipo de usuario</label>
-                <select name="" (change)="changeSelect()" id="tipoUsuarioAdd" class="form-control"  [(ngModel)]="Usuario.IdTipoUsuario" name="IdTipoUsuario">
+                <select name="tipoUsuarioAdd" (change)="changeSelect()" id="tipoUsuarioAdd" class="form-control"  [(ngModel)]="Usuario.IdTipoUsuario" name="IdTipoUsuario">
                     <!-- <option value="2">Admisionista</option>
                     <option value="3">Enfermeria</option> -->
                     <option value="8">Opciones</option>
@@ -139,7 +139,7 @@
           <div class="modal-body">
               <div class="form-group" >
                   <label for="tipoUsuarioAddAE">Tipo de usuario</label>
-                  <select name="" (change)="changeSelectAE()" id="tipoUsuarioAddAE" class="form-control"  formControlName="IdTipoUsuario" name="IdTipoUsuario">
+                  <select name="tipoUsuarioAddAE" id="tipoUsuarioAddAE" class="form-control"  formControlName="IdTipoUsuario" name="IdTipoUsuario">
                       <option value="2">Admisionista</option>
                       <option value="3">Enfermeria</option>
                       <!-- <option value="8">Opciones</option>
